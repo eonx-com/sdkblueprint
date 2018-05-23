@@ -10,9 +10,9 @@ interface ClientInterface
     /**
      * Send a HTTP request.
      *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Command $command
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\CommandInterface $command
      *
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\SdkResponseInterface
      */
-    public function request(Command $command): SdkResponseInterface;
+    public function request(CommandInterface $command): SdkResponseInterface;
 }

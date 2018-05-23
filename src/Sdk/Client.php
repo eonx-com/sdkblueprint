@@ -9,7 +9,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\SdkResponseInterface;
 
 class Client implements ClientInterface
 {
-    public function request(Command $requestObject): SdkResponseInterface
+    public function request(CommandInterface $requestObject): SdkResponseInterface
     {
         // TODO: Implement request() method.
     }
