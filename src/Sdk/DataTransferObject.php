@@ -19,6 +19,13 @@ abstract class DataTransferObject
     protected $attributes = [];
 
     /**
+     * Id of the object.
+     *
+     * @var string
+     */
+    protected $id = 'id';
+
+    /**
      * All validation rules of the DTO.
      *
      * @var string[] $rules
@@ -235,14 +242,14 @@ abstract class DataTransferObject
     {
         $key = $this->formatAttribute($key);
 
-        // If it is just a DTO that includes no other DTO, simply assign the value to the attribute.
+        // If it is just a DTO that doesn't include any other DTO, simply assign the value to the attribute.
         if (($this instanceof AssemblableObjectInterface) === false) {
             $this->attributes[$key] = $value;
             return $this;
         }
 
+        //DTO which includes other DTOs, so we need to resolve nested attributes value.
         /** @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface $this */
-        // This is a DTO which attributes include other DTO, so we need to resolve nested attribute value.
         $embedObjects = $this->embedObjects();
 
         if (isset($embedObjects[$key]) === false) {
@@ -250,7 +257,7 @@ abstract class DataTransferObject
             return $this;
         }
 
-        //If the give value is already an object, we assign to the attribute directly.
+        //If the given value is already an object, we assign to the attribute directly.
         if (\is_object($value)) {
             $this->attributes[$key] = $value;
             return $this;
