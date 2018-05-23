@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use EoneoPay\Utils\Str;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidArgumentException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedMethodException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface;
@@ -28,6 +29,8 @@ abstract class DataTransferObject
      * Instantiate the object and fill all its attributes by given data.
      *
      * @param mixed[]|null $data
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
      */
     public function __construct(?array $data = null)
     {
@@ -132,6 +135,8 @@ abstract class DataTransferObject
      * @param mixed[] $data
      *
      * @return $this
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
      */
     protected function fill(array $data): self
     {
@@ -148,14 +153,16 @@ abstract class DataTransferObject
      * @param mixed[] $data
      *
      * @return mixed[]
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
      */
     protected function fillableFromArray(array $data): array
     {
-        if (\count($this->hasAttributes()) > 0) {
-            return \array_intersect_key($data, \array_flip($this->hasAttributes()));
+        if (\count($this->hasAttributes()) === 0) {
+            throw new EmptyAttributesException('Object should have at least one attribute');
         }
 
-        return $data;
+        return \array_intersect_key($data, \array_flip($this->hasAttributes()));
     }
 
     /**
@@ -227,10 +234,6 @@ abstract class DataTransferObject
     protected function setAttribute(string $key, $value): self
     {
         $key = $this->formatAttribute($key);
-
-        if ($this->hasAttribute($key) === false) {
-            return $this;
-        }
 
         // If it is just a DTO that includes no other DTO, simply assign the value to the attribute.
         if (($this instanceof AssemblableObjectInterface) === false) {

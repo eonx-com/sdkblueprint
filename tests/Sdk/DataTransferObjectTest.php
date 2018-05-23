@@ -3,8 +3,13 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 
+use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidArgumentException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedMethodException;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\AssemblableObjectObjectStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\EmptyAttributeObjectStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\TransactionDtoStub;
 use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 
@@ -18,6 +23,7 @@ class DataTransferObjectTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        /** @noinspection PhpUnhandledExceptionInspection */
         $this->dto = new DataTransferObjectStub();
     }
 
@@ -25,6 +31,11 @@ class DataTransferObjectTest extends TestCase
     {
         $this->dto->setNumber('123');
         self::assertSame('123', $this->dto->getNumber());
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $transactionDto = new TransactionDtoStub(['dto' => $this->dto]);
+
+        self::assertInstanceOf(DataTransferObjectStub::class, $transactionDto->getDto());
     }
 
     public function testFillData(): void
@@ -34,6 +45,7 @@ class DataTransferObjectTest extends TestCase
             'number' => '4200000000000000'
         ];
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $dto = new DataTransferObjectStub($data);
 
         self::assertSame('John Smith', $dto->getName());
@@ -53,6 +65,7 @@ class DataTransferObjectTest extends TestCase
             ]
         ];
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $dto = new AssemblableObjectObjectStub($data);
 
         self::assertInstanceOf(DataTransferObjectStub::class, $dto->getTransaction()->getDto());
@@ -81,6 +94,7 @@ class DataTransferObjectTest extends TestCase
             'number' => '4200000000000000'
         ];
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $dto = new DataTransferObjectStub($expect);
         self::assertSame($expect, $dto->toArray());
 
@@ -96,6 +110,36 @@ class DataTransferObjectTest extends TestCase
             ]
         ];
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         self::assertSame($expect, (new AssemblableObjectObjectStub($expect))->toArray());
+    }
+
+    public function testInvalidMethod(): void
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $dto = new DataTransferObjectStub();
+        $this->expectException(UndefinedMethodException::class);
+        /** @noinspection PhpUndefinedMethodInspection this is what we are testing for*/
+        $dto->getUndefineMethod();
+    }
+
+    public function testFillableFromArray(): void
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $method = $this->getMethodAsPublic(DataTransferObject::class, 'fillableFromArray');
+
+        $this->expectException(EmptyAttributesException::class);
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $method->invokeArgs(new EmptyAttributeObjectStub(), [[]]);
+    }
+
+    public function testValidateParametersNumber(): void
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $method = $this->getMethodAsPublic(DataTransferObject::class, 'validateParametersNumber');
+
+        $this->expectException(InvalidArgumentException::class);
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $method->invokeArgs(new DataTransferObjectStub(), [1, []]);
     }
 }
