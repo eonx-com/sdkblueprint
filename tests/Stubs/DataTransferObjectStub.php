@@ -13,6 +13,9 @@ use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
  */
 class DataTransferObjectStub extends DataTransferObject
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function hasAttributes(): array
     {
         return [
@@ -21,6 +24,9 @@ class DataTransferObjectStub extends DataTransferObject
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function hasValidationRules(): array
     {
         return [];

@@ -18,7 +18,7 @@ abstract class Rule
     /**
      * The full data for all attributes in the repository/resource
      *
-     * @var array
+     * @var mixed[]
      */
     protected $data;
 
@@ -39,9 +39,9 @@ abstract class Rule
     /**
      * Create a new rule instance
      *
-     * @param string $attribute The attribute being tested
-     * @param mixed $parameters Parameters to use when validating
-     * @param array $data The full data for all attributes in the repository/resource
+     * @param string  $attribute  The attribute being tested
+     * @param mixed   $parameters Parameters to use when validating
+     * @param mixed[] $data       The full data for all attributes in the repository/resource
      */
     public function __construct(string $attribute, $parameters, array $data)
     {
@@ -87,13 +87,13 @@ abstract class Rule
      *
      * @return mixed The value from the data array or an empty string if no value exists
      */
-    protected function getValue(string $attribute = null)
+    protected function getValue(?string $attribute = null)
     {
         // Use validation attribute if no attribute is provided
         $attribute = \mb_strtolower($attribute ?? $this->attribute);
 
-        foreach (array_keys($this->data) as $key) {
-            if (mb_strtolower($key) === $attribute) {
+        foreach (\array_keys($this->data) as $key) {
+            if (\mb_strtolower($key) === $attribute) {
                 return $this->data[$key];
             }
         }
@@ -109,7 +109,7 @@ abstract class Rule
     protected function hasValue(): bool
     {
         // Preserve zero values and empty arrays
-        return (is_numeric($this->getValue()) && (string)$this->getValue() === '0') ||
+        return (\is_numeric($this->getValue()) && (string)$this->getValue() === '0') ||
             \is_array($this->getValue()) ||
             (bool)$this->getValue();
     }

@@ -12,16 +12,25 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface;
  */
 class AssemblableObjectObjectStub extends DataTransferObject implements AssemblableObjectInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function hasAttributes(): array
     {
         return ['dto'];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function hasValidationRules(): array
     {
         return [];
     }
 
+    /**
+     * @return string[]
+     */
     public function embedObjects(): array
     {
         return ['dto' => DataTransferObjectStub::class];

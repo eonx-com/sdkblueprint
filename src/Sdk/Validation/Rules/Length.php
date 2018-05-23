@@ -15,7 +15,7 @@ class Length extends Rule
     protected function process(): void
     {
         // If string isn't the right length, validation fails
-        if ($this->hasValue() && mb_strlen($this->getValue()) !== (int)$this->parameters) {
+        if ($this->hasValue() && \mb_strlen($this->getValue()) !== (int)$this->parameters) {
             $this->error = $this->attribute . ' must be exactly ' . (int)$this->parameters . ' characters long';
         }
     }

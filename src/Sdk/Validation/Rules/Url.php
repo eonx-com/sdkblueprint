@@ -15,7 +15,7 @@ class Url extends Rule
     protected function process(): void
     {
         // If attribute isn't a valid url, validation fails
-        if ($this->hasValue() && !filter_var($this->getValue(), FILTER_VALIDATE_URL)) {
+        if ($this->hasValue() && \filter_var($this->getValue(), \FILTER_VALIDATE_URL) === false) {
             $this->error = $this->attribute . ' must be a valid url';
         }
     }

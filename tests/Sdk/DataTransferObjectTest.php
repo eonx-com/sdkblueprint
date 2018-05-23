@@ -9,9 +9,6 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 
 class DataTransferObjectTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testSuccessfulGetterAndSetter(): void
     {
         $dto = new DataTransferObjectStub();
@@ -20,12 +17,10 @@ class DataTransferObjectTest extends TestCase
         self::assertSame('123', $dto->getNumber());
 
         $assemableDto = new AssemblableObjectObjectStub();
-        $assemableDto->setDto(['name' => 'John']);
+        $assemableDto->setDto($dto);
+        self::assertInstanceOf(DataTransferObjectStub::class, $assemableDto->getDto());
     }
 
-    /**
-     * @return void
-     */
     public function testFillData(): void
     {
         $data = [
@@ -39,9 +34,6 @@ class DataTransferObjectTest extends TestCase
         self::assertSame('4200000000000000', $dto->getNumber());
     }
 
-    /**
-     * @return void
-     */
     public function testFillEmbedData(): void
     {
         $data = [

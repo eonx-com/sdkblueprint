@@ -31,7 +31,7 @@ interface SdkResponseInterface
     /**
      * Get response.
      *
-     * @return null|ResponseInterface
+     * @return null|\Psr\Http\Message\ResponseInterface
      */
     public function getResponse(): ?ResponseInterface;
 

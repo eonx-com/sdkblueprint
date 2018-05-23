@@ -14,7 +14,7 @@ class Instance extends Rule
      */
     protected function process(): void
     {
-        if ($this->hasValue() && !$this->getValue() instanceof $this->parameters) {
+        if ($this->hasValue() && ($this->getValue() instanceof $this->parameters) === false) {
             $this->error = \sprintf('%s must be instance of %s', $this->attribute, $this->parameters);
         }
     }

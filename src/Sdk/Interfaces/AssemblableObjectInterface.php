@@ -8,7 +8,7 @@ interface AssemblableObjectInterface
     /**
      * Set embedded data transfer objects for a request action.
      *
-     * @return DataTransferObjectInterface[]
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject[]
      */
     public function embedObjects(): array;
 }

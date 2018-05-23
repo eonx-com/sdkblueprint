@@ -15,7 +15,7 @@ class Email extends Rule
     protected function process(): void
     {
         // If attribute isn't a valid email, validation fails
-        if ($this->hasValue() && !filter_var($this->getValue(), FILTER_VALIDATE_EMAIL)) {
+        if ($this->hasValue() && \filter_var($this->getValue(), \FILTER_VALIDATE_EMAIL) === false) {
             $this->error = $this->attribute . ' must be a valid email address';
         }
     }

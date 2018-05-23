@@ -15,7 +15,7 @@ class Integer extends Rule
     protected function process(): void
     {
         // If value doesn't only contain numbers it's invalid
-        if ($this->hasValue() && preg_replace('/\D/', '', $this->getValue()) !== (string)$this->getValue()) {
+        if ($this->hasValue() && \preg_replace('/\D/', '', $this->getValue()) !== (string)$this->getValue()) {
             $this->error = $this->attribute . ' must be an integer';
         }
     }

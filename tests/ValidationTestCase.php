@@ -13,7 +13,7 @@ class ValidationTestCase extends TestCase
     /**
      * Test data
      *
-     * @var array
+     * @var mixed[]
      */
     protected $data;
 

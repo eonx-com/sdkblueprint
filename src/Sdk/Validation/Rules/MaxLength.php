@@ -15,7 +15,7 @@ class MaxLength extends Rule
     protected function process(): void
     {
         // If string is more than the required, validation fails
-        if ($this->hasValue() && mb_strlen($this->getValue()) > (int)$this->parameters) {
+        if ($this->hasValue() && \mb_strlen($this->getValue()) > (int)$this->parameters) {
             $this->error = $this->attribute . ' must be no more than ' . (int)$this->parameters . ' characters long';
         }
     }

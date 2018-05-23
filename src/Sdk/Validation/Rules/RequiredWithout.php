@@ -15,7 +15,7 @@ class RequiredWithout extends Rule
     protected function process(): void
     {
         // If this attribute has a value, validation passes
-        if (!\is_array($this->parameters) || $this->hasValue()) {
+        if (\is_array($this->parameters) === false || $this->hasValue()) {
             return;
         }
 

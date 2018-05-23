@@ -15,7 +15,7 @@ class Required extends Rule
     protected function process(): void
     {
         // If attribute has no value, fail
-        if (!$this->hasValue()) {
+        if ($this->hasValue() === false) {
             $this->error = $this->attribute . ' is required';
         }
     }

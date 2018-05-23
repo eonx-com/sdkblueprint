@@ -1,28 +1,28 @@
 <?php
 declare(strict_types=1);
 
-namespace LoyaltyCorp\SdkBlueprint\Sdk\Interfaces;
+namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
-interface CommandInterface extends DataTransferObjectInterface
+abstract class Command extends DataTransferObject
 {
     /**
      * Get the HTTP request method.
      *
      * @return string
      */
-    public function getMethod(): string;
+    abstract public function getMethod(): string;
 
     /**
      * Get the HTTP request uri.
      *
      * @return string
      */
-    public function getEndpoint(): string;
+    abstract public function getEndpoint(): string;
 
     /**
      * Get options needed for a HTTP request.
      *
      * @return mixed[]
      */
-    public function getOptions(): array;
+    abstract public function getOptions(): array;
 }

@@ -15,9 +15,14 @@ class Enum extends Rule
     protected function process(): void
     {
         // If value isn't within the enum, validation fails
-        if ($this->hasValue() &&
-            !\in_array(mb_strtolower($this->getValue()), array_map('mb_strtolower', $this->parameters), true)) {
-            $this->error = $this->attribute . ' must be one of [' . implode(', ', $this->parameters) . ']';
+        if ($this->hasValue()
+            && \in_array(
+                \mb_strtolower($this->getValue()),
+                \array_map('mb_strtolower', $this->parameters),
+                true
+            ) === false
+        ) {
+            $this->error = $this->attribute . ' must be one of [' . \implode(', ', $this->parameters) . ']';
         }
     }
 }

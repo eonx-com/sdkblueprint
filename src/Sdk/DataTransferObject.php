@@ -13,26 +13,26 @@ abstract class DataTransferObject
     /**
      * Attributes of the DTO.
      *
-     * @var array
+     * @var mixed[] $attributes
      */
     protected $attributes = [];
 
     /**
      * All validation rules of the DTO.
      *
-     * @var array
+     * @var string[] $rules
      */
     protected $rules = [];
 
     /**
      * Instantiate the object and fill all its attributes by given data.
      *
-     * @param array|null $data
+     * @param mixed[]|null $data
      */
     public function __construct(?array $data = null)
     {
         // If not data has been passed there is nothing to do
-        if (!\is_array($data)) {
+        if (\is_array($data) === false) {
             return;
         }
 
@@ -42,8 +42,8 @@ abstract class DataTransferObject
     /**
      * Call a getter or a setter.
      *
-     * @param string $method
-     * @param array $parameters
+     * @param string  $method
+     * @param mixed[] $parameters
      *
      * @return mixed - it returns the object itself when it is a setter
      *                 and it returns string, boolean, float etc. if it is a getter.
@@ -72,21 +72,21 @@ abstract class DataTransferObject
     /**
      * Set all allowed attributes.
      *
-     * @return array
+     * @return string[]
      */
     abstract protected function hasAttributes(): array;
 
     /**
      * Set all required validation rules.
      *
-     * @return array
+     * @return string[]
      */
     abstract protected function hasValidationRules(): array;
 
     /**
      * Serialize object as array.
      *
-     * @return array
+     * @return mixed[]
      */
     public function toArray(): array
     {
@@ -98,15 +98,15 @@ abstract class DataTransferObject
                 continue;
             }
 
-            /** @var AssemblableObjectInterface $this */
+            /*** @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface $this */
             $embedObjects = $this->embedObjects();
 
-            if (!isset($embedObjects[$attribute])) {
+            if (isset($embedObjects[$attribute]) === false) {
                 $array[$attribute] = $value;
                 continue;
             }
 
-            /** @var DataTransferObject $value  */
+            /** @var \LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject $value */
             $array[$attribute] = $value->toArray();
         }
 
@@ -129,9 +129,9 @@ abstract class DataTransferObject
     /**
      * Fill attributes if they are valid.
      *
-     * @param array $data
+     * @param mixed[] $data
      *
-     * @return DataTransferObject
+     * @return $this
      */
     protected function fill(array $data): self
     {
@@ -145,15 +145,16 @@ abstract class DataTransferObject
     /**
      * Get the fillable attributes of a given array.
      *
-     * @param  array  $data
+     * @param mixed[] $data
      *
-     * @return array
+     * @return mixed[]
      */
     protected function fillableFromArray(array $data): array
     {
-        if (count($this->hasAttributes()) > 0) {
+        if (\count($this->hasAttributes()) > 0) {
             return \array_intersect_key($data, \array_flip($this->hasAttributes()));
         }
+
         return $data;
     }
 
@@ -188,8 +189,8 @@ abstract class DataTransferObject
     /**
      * Get the required parameter for getter or setter.
      *
-     * @param string $type
-     * @param array $parameters
+     * @param string  $type
+     * @param mixed[] $parameters
      *
      * @return mixed|null
      *
@@ -206,7 +207,7 @@ abstract class DataTransferObject
      * The setter.
      *
      * @param string $attribute
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return $this
      */
@@ -219,7 +220,7 @@ abstract class DataTransferObject
      * Set a value of the attribute.
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return $this
      */
@@ -231,15 +232,23 @@ abstract class DataTransferObject
             return $this;
         }
 
+        // If it is just a DTO that includes no other DTO, simply assign the value to the attribute.
         if (($this instanceof AssemblableObjectInterface) === false) {
             $this->attributes[$key] = $value;
             return $this;
         }
 
-        /** @var AssemblableObjectInterface $this */
+        /** @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface $this */
+        // This is a DTO which attributes include other DTO, so we need to resolve nested attribute value.
         $embedObjects = $this->embedObjects();
 
         if (isset($embedObjects[$key]) === false) {
+            $this->attributes[$key] = $value;
+            return $this;
+        }
+
+        //If the give value is already an object, we assign to the attribute directly.
+        if (\is_object($value)) {
             $this->attributes[$key] = $value;
             return $this;
         }
@@ -251,8 +260,8 @@ abstract class DataTransferObject
     /**
      * Validate the number of parameters of a method.
      *
-     * @param int $expectsNumber
-     * @param array $parameters
+     * @param int     $expectsNumber
+     * @param mixed[] $parameters
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidArgumentException
      */
