@@ -227,7 +227,7 @@ abstract class DataTransferObject
     {
         $key = $this->formatAttribute($key);
 
-        if ($this->hasAttribute($key) === false()) {
+        if ($this->hasAttribute($key) === false) {
             return $this;
         }
 

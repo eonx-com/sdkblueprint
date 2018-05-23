@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Stubs;
+namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface;
@@ -17,7 +17,7 @@ class AssemblableObjectObjectStub extends DataTransferObject implements Assembla
         return ['dto'];
     }
 
-    protected function getValidationRules(): array
+    protected function hasValidationRules(): array
     {
         return [];
     }

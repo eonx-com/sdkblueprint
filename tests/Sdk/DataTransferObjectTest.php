@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 
-use PHPUnit\Framework\TestCase;
-use Tests\LoyaltyCorp\SdkBlueprint\Sdk\Stubs\AssemblableObjectObjectStub;
-use Tests\LoyaltyCorp\SdkBlueprint\Sdk\Stubs\DataTransferObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\AssemblableObjectObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 
 class DataTransferObjectTest extends TestCase
 {
@@ -21,9 +21,6 @@ class DataTransferObjectTest extends TestCase
 
         $assemableDto = new AssemblableObjectObjectStub();
         $assemableDto->setDto(['name' => 'John']);
-
-//        var_dump($assemableDto->getDto());
-//        die;
     }
 
     /**
