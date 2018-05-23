@@ -25,4 +25,11 @@ interface CommandInterface
      * @return mixed[]
      */
     public function getOptions(): array;
+
+    /**
+     * Get request body.
+     *
+     * @return mixed[]
+     */
+    public function getParameters(): array;
 }
