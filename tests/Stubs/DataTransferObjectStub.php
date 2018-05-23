@@ -27,8 +27,11 @@ class DataTransferObjectStub extends DataTransferObject
     /**
      * {@inheritdoc}
      */
-    protected function hasValidationRules(): array
+    public function hasValidationRules(): array
     {
-        return [];
+        return [
+            'name' => 'string|required',
+            'number' => 'string|required'
+        ];
     }
 }

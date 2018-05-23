@@ -81,7 +81,7 @@ abstract class DataTransferObject
      *
      * @return string[]
      */
-    abstract protected function hasValidationRules(): array;
+    abstract public function hasValidationRules(): array;
 
     /**
      * Serialize object as array.

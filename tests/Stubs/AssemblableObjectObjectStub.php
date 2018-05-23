@@ -7,8 +7,8 @@ use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface;
 
 /**
- * @method DataTransferObjectStub getDto()
- * @method self setDto(DataTransferObjectStub $dto)
+ * @method TransactionDtoStub getTransaction()
+ * @method self setTransaction(TransactionDtoStub $transaction)
  */
 class AssemblableObjectObjectStub extends DataTransferObject implements AssemblableObjectInterface
 {
@@ -17,22 +17,24 @@ class AssemblableObjectObjectStub extends DataTransferObject implements Assembla
      */
     protected function hasAttributes(): array
     {
-        return ['dto'];
+        return ['transaction'];
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function hasValidationRules(): array
+    public function hasValidationRules(): array
     {
         return [];
     }
 
     /**
-     * @return string[]
+     * {@inheritdoc}
      */
     public function embedObjects(): array
     {
-        return ['dto' => DataTransferObjectStub::class];
+        return [
+            'transaction' => TransactionDtoStub::class
+        ];
     }
 }
