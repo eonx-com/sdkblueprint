@@ -4,15 +4,15 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Stubs;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface;
 
 /**
  * @method DataTransferObjectStub getDto()
  * @method self setDto(DataTransferObjectStub $dto)
  */
-class AssemblableObjectStub extends DataTransferObject implements AssemblableInterface
+class AssemblableObjectObjectStub extends DataTransferObject implements AssemblableObjectInterface
 {
-    protected function getFillable(): array
+    protected function hasAttributes(): array
     {
         return ['dto'];
     }
@@ -22,7 +22,7 @@ class AssemblableObjectStub extends DataTransferObject implements AssemblableInt
         return [];
     }
 
-    public function embed(): array
+    public function embedObjects(): array
     {
         return ['dto' => DataTransferObjectStub::class];
     }

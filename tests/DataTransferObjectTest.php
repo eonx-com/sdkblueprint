@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 
 use PHPUnit\Framework\TestCase;
-use Tests\LoyaltyCorp\SdkBlueprint\Sdk\Stubs\AssemblableObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Sdk\Stubs\AssemblableObjectObjectStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Sdk\Stubs\DataTransferObjectStub;
 
 class DataTransferObjectTest extends TestCase
@@ -18,6 +18,12 @@ class DataTransferObjectTest extends TestCase
 
         $dto->setNumber('123');
         self::assertSame('123', $dto->getNumber());
+
+        $assemableDto = new AssemblableObjectObjectStub();
+        $assemableDto->setDto(['name' => 'John']);
+
+//        var_dump($assemableDto->getDto());
+//        die;
     }
 
     /**
@@ -48,7 +54,7 @@ class DataTransferObjectTest extends TestCase
             ]
         ];
 
-        $dto = new AssemblableObjectStub($data);
+        $dto = new AssemblableObjectObjectStub($data);
 
         self::assertInstanceOf(DataTransferObjectStub::class, $dto->getDto());
         self::assertSame('John Smith', $dto->getDto()->getName());

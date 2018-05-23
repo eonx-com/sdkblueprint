@@ -5,9 +5,8 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use EoneoPay\Utils\Str;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidArgumentException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidAttributeException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\MethodNotSupportedException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedMethodException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface;
 
 abstract class DataTransferObject
 {
@@ -30,9 +29,8 @@ abstract class DataTransferObject
      *
      * @return mixed
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidArgumentException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidAttributeException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\MethodNotSupportedException
+     * @throws InvalidArgumentException
+     * @throws UndefinedMethodException
      */
     public function __call(string $method, array $parameters)
     {
@@ -44,88 +42,62 @@ abstract class DataTransferObject
         $type = \mb_strtolower($matches[1] ?? '');
         $attribute = $matches[2] ?? '';
 
-        if (!\in_array($type, $types, true)) {
-            throw new MethodNotSupportedException(\sprintf('%s method not supported', $method));
+        if ($type === null || $this->hasAttribute($attribute) === false) {
+            throw new UndefinedMethodException(\sprintf('%s method not supported', $method));
         }
 
-        $attribute = $this->formatAttribute($attribute);
-
-        if ($type === 'set') {
-            $this->set($method, $attribute, $parameters);
-        }
-
-        if ($type === 'get') {
-            return $this->get($method, $attribute, $parameters);
-        }
-    }
-
-    /**
-     * @param string $method
-     * @param string $attribute
-     * @param array $parameters
-     *
-     * @return mixed
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidArgumentException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidAttributeException
-     */
-    protected function get(string $method, string $attribute, array $parameters)
-    {
-        $numberOfParameters = \count($parameters);
-
-        if ($numberOfParameters !== 0) {
-            throw new InvalidArgumentException(
-                \sprintf('%s method expects 0 argument, %s are given', $method, $numberOfParameters)
-            );
-        }
-
-        if (!$this->hasAttribute($attribute)) {
-            throw new InvalidAttributeException(\sprintf('%s is not a valid attribute of %s', $attribute, self::class));
-        }
-
-        if (!\array_key_exists($attribute, $this->attributes)) {
-            return null;
-        }
-
-        return $this->attributes[$attribute];
-    }
-
-    /**
-     * @param string $method
-     * @param string $attribute
-     * @param array $parameters
-     *
-     * @return DataTransferObject
-     *
-     * @throws InvalidArgumentException
-     * @throws InvalidAttributeException
-     */
-    protected function set(string $method, string $attribute, array $parameters): self
-    {
-        $numberOfParameters = \count($parameters);
-
-        if ($numberOfParameters !== 1) {
-            throw new InvalidArgumentException(
-                \sprintf('%s method only expect 1 argument, %s are given', $method, $numberOfParameters)
-            );
-        }
-
-        if (!$this->hasAttribute($attribute)) {
-            throw new InvalidAttributeException(\sprintf('%s is not a valid attribute of %s', $attribute, self::class));
-        }
-
-        return $this->setAttribute($attribute, $parameters[0]);
+        $parameter = $this->resolveParameters($type, $parameters);
+        return $this->$type($attribute, $parameter);
     }
 
     /**
      * @return array
      */
-    abstract protected function getFillable(): array;
+    abstract protected function hasAttributes(): array;
 
     /**
      * @return array
      */
     abstract protected function getValidationRules(): array;
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $array = [];
+
+        foreach ($this->attributes as $attribute => $value) {
+            if (($this instanceof AssemblableObjectInterface) === false) {
+                $array[$attribute] = $value;
+                continue;
+            }
+
+            /** @var AssemblableObjectInterface $this */
+            $embedObjects = $this->embedObjects();
+
+            if (!isset($embedObjects[$attribute])) {
+                $array[$attribute] = $value;
+                continue;
+            }
+
+            /** @var DataTransferObject $value  */
+            $array[$attribute] = $value->toArray();
+        }
+
+        return $array;
+    }
+
+    /**
+     * @param string $attribute
+     *
+     * @return mixed
+     */
+    protected function get(string $attribute)
+    {
+        $attribute = $this->formatAttribute($attribute);
+        return isset($this->attributes[$attribute]) === true ? $this->attributes[$attribute] : null;
+    }
 
     /**
      * @param array $data
@@ -150,8 +122,8 @@ abstract class DataTransferObject
      */
     protected function fillableFromArray(array $data): array
     {
-        if (count($this->getFillable()) > 0) {
-            return \array_intersect_key($data, \array_flip($this->getFillable()));
+        if (count($this->hasAttributes()) > 0) {
+            return \array_intersect_key($data, \array_flip($this->hasAttributes()));
         }
         return $data;
     }
@@ -175,7 +147,7 @@ abstract class DataTransferObject
      */
     protected function hasAttribute(string $attribute): bool
     {
-        if (\in_array($attribute, $this->getFillable(), true)) {
+        if (\in_array($this->formatAttribute($attribute), $this->hasAttributes(), true)) {
             return true;
         }
 
@@ -183,52 +155,76 @@ abstract class DataTransferObject
     }
 
     /**
-     * @param $key
-     * @param $value
+     * @param string $type
+     * @param array $parameters
+     *
+     * @return mixed|null
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function resolveParameters(string $type, array $parameters)
+    {
+        $this->validateParameters($type === 'set' ? 1 : 0, $parameters);
+
+        return $type === 'set' ? $parameters[0] : null;
+    }
+
+    /**
+     * @param string $attribute
+     * @param mixed $value
+     *
+     * @return DataTransferObject
+     */
+    protected function set(string $attribute, $value): self
+    {
+        return $this->setAttribute($attribute, $value);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
      *
      * @return $this
      */
-    protected function setAttribute($key, $value): self
+    protected function setAttribute(string $key, $value): self
     {
         $key = $this->formatAttribute($key);
 
-        if ($this->hasAttribute($key)) {
-            if (!($this instanceof AssemblableInterface)) {
-                $this->attributes[$key] = $value;
-                return $this;
-            }
-
-
-            $embedObjects = $this->embed();
-
-            if (!isset($embedObjects[$key])) {
-                $this->attributes[$key] = $value;
-                return $this;
-            }
-
-            $this->attributes[$key] = new $embedObjects[$key]($value);
+        if ($this->hasAttribute($key) === false()) {
+            return $this;
         }
 
+        if (($this instanceof AssemblableObjectInterface) === false) {
+            $this->attributes[$key] = $value;
+            return $this;
+        }
+
+        /** @var AssemblableObjectInterface $this */
+        $embedObjects = $this->embedObjects();
+
+        if (isset($embedObjects[$key]) === false) {
+            $this->attributes[$key] = $value;
+            return $this;
+        }
+
+        $this->attributes[$key] = new $embedObjects[$key]($value);
         return $this;
     }
 
     /**
-     * @return array
+     * @param int $expectsNumber
+     * @param array $parameters
+     *
+     * @throws InvalidArgumentException
      */
-    public function toArray(): array
+    protected function validateParameters(int $expectsNumber, array $parameters): void
     {
-        $array = [];
+        $numberOfParameters = \count($parameters);
 
-        $attributes = $this->attributes;
-
-        if ($this instanceof AssemblableInterface) {
-            $attributes = \array_merge($attributes, $this->embed());
+        if ($numberOfParameters !== $expectsNumber) {
+            throw new InvalidArgumentException(
+                \sprintf('expects %s number of parameters, %s given', $expectsNumber, $numberOfParameters)
+            );
         }
-
-        foreach ($attributes as $attribute => $value) {
-            $array[$attribute] = $value;
-        }
-
-        return $array;
     }
 }

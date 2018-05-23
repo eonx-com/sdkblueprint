@@ -13,7 +13,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
  */
 class DataTransferObjectStub extends DataTransferObject
 {
-    protected function getFillable(): array
+    protected function hasAttributes(): array
     {
         return [
             'name',
