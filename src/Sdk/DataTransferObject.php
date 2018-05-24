@@ -7,7 +7,6 @@ use EoneoPay\Utils\Str;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidArgumentException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedMethodException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface;
 
 abstract class DataTransferObject
 {
@@ -87,6 +86,18 @@ abstract class DataTransferObject
     abstract public function hasValidationRules(): array;
 
     /**
+     * Embed other data transfer objects.
+     *
+     * for example, the returned value could be ['credit_card' => CreditCardDTO::class];
+     *
+     * @return string[]
+     */
+    public function embedObjects(): array
+    {
+        return [];
+    }
+
+    /**
      * Serialize object as array.
      *
      * @return mixed[]
@@ -96,12 +107,11 @@ abstract class DataTransferObject
         $array = [];
 
         foreach ($this->attributes as $attribute => $value) {
-            if (($this instanceof AssemblableObjectInterface) === false) {
+            if (\count($this->embedObjects()) === 0) {
                 $array[$attribute] = $value;
                 continue;
             }
 
-            /*** @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface $this */
             $embedObjects = $this->embedObjects();
 
             if (isset($embedObjects[$attribute]) === false) {
@@ -235,14 +245,13 @@ abstract class DataTransferObject
     {
         $key = $this->formatAttribute($key);
 
-        // If it is just a DTO that doesn't include any other DTO, simply assign the value to the attribute.
-        if (($this instanceof AssemblableObjectInterface) === false) {
+        // If it is just a DTO that doesn't embeds any other DTO, simply assign the value to the attribute.
+        if (\count($this->embedObjects()) === 0) {
             $this->attributes[$key] = $value;
             return $this;
         }
 
-        //DTO which includes other DTOs, so we need to resolve nested attributes value.
-        /** @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface $this */
+        //DTO which embeds other DTOs, so we need to resolve nested attributes value.
         $embedObjects = $this->embedObjects();
 
         if (isset($embedObjects[$key]) === false) {
@@ -261,7 +270,7 @@ abstract class DataTransferObject
     }
 
     /**
-     * Validate the number of parameters of a method.
+     * Make sure magic getters have no argument, setters can only have one argument.
      *
      * @param int     $expectsNumber
      * @param mixed[] $parameters

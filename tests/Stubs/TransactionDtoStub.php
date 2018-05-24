@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface;
 
 /**
  * @method string getAmount()
@@ -14,7 +13,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\AssemblableObjectInterface;
  * @method self setCurrency(string $currency)
  * @method self setDto(DataTransferObjectStub $dto)
  */
-class TransactionDtoStub extends DataTransferObject implements AssemblableObjectInterface
+class TransactionDtoStub extends DataTransferObject
 {
     /**
      * {@inheritdoc}
