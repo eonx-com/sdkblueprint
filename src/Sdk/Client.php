@@ -18,6 +18,11 @@ class Client implements ClientInterface
      */
     private $client;
 
+    /**
+     * Instantiate the object and fill all its attributes by given data.
+     *
+     * @param null|\GuzzleHttp\Client $client
+     */
     public function __construct(?GuzzleClient $client)
     {
         $this->client = $client ?? new GuzzleClient();
