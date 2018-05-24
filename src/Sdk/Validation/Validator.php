@@ -32,7 +32,7 @@ class Validator
     /**
      * Validate a repository
      *
-     * @param mixed[] $data    The data to validate
+     * @param mixed[] $data The data to validate
      * @param mixed[] $ruleset The ruleset to validate against
      *
      * @return bool Whether the validation passes or fails
@@ -52,14 +52,13 @@ class Validator
          */
         foreach ($this->rules as $attribute => $rules) {
             foreach ($rules as $rule => $parameters) {
-                /** @var \LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rule $rule */
+                /** @var \LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rule $rule*/
                 $rule = new $rule($attribute, $parameters, $data);
 
                 if ($rule->validate() === false) {
                     // Allow multiple errors per attribute
-                    if (\array_key_exists($attribute, $this->errors) === false
-                        || \is_array($this->errors[$attribute]) === false
-                    ) {
+                    if (\array_key_exists($attribute, $this->errors) === false ||
+                        \is_array($this->errors[$attribute]) === false) {
                         $this->errors[$attribute] = [];
                     }
 

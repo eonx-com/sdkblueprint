@@ -7,6 +7,7 @@ use EoneoPay\Utils\Str;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidArgumentException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedMethodException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator;
 
 abstract class DataTransferObject
 {
@@ -18,11 +19,23 @@ abstract class DataTransferObject
     protected $attributes = [];
 
     /**
+     * Validation errors.
+     *
+     * @var string[]
+     */
+    protected $errors = [];
+
+    /**
      * All validation rules of the DTO.
      *
      * @var string[] $rules
      */
     protected $rules = [];
+
+    /**
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator
+     */
+    protected $validator;
 
     /**
      * Instantiate the object and fill all its attributes by given data.
@@ -33,6 +46,11 @@ abstract class DataTransferObject
      */
     public function __construct(?array $data = null)
     {
+        //Initialize attributes.
+        foreach ($this->hasAttributes() as $attribute) {
+            $this->attributes[$attribute] = null;
+        }
+
         // If not data has been passed there is nothing to do
         if (\is_array($data) === false) {
             return;
@@ -123,7 +141,43 @@ abstract class DataTransferObject
             $array[$attribute] = $value->toArray();
         }
 
+        \ksort($array);
         return $array;
+    }
+
+    /**
+     * Validate the object with all embedded object attributes.
+     *
+     * @return bool
+     */
+    public function validate(): bool
+    {
+        $this->getValidatorInstance()->validate($this->attributes, $this->hasValidationRules());
+
+        foreach (\array_keys($this->embedObjects()) as $attribute) {
+            if (isset($this->attributes[$attribute]) === false) {
+                continue;
+            }
+
+            /** @var self $embeddedObject */
+            $embeddedObject = $this->attributes[$attribute];
+            $embeddedObject->validate();
+        }
+
+        $this->errors = $this->getValidatorInstance()->getErrors();
+
+        // Result is based on error count
+        return \count($this->errors) === 0;
+    }
+
+    /**
+     * Get errors from the last validation
+     *
+     * @return mixed[] Validation errors
+     */
+    public function getValidationErrors(): array
+    {
+        return $this->errors;
     }
 
     /**
@@ -185,6 +239,21 @@ abstract class DataTransferObject
     protected function formatAttribute(string $attribute): string
     {
         return (new Str())->snake(\strtolower($attribute));
+    }
+
+    /**
+     * Get validation instance, creates the instance if it hasn't previously been created
+     *
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator The validation instance
+     */
+    protected function getValidatorInstance(): Validator
+    {
+        // If validator isn't instantiated, create it
+        if (($this->validator instanceof Validator) === false) {
+            $this->validator = new Validator();
+        }
+
+        return $this->validator;
     }
 
     /**

@@ -80,8 +80,8 @@ class DataTransferObjectTest extends TestCase
     {
         self::assertSame(
             [
-            'name' => 'string|required',
-            'number' => 'string|required'
+                'name' => 'required|type:string|minLength:3',
+                'number' => 'required|type:string|minLength:4'
             ],
             $this->dto->hasValidationRules()
         );
@@ -131,6 +131,20 @@ class DataTransferObjectTest extends TestCase
         $this->expectException(EmptyAttributesException::class);
         /** @noinspection PhpUnhandledExceptionInspection */
         $method->invokeArgs(new EmptyAttributeObjectStub(), [[]]);
+    }
+
+    public function testValidate(): void
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $dto = new DataTransferObjectStub();
+
+        $expect = [
+            'name' => ['name is required', 'attribute must be type of string, NULL given'],
+            'number' => ['number is required', 'attribute must be type of string, NULL given']
+        ];
+
+        self::assertFalse($dto->validate());
+        self::assertSame($expect, $dto->getValidationErrors());
     }
 
     public function testValidateParametersNumber(): void

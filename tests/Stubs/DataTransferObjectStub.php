@@ -30,8 +30,8 @@ class DataTransferObjectStub extends DataTransferObject
     public function hasValidationRules(): array
     {
         return [
-            'name' => 'string|required',
-            'number' => 'string|required'
+            'name' => 'required|type:string|minLength:3',
+            'number' => 'required|type:string|minLength:4'
         ];
     }
 }
