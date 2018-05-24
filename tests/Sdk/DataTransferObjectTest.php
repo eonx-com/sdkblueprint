@@ -145,6 +145,12 @@ class DataTransferObjectTest extends TestCase
 
         self::assertFalse($dto->validate());
         self::assertSame($expect, $dto->getValidationErrors());
+
+
+        $transaction = new TransactionDtoStub();
+        self::assertFalse($transaction->validate());
+
+        var_dump($transaction->getValidationErrors());
     }
 
     public function testValidateParametersNumber(): void

@@ -40,6 +40,8 @@ class TransactionDtoStub extends DataTransferObject
      */
     public function hasValidationRules(): array
     {
-        return [];
+        return [
+            'dto' => 'required'
+        ];
     }
 }
