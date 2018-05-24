@@ -19,13 +19,6 @@ abstract class DataTransferObject
     protected $attributes = [];
 
     /**
-     * Id of the object.
-     *
-     * @var string
-     */
-    protected $id = 'id';
-
-    /**
      * All validation rules of the DTO.
      *
      * @var string[] $rules

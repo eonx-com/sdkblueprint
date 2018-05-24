@@ -17,7 +17,7 @@ interface ResponseInterface
      *
      * @return mixed[]
      */
-    public function getContent(): array;
+    public function getContent(): ?array;
 
     /**
      * Get response message.

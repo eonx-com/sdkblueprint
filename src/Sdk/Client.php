@@ -18,24 +18,19 @@ class Client implements ClientInterface
      */
     private $client;
 
-    public function __construct(?GuzzleClient $client, ?ResponseInterface $response)
+    public function __construct(?GuzzleClient $client)
     {
         $this->client = $client ?? new GuzzleClient();
     }
 
     /**
-     * @noinspection PhpDocMissingThrowsInspection catch block will catch all exception and
-     *               this method won't throw any exception.
-     *
-     * @param RequestInterface $command
-     *
-     * @return ResponseInterface
+     * @inheritdoc
      */
-    public function request(RequestInterface $command): ResponseInterface
+    public function request(RequestInterface $request): ResponseInterface
     {
         try {
             /** @noinspection PhpUnhandledExceptionInspection all exception will be caught*/
-            $response = $this->client->request($command->getMethod(), $command->getUri(), $command->getOptions());
+            $response = $this->client->request($request->getMethod(), $request->getUri(), $request->getOptions());
         } catch (RequestException $exception) {
             return (new ResponseFactory())->createErrorResponse($exception);
         }
