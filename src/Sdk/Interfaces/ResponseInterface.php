@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk\Interfaces;
 
-use Psr\Http\Message\ResponseInterface;
-
-interface SdkResponseInterface
+interface ResponseInterface
 {
     /**
      * Get code.
@@ -13,6 +11,13 @@ interface SdkResponseInterface
      * @return null|string
      */
     public function getCode(): ?string;
+
+    /**
+     * Get response body.
+     *
+     * @return mixed[]
+     */
+    public function getContent(): array;
 
     /**
      * Get response message.
@@ -27,18 +32,4 @@ interface SdkResponseInterface
      * @return int|null
      */
     public function getStatusCode(): ?int;
-
-    /**
-     * Get response.
-     *
-     * @return null|\Psr\Http\Message\ResponseInterface
-     */
-    public function getResponse(): ?ResponseInterface;
-
-    /**
-     * Return whether response is successful or not.
-     *
-     * @return bool
-     */
-    public function isSuccessful(): bool;
 }

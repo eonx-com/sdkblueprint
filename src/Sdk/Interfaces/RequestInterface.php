@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk\Interfaces;
 
-interface CommandInterface
+interface RequestInterface
 {
     /**
      * Get the HTTP request method.
@@ -17,19 +17,12 @@ interface CommandInterface
      *
      * @return string
      */
-    public function getEndpoint(): string;
+    public function getUri(): string;
 
     /**
-     * Get options needed for a HTTP request.
+     * Get request.
      *
      * @return mixed[]
      */
     public function getOptions(): array;
-
-    /**
-     * Get request body.
-     *
-     * @return mixed[]
-     */
-    public function getParameters(): array;
 }

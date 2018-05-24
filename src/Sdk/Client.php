@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\RequestException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ClientInterface;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\CommandInterface;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\SdkResponseInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
 
 class Client implements ClientInterface
 {
@@ -17,13 +18,28 @@ class Client implements ClientInterface
      */
     private $client;
 
-    public function __construct(?GuzzleClient $client)
+    public function __construct(?GuzzleClient $client, ?ResponseInterface $response)
     {
         $this->client = $client ?? new GuzzleClient();
     }
 
-    public function request(CommandInterface $command): SdkResponseInterface
+    /**
+     * @noinspection PhpDocMissingThrowsInspection catch block will catch all exception and
+     *               this method won't throw any exception.
+     *
+     * @param RequestInterface $command
+     *
+     * @return ResponseInterface
+     */
+    public function request(RequestInterface $command): ResponseInterface
     {
-        $this->client->request($command->getMethod(), $command->getEndpoint(), $command->getParameters());
+        try {
+            /** @noinspection PhpUnhandledExceptionInspection all exception will be caught*/
+            $response = $this->client->request($command->getMethod(), $command->getUri(), $command->getOptions());
+        } catch (RequestException $exception) {
+            return (new ResponseFactory())->createErrorResponse($exception);
+        }
+
+        return (new ResponseFactory())->createSuccessfulResponse($response);
     }
 }

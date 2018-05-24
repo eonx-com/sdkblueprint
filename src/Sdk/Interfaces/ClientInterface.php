@@ -3,16 +3,14 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk\Interfaces;
 
-use LoyaltyCorp\SdkBlueprint\Sdk\Command;
-
 interface ClientInterface
 {
     /**
      * Send a HTTP request.
      *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\CommandInterface $command
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface $request
      *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\SdkResponseInterface
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface
      */
-    public function request(CommandInterface $command): SdkResponseInterface;
+    public function request(RequestInterface $request): ResponseInterface;
 }
