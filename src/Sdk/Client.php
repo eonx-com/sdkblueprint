@@ -23,7 +23,7 @@ class Client implements ClientInterface
      *
      * @param null|\GuzzleHttp\Client $client
      */
-    public function __construct(?GuzzleClient $client)
+    public function __construct(?GuzzleClient $client = null)
     {
         $this->client = $client ?? new GuzzleClient();
     }
