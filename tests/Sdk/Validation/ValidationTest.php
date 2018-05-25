@@ -108,6 +108,8 @@ class ValidationTest extends TestCase
      * Test a rule which relies on another attribute
      *
      * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException
      */
     public function testRuleWithAttributeParameter(): void
     {
@@ -134,10 +136,10 @@ class ValidationTest extends TestCase
         self::assertEquals($expected, $this->validator->getErrors());
     }
 
-    public function testValidateObject()
+    public function testValidate()
     {
         $transaction = new TransactionDtoStub(['dto' => new DataTransferObjectStub()]);
 
-        var_dump($this->validator->validateObject($transaction));
+        var_dump($this->validator->validate($transaction));
     }
 }

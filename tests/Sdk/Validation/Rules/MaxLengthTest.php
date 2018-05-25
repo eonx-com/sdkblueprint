@@ -3,24 +3,19 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rules;
 
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\MaxLengthStub;
 use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class MaxLengthTest extends ValidationTestCase
 {
-    /**
-     * Test 'maxLength' validation
-     *
-     * @return void
-     */
     public function testMaxLengthValidation(): void
     {
-        // Test data
-        $this->data = [
-            'valid' => '123',
-            'invalid' => '123456789'
-        ];
+        $dto = new MaxLengthStub(['max' => '1234']);
+        $errors = $this->validator->validate($dto);
+        self::assertCount(1, $errors);
+        self::assertSame('max must be no more than 3 characters long', $errors['max'][0]);
 
-        // Run tests
-        $this->runValidationTests('maxLength:3');
+        $dto = new MaxLengthStub(['max' => '123']);
+        self::assertCount(0, $this->validator->validate($dto));
     }
 }

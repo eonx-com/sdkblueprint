@@ -10,29 +10,40 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator;
  */
 class ValidationTestCase extends TestCase
 {
-    /**
-     * Test data
-     *
-     * @var mixed[]
-     */
-    protected $data;
+    public const ATTRIBUTE = 'attribute';
 
     /**
-     * Run a test against a validation rule
-     *
-     * @param string $rule The rule to test against
-     *
-     * @return void
+     * @var Validator $validator
      */
-    public function runValidationTests(string $rule): void
+    protected $validator;
+
+    protected $objectStubClass;
+
+    protected $validValue;
+
+    protected $invalidValue;
+
+    protected $errorMessage;
+
+    public function setUp()
     {
-        $validator = new Validator();
+        parent::setUp();
+        $this->validator = new Validator();
+    }
 
-        // Test valid value
-        self::assertTrue($validator->validate(['value' => $this->data['valid']], ['value' => $rule]));
+    /**
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException
+     */
+    public function testRule(): void
+    {
+        $dto = new $this->objectStubClass([self::ATTRIBUTE => $this->invalidValue]);
+        $errors = $this->validator->validate($dto);
+        self::assertCount(1, $errors);
+        self::assertSame($this->errorMessage, $errors[self::ATTRIBUTE][0]);
 
-        // Test invalid value
-        self::assertFalse($validator->validate(['value' => $this->data['invalid']], ['value' => $rule]));
-        self::assertCount(1, $validator->getErrors());
+        $dto = new $this->objectStubClass([self::ATTRIBUTE => $this->validValue]);
+        self::assertCount(0, $this->validator->validate($dto));
     }
 }

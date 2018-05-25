@@ -3,24 +3,18 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rules;
 
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\EmailRuleStub;
 use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class EmailTest extends ValidationTestCase
 {
-    /**
-     * Test 'email' validation
-     *
-     * @return void
-     */
-    public function testEmailValidation(): void
+    public function setUp()
     {
-        // Test data
-        $this->data = [
-            'valid' => 'test@test.com',
-            'invalid' => 'invalid'
-        ];
+        parent::setUp();
 
-        // Run tests
-        $this->runValidationTests('email');
+        $this->errorMessage = 'attribute must be a valid email address';
+        $this->invalidValue = 'test';
+        $this->objectStubClass = EmailRuleStub::class;
+        $this->validValue = 'test@test.com';
     }
 }

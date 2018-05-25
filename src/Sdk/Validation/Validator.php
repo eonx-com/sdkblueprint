@@ -56,20 +56,19 @@ class Validator
      * @return array
      * @throws UndefinedValidationRuleException
      */
-    public function validateObject(DataTransferObject $object): array
+    public function validate(DataTransferObject $object): array
     {
         $errors = [];
 
-        $attributeValues = $object->getAttributes();
         $embeddedObjects = $object->embedObjects();
 
         // Break/format rules into a readable format
         $this->parseRules($object->hasValidationRules());
 
         $attributeValuesToValidate = [];
-        foreach ($attributeValues as $attributeName => $value) {
+        foreach ($object->getAttributes() as $attributeName => $value) {
             if ($value instanceof DataTransferObject && isset($embeddedObjects[$attributeName])) {
-                $errors[$attributeName] = $this->validateObject($value);
+                $errors[$attributeName] = $this->validate($value);
                 continue;
             }
 

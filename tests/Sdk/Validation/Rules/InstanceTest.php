@@ -3,25 +3,20 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rules;
 
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\EmailRuleStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\InstanceStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub;
 use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class InstanceTest extends ValidationTestCase
 {
-    /**
-     * Test 'instance' validation
-     *
-     * @return void
-     */
-    public function testInstanceValidation(): void
+    public function setUp()
     {
-        // Test data
-        $this->data = [
-            'valid' => new DataTransferObjectStub(),
-            'invalid' => new \stdClass()
-        ];
+        parent::setUp();
 
-        // Run tests
-        $this->runValidationTests('instance:Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub');
+        $this->errorMessage = 'attribute must be instance of Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub';
+        $this->invalidValue = new EmailRuleStub();
+        $this->objectStubClass = InstanceStub::class;
+        $this->validValue = new DataTransferObjectStub();
     }
 }

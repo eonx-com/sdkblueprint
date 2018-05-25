@@ -3,24 +3,18 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rules;
 
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\GreaterThanStub;
 use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class GreaterThanTest extends ValidationTestCase
 {
-    /**
-     * Test 'greaterThan' validation
-     *
-     * @return void
-     */
-    public function testGreaterThanValidation(): void
+    public function setUp()
     {
-        // Test data
-        $this->data = [
-            'valid' => 5,
-            'invalid' => 1
-        ];
+        parent::setUp();
 
-        // Run tests
-        $this->runValidationTests('greaterThan:1');
+        $this->errorMessage = 'attribute must be greater than 20';
+        $this->invalidValue = '20';
+        $this->objectStubClass = GreaterThanStub::class;
+        $this->validValue = '21';
     }
 }
