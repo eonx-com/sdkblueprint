@@ -41,7 +41,9 @@ class TransactionDtoStub extends DataTransferObject
     public function hasValidationRules(): array
     {
         return [
-            'dto' => 'required'
+            'dto' => 'required',
+            'amount' => 'required|type:string',
+            'currency' => 'required|type:string|maxLength:3'
         ];
     }
 }

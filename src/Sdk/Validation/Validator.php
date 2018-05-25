@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk\Validation;
 
+use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException;
+
 class Validator
 {
     /**
@@ -13,62 +16,69 @@ class Validator
     public $rules = [];
 
     /**
-     * Errors from validation
-     *
-     * @var mixed[]
-     */
-    private $errors = [];
-
-    /**
-     * Get validation errors array
-     *
-     * @return mixed[] Validation errors
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
-    /**
      * Validate a repository
      *
      * @param mixed[] $data The data to validate
-     * @param mixed[] $ruleset The ruleset to validate against
      *
-     * @return bool Whether the validation passes or fails
+     * @return string[]
      */
-    public function validate(array $data, array $ruleset): bool
+    private function validateAttributeValues(array $data): array
     {
         // Reset errors
-        $this->errors = [];
+        $errors = [];
 
-        // Break/format rules into a readable format
-        $this->parseRules($ruleset);
-
-        // Perform validation against remaining rules
-        /**
-         * @var string $attribute
-         * @var array $rules
-         */
         foreach ($this->rules as $attribute => $rules) {
+            if (array_key_exists($attribute, $data) === false) {
+                continue;
+            }
+
             foreach ($rules as $rule => $parameters) {
                 /** @var \LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rule $rule*/
                 $rule = new $rule($attribute, $parameters, $data);
 
                 if ($rule->validate() === false) {
                     // Allow multiple errors per attribute
-                    if (\array_key_exists($attribute, $this->errors) === false ||
-                        \is_array($this->errors[$attribute]) === false) {
-                        $this->errors[$attribute] = [];
+                    if (\array_key_exists($attribute, $errors) === false ||
+                        \is_array($errors[$attribute]) === false) {
+                        $errors[$attribute] = [];
                     }
 
-                    $this->errors[$attribute][] = $rule->getError();
+                    $errors[$attribute][] = $rule->getError();
                 }
             }
         }
 
-        // Return result based on errors
-        return \count($this->errors) === 0;
+        return $errors;
+    }
+
+    /**
+     * @param DataTransferObject $object
+     * @return array
+     * @throws UndefinedValidationRuleException
+     */
+    public function validateObject(DataTransferObject $object): array
+    {
+        $errors = [];
+
+        $attributeValues = $object->getAttributes();
+        $embeddedObjects = $object->embedObjects();
+
+        // Break/format rules into a readable format
+        $this->parseRules($object->hasValidationRules());
+
+        $attributeValuesToValidate = [];
+        foreach ($attributeValues as $attributeName => $value) {
+            if ($value instanceof DataTransferObject && isset($embeddedObjects[$attributeName])) {
+                $errors[$attributeName] = $this->validateObject($value);
+                continue;
+            }
+
+            $attributeValuesToValidate[$attributeName] = $value;
+        }
+
+        $attributeErrors = $this->validateAttributeValues($attributeValuesToValidate);
+
+        return \array_merge($errors, $attributeErrors);
     }
 
     /**
@@ -76,7 +86,7 @@ class Validator
      *
      * @param mixed[] $ruleset The ruleset to parse
      *
-     * @return void
+     * @throws UndefinedValidationRuleException
      */
     private function parseRules(array $ruleset): void
     {
@@ -109,8 +119,7 @@ class Validator
                 $namespaced = 'LoyaltyCorp\\SdkBlueprint\\Sdk\\Validation\\Rules\\' . \ucfirst($rule);
                 if (\class_exists($namespaced) === false) {
                     // Rule is unknown, add as error
-                    $this->errors[] = \sprintf("Unknown rule '%s' used for validation", $rule);
-                    continue;
+                    throw new UndefinedValidationRuleException(\sprintf("Unknown rule '%s' used for validation", $rule));
                 }
 
                 // Add rule to rules array

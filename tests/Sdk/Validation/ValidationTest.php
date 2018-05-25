@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Validation;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\TransactionDtoStub;
 use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 
 class ValidationTest extends TestCase
@@ -130,5 +132,12 @@ class ValidationTest extends TestCase
         self::assertFalse($this->validator->validate(['last_name' => 'Smith'], $rules));
         $expected = ['first_name' => ['first_name is required if last_name is not empty']];
         self::assertEquals($expected, $this->validator->getErrors());
+    }
+
+    public function testValidateObject()
+    {
+        $transaction = new TransactionDtoStub(['dto' => new DataTransferObjectStub()]);
+
+        var_dump($this->validator->validateObject($transaction));
     }
 }

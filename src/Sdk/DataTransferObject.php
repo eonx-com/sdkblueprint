@@ -96,6 +96,14 @@ abstract class DataTransferObject
     }
 
     /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
      * Serialize object as array.
      *
      * @return mixed[]
