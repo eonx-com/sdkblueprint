@@ -3,31 +3,32 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rules;
 
-use LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\RequiredWithStub;
 use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class RequiredWithTest extends ValidationTestCase
 {
-    /**
-     * Test 'requiredWith' validation
-     *
-     * @return void
-     */
-    public function testRequiredWithValidation(): void
+    public function setUp()
     {
-        $validator = new Validator;
+        parent::setUp();
 
-        // Set rules
-        $rules = ['value' => 'requiredWith:test'];
+        $this->errorMessage = 'attribute is required if inclusive_attribute is not empty';
+        $this->invalidValue = null;
+        $this->objectStubClass = RequiredWithStub::class;
+        $this->validValue = 'fdf';
+    }
 
-        // Test value being set
-        self::assertTrue($validator->validate(['value' => true], $rules));
+    public function testRule(): void
+    {
+        $dto = new $this->objectStubClass([
+            'inclusive_attribute' => 'fdsfds'
+        ]);
 
-        // Test no fields being set
-        self::assertTrue($validator->validate([], $rules));
+        $errors = $this->validator->validate($dto);
+        self::assertCount(1, $errors);
+        self::assertSame($this->errorMessage, $errors[self::ATTRIBUTE][0]);
 
-        // Test alternate field being set
-        self::assertFalse($validator->validate(['test' => true], $rules));
-        self::assertEquals(['value' => ['value is required if test is not empty']], $validator->getErrors());
+        $dto = new $this->objectStubClass([self::ATTRIBUTE => $this->validValue, 'inclusive_attribute' => $this->invalidValue]);
+        self::assertCount(0, $this->validator->validate($dto));
     }
 }

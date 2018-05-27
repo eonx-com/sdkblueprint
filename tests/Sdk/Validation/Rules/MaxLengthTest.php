@@ -8,14 +8,13 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class MaxLengthTest extends ValidationTestCase
 {
-    public function testMaxLengthValidation(): void
+    public function setUp()
     {
-        $dto = new MaxLengthStub(['max' => '1234']);
-        $errors = $this->validator->validate($dto);
-        self::assertCount(1, $errors);
-        self::assertSame('max must be no more than 3 characters long', $errors['max'][0]);
+        parent::setUp();
 
-        $dto = new MaxLengthStub(['max' => '123']);
-        self::assertCount(0, $this->validator->validate($dto));
+        $this->errorMessage = 'attribute must be no more than 3 characters long';
+        $this->invalidValue = '1234';
+        $this->objectStubClass = MaxLengthStub::class;
+        $this->validValue = '123';
     }
 }

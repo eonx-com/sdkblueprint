@@ -3,24 +3,18 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rules;
 
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\MinLengthStub;
 use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class MinLengthTest extends ValidationTestCase
 {
-    /**
-     * Test 'minLength' validation
-     *
-     * @return void
-     */
-    public function testMinLengthValidation(): void
+    public function setUp()
     {
-        // Test data
-        $this->data = [
-            'valid' => '123456789',
-            'invalid' => '123'
-        ];
+        parent::setUp();
 
-        // Run tests
-        $this->runValidationTests('minLength:4');
+        $this->errorMessage = 'attribute must be at least 3 characters long';
+        $this->invalidValue = '12';
+        $this->objectStubClass = MinLengthStub::class;
+        $this->validValue = '123';
     }
 }

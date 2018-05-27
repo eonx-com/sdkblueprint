@@ -3,24 +3,18 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rules;
 
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\RequiredStub;
 use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class RequiredTest extends ValidationTestCase
 {
-    /**
-     * Test 'required' validation
-     *
-     * @return void
-     */
-    public function testRequiredValidation(): void
+    public function setUp()
     {
-        // Test data
-        $this->data = [
-            'valid' => '123456789',
-            'invalid' => null
-        ];
+        parent::setUp();
 
-        // Run tests
-        $this->runValidationTests('required');
+        $this->errorMessage = 'attribute is required';
+        $this->invalidValue = '';
+        $this->objectStubClass = RequiredStub::class;
+        $this->validValue = 123456789;
     }
 }

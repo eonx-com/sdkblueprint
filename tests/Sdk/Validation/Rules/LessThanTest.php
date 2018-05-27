@@ -8,20 +8,13 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class LessThanTest extends ValidationTestCase
 {
-    /**
-     * @return void
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException
-     */
-    public function testLessThanValidation(): void
+    public function setUp()
     {
-        $dto = new LessThanStub(['number' => 20]);
-        $errors = $this->validator->validate($dto);
-        self::assertCount(1, $errors);
-        self::assertSame('number must be less than 20', $errors['number'][0]);
+        parent::setUp();
 
-        $dto = new LessThanStub(['age' => 19]);
-        self::assertCount(0, $this->validator->validate($dto));
+        $this->errorMessage = 'attribute must be less than 20';
+        $this->invalidValue = '20';
+        $this->objectStubClass = LessThanStub::class;
+        $this->validValue = '19';
     }
 }

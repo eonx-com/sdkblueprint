@@ -3,24 +3,18 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rules;
 
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\NumericStub;
 use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class NumericTest extends ValidationTestCase
 {
-    /**
-     * Test 'numeric' validation
-     *
-     * @return void
-     */
-    public function testNumericValidation(): void
+    public function setUp()
     {
-        // Test data
-        $this->data = [
-            'valid' => 123.45,
-            'invalid' => 'abc'
-        ];
+        parent::setUp();
 
-        // Run tests
-        $this->runValidationTests('numeric');
+        $this->errorMessage = 'attribute must be a numeric';
+        $this->invalidValue = true;
+        $this->objectStubClass = NumericStub::class;
+        $this->validValue = '123';
     }
 }

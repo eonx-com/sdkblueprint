@@ -3,24 +3,18 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rules;
 
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\RegexStub;
 use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class RegexTest extends ValidationTestCase
 {
-    /**
-     * Test 'regex' validation
-     *
-     * @return void
-     */
-    public function testRegexValidation(): void
+    public function setUp()
     {
-        // Test data
-        $this->data = [
-            'valid' => 123456789, // Pass integer to test casting feature
-            'invalid' => '123'
-        ];
+        parent::setUp();
 
-        // Run tests
-        $this->runValidationTests('regex:/^[\d]{4,}$/');
+        $this->errorMessage = 'attribute must match regular expression /^[\d]{4,}$/';
+        $this->invalidValue = '123';
+        $this->objectStubClass = RegexStub::class;
+        $this->validValue = 123456789;
     }
 }

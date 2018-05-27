@@ -7,6 +7,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidArgumentException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedMethodException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\AssemblableObjectObjectStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\EmptyAttributeObjectStub;
@@ -20,11 +21,18 @@ class DataTransferObjectTest extends TestCase
      */
     private $dto;
 
+    /**
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator
+     */
+    private $validator;
+
     public function setUp(): void
     {
         parent::setUp();
         /** @noinspection PhpUnhandledExceptionInspection */
         $this->dto = new DataTransferObjectStub();
+
+        $this->validator = new Validator();
     }
 
     public function testSuccessfulGetterAndSetter(): void
@@ -143,14 +151,20 @@ class DataTransferObjectTest extends TestCase
             'number' => ['number is required', 'attribute must be type of string, NULL given']
         ];
 
-        self::assertFalse($dto->validate());
-        self::assertSame($expect, $dto->getValidationErrors());
+        /** @noinspection PhpUnhandledExceptionInspection */
+        self::assertSame($expect, $this->validator->validate($dto));
 
-
+        /** @noinspection PhpUnhandledExceptionInspection */
         $transaction = new TransactionDtoStub();
-        self::assertFalse($transaction->validate());
 
-        var_dump($transaction->getValidationErrors());
+        $expect = [
+            'dto' => ['dto is required'],
+            'amount' => ['amount is required', 'attribute must be type of string, NULL given'],
+            'currency' => ['currency is required', 'attribute must be type of string, NULL given']
+        ];
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        self::assertSame($expect, $this->validator->validate($transaction));
     }
 
     public function testValidateParametersNumber(): void

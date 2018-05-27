@@ -8,20 +8,13 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class LengthTest extends ValidationTestCase
 {
-    /**
-     * @return void
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException
-     */
-    public function testLengthValidation(): void
+    public function setUp()
     {
-        $dto = new LengthStub(['length' => '1234']);
-        $errors = $this->validator->validate($dto);
-        self::assertCount(1, $errors);
-        self::assertSame('length must be exactly 10 characters long', $errors['length'][0]);
+        parent::setUp();
 
-        $dto = new LengthStub(['length' => '1234567890']);
-        self::assertCount(0, $this->validator->validate($dto));
+        $this->errorMessage = 'attribute must be exactly 10 characters long';
+        $this->invalidValue = '1234';
+        $this->objectStubClass = LengthStub::class;
+        $this->validValue = '1234567890';
     }
 }
