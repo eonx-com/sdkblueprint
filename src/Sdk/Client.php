@@ -36,8 +36,8 @@ class Client implements ClientInterface
         try {
             /** @noinspection PhpUnhandledExceptionInspection all exception will be caught*/
             $response = $this->client->request($request->getMethod(), $request->getUri(), $request->getOptions());
-        } catch (RequestException $exception) { return (new ResponseFactory())->createErrorResponse($exception);
-
+        } catch (RequestException $exception) {
+            return (new ResponseFactory())->createErrorResponse($exception);
         }
 
         return (new ResponseFactory())->createSuccessfulResponse($response);

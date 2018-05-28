@@ -28,7 +28,7 @@ class ResponseFactory
 
         return new Response(
             $response->getStatusCode() ?? 0,
-            null,
+            $contents,
             $contents['code'] ?? (string)$exception->getCode(),
             $contents['message'] ?? $exception->getMessage()
         );

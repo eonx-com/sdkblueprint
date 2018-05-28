@@ -17,7 +17,7 @@ class ResponseTest extends TestCase
     {
         parent::setUp();
 
-        $this->response = new Response(200, ['reponse' => 'data'], '1', 'success');
+        $this->response = new Response(200, ['response' => 'data'], '1', 'success');
     }
 
     public function testGetStatusCode(): void
@@ -32,7 +32,7 @@ class ResponseTest extends TestCase
 
     public function testGetCode(): void
     {
-        self::assertSame(1, $this->response->getCode());
+        self::assertSame('1', $this->response->getCode());
     }
 
     public function testGetContent(): void
