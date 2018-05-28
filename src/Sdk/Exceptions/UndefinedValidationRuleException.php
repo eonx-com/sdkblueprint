@@ -7,6 +7,6 @@ class UndefinedValidationRuleException extends SdkBlueprintException
 {
     public function getErrorSubCode(): int
     {
-        return 10;
+        return 5;
     }
 }

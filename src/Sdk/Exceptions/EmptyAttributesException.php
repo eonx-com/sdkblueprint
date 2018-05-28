@@ -7,6 +7,6 @@ class EmptyAttributesException extends SdkBlueprintException
 {
     public function getErrorSubCode(): int
     {
-        return 2;
+        return 1;
     }
 }

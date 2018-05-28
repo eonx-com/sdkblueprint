@@ -7,6 +7,6 @@ class InvalidArgumentException extends SdkBlueprintException
 {
     public function getErrorSubCode(): int
     {
-        return 1;
+        return 2;
     }
 }

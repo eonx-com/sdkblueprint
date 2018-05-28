@@ -12,6 +12,6 @@ class UndefinedMethodException extends SdkBlueprintException
      */
     public function getErrorSubCode(): int
     {
-        return 9;
+        return 4;
     }
 }

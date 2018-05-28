@@ -7,6 +7,6 @@ class InvalidRulesException extends SdkBlueprintException
 {
     public function getErrorSubCode(): int
     {
-        return 10;
+        return 3;
     }
 }
