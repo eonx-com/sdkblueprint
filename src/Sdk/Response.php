@@ -8,21 +8,29 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
 class Response implements ResponseInterface
 {
     /**
+     * Response code.
+     *
      * @var null|string
      */
     private $code;
 
     /**
+     * Response error message.
+     *
      * @var null|string
      */
     private $message;
 
     /**
+     * Response contents.
+     *
      * @var null|mixed[]
      */
     private $content;
 
     /**
+     * Response status code.
+     *
      * @var int
      */
     private $statusCode;

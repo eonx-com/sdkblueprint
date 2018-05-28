@@ -6,9 +6,7 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk\Exceptions;
 class UndefinedMethodException extends SdkBlueprintException
 {
     /**
-     * Get Error sub-code.
-     *
-     * @return int
+     * @inheritdoc
      */
     public function getErrorSubCode(): int
     {

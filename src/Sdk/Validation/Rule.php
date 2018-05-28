@@ -51,6 +51,13 @@ abstract class Rule
     }
 
     /**
+     * Process the rule
+     *
+     * @return void
+     */
+    abstract protected function process(): void;
+
+    /**
      * Return the error set by the rule
      *
      * @return string
@@ -72,13 +79,6 @@ abstract class Rule
 
         return $this->error === '';
     }
-
-    /**
-     * Process the rule
-     *
-     * @return void
-     */
-    abstract protected function process(): void;
 
     /**
      * Get the value of an attribute from the data array

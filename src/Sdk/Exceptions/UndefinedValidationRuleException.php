@@ -5,6 +5,9 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk\Exceptions;
 
 class UndefinedValidationRuleException extends SdkBlueprintException
 {
+    /**
+     * @inheritdoc
+     */
     public function getErrorSubCode(): int
     {
         return 5;
