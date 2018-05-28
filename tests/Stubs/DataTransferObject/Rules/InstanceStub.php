@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules;
 
-use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\DataTransferObjectStub;
 
 class InstanceStub extends BaseStub
 {

@@ -10,19 +10,19 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRulesException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedMethodException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator;
-use Tests\LoyaltyCorp\SdkBlueprint\Stubs\AssemblableObjectObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\AssemblableObjectObjectStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\ArrayRulesStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\InvalidRuleStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\RuleWithoutAttributeStub;
-use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub;
-use Tests\LoyaltyCorp\SdkBlueprint\Stubs\EmptyAttributeObjectStub;
-use Tests\LoyaltyCorp\SdkBlueprint\Stubs\TransactionDtoStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\DataTransferObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\EmptyAttributeObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\TransactionDtoStub;
 use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 
 class DataTransferObjectTest extends TestCase
 {
     /**
-     * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub
+     * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\DataTransferObjectStub
      */
     private $dto;
 

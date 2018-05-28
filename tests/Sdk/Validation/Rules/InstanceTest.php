@@ -5,7 +5,7 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Validation\Rules;
 
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\EmailRuleStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules\InstanceStub;
-use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\DataTransferObjectStub;
 use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class InstanceTest extends ValidationTestCase
@@ -14,7 +14,7 @@ class InstanceTest extends ValidationTestCase
     {
         parent::setUp();
 
-        $this->errorMessage = 'attribute must be instance of Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub';
+        $this->errorMessage = 'attribute must be instance of Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\DataTransferObjectStub';
         $this->invalidValue = new EmailRuleStub();
         $this->objectStubClass = InstanceStub::class;
         $this->validValue = new DataTransferObjectStub();
