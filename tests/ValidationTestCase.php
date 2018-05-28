@@ -13,27 +13,55 @@ class ValidationTestCase extends TestCase
     public const ATTRIBUTE = 'attribute';
 
     /**
-     * @var Validator $validator
+     * The validator instance.
+     *
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator $validator
      */
     protected $validator;
 
+    /**
+     * The full class namespace.
+     *
+     * @var string $objectStubClass
+     */
     protected $objectStubClass;
 
+    /**
+     * The valid data.
+     *
+     * @var mixed $validValue
+     */
     protected $validValue;
 
+    /**
+     * The invalid data.
+     *
+     * @var mixed $invalidValue
+     */
     protected $invalidValue;
 
+    /**
+     * Expect error message.
+     *
+     * @var string $errorMessage.
+     */
     protected $errorMessage;
 
-    public function setUp()
+    /**
+     * Instantiate attributes.
+     */
+    public function setUp(): void
     {
         parent::setUp();
         $this->validator = new Validator();
     }
 
     /**
+     * Test validation rules.
+     *
      * @return void
      *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRulesException
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException
      */
     public function testRule(): void

@@ -5,6 +5,9 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules;
 
 class MaxLengthStub extends BaseStub
 {
+    /**
+     * @inheritdoc
+     */
     protected function getRuleString(): string
     {
         return 'maxLength:3';

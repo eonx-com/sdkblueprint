@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 class HttpRequestTestCase extends TestCase
 {
-    protected function createMockPsrRequest(): RequestInterface
+    protected function createMockPsrRequest(): MockObject
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection returned mock object has the same type as expected*/
         return $this->getMockBuilder(RequestInterface::class)
@@ -17,7 +18,7 @@ class HttpRequestTestCase extends TestCase
             ->getMock();
     }
 
-    protected function createMockPsrResponse(?string $content = null, int $statusCode): ResponseInterface
+    protected function createMockPsrResponse(?string $content = null, int $statusCode): MockObject
     {
         //test response is not valid json
         $streamInterface = $this->getMockBuilder(StreamInterface::class)->getMock();

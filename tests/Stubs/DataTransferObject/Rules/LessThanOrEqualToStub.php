@@ -5,6 +5,9 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules;
 
 class LessThanOrEqualToStub extends BaseStub
 {
+    /**
+     * @inheritdoc
+     */
     protected function getRuleString(): string
     {
         return 'lessThanOrEqualTo:20';

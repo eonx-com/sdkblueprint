@@ -23,7 +23,7 @@ class Client implements ClientInterface
     /**
      * Validator instance.
      *
-     * @var null|\LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator
      */
     private $validator;
 
@@ -39,11 +39,15 @@ class Client implements ClientInterface
         $this->validator = $validator ?? new Validator();
     }
 
+
     /**
+     * Send HTTP request.
+     *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface $request
      *
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface
      *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRulesException
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
      * @throws \GuzzleHttp\Exception\GuzzleException

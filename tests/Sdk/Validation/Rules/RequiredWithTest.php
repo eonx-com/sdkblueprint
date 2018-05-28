@@ -8,7 +8,10 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class RequiredWithTest extends ValidationTestCase
 {
-    public function setUp()
+    /**
+     * @inheritdoc
+     */
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -18,6 +21,9 @@ class RequiredWithTest extends ValidationTestCase
         $this->validValue = 'fdf';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function testRule(): void
     {
         $dto = new $this->objectStubClass([
@@ -28,7 +34,11 @@ class RequiredWithTest extends ValidationTestCase
         self::assertCount(1, $errors);
         self::assertSame($this->errorMessage, $errors[self::ATTRIBUTE][0]);
 
-        $dto = new $this->objectStubClass([self::ATTRIBUTE => $this->validValue, 'inclusive_attribute' => $this->invalidValue]);
+        $dto = new $this->objectStubClass([
+            self::ATTRIBUTE => $this->validValue,
+            'inclusive_attribute' => $this->invalidValue
+        ]);
+
         self::assertCount(0, $this->validator->validate($dto));
     }
 }

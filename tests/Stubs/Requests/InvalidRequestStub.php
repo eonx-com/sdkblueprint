@@ -8,16 +8,25 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\DataTransferObjectSt
 
 class InvalidRequestStub extends DataTransferObjectStub implements RequestInterface
 {
+    /**
+     * @inheritdoc
+     */
     public function getMethod(): string
     {
         return 'get';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getUri(): string
     {
         return 'uri';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getOptions(): array
     {
         return [];

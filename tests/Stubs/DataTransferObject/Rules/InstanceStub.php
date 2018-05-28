@@ -7,6 +7,9 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\DataTransferObjectSt
 
 class InstanceStub extends BaseStub
 {
+    /**
+     * @inheritdoc
+     */
     protected function getRuleString(): string
     {
         return 'instance:' . DataTransferObjectStub::class;

@@ -8,7 +8,10 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class MinLengthTest extends ValidationTestCase
 {
-    public function setUp()
+    /**
+     * @inheritdoc
+     */
+    public function setUp(): void
     {
         parent::setUp();
 

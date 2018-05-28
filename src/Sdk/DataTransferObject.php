@@ -8,6 +8,10 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidArgumentException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedMethodException;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods) they are all necessary public methods
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) they are all required dependencies.
+ */
 abstract class DataTransferObject
 {
     /**
@@ -96,7 +100,9 @@ abstract class DataTransferObject
     }
 
     /**
-     * @return array
+     * Get all attributes values array.
+     *
+     * @return mixed[]
      */
     public function getAttributes(): array
     {

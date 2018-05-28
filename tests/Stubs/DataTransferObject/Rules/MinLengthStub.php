@@ -5,6 +5,9 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules;
 
 class MinLengthStub extends BaseStub
 {
+    /**
+     * @inheritdoc
+     */
     protected function getRuleString(): string
     {
         return 'minLength:3';

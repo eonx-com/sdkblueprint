@@ -9,7 +9,9 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 class ResponseTest extends TestCase
 {
     /**
-     * @var Response
+     * The response instance.
+     *
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Response $response
      */
     private $response;
 

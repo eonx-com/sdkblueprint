@@ -29,7 +29,7 @@ class Validator
         $errors = [];
 
         foreach ($this->rules as $attribute => $rules) {
-            if (array_key_exists($attribute, $data) === false) {
+            if (\array_key_exists($attribute, $data) === false) {
                 continue;
             }
 
@@ -53,9 +53,14 @@ class Validator
     }
 
     /**
-     * @param DataTransferObject $object
-     * @return array
-     * @throws UndefinedValidationRuleException
+     * Validate DTO and return errors array.
+     *
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject $object
+     *
+     * @return string[]
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRulesException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException
      */
     public function validate(DataTransferObject $object): array
     {
@@ -66,30 +71,35 @@ class Validator
         // Break/format rules into a readable format
         $this->parseRules($object->hasValidationRules());
 
-        $attributeValuesToValidate = [];
+        $attributeValues = [];
         foreach ($object->getAttributes() as $attributeName => $value) {
             if ($value instanceof DataTransferObject && isset($embeddedObjects[$attributeName])) {
                 $errors[$attributeName] = $this->validate($value);
                 continue;
             }
 
-            $attributeValuesToValidate[$attributeName] = $value;
+            $attributeValues[$attributeName] = $value;
         }
 
-        $attributeErrors = $this->validateAttributeValues($attributeValuesToValidate);
+        $attributeErrors = $this->validateAttributeValues($attributeValues);
 
         return \array_merge($errors, $attributeErrors);
     }
 
     /**
-     * @param array $ruleset
+     * Parse rules array.
      *
-     * @throws InvalidRulesException
+     * @param string[] $ruleset
      *
-     * @throws UndefinedValidationRuleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRulesException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException
      */
     private function parseRules(array $ruleset): void
     {
+        /**
+         * @var string $attribute
+         * @var string|string[] $rules
+         */
         foreach ($ruleset as $attribute => $rules) {
             //If we only pass rules without specifying attribute, we throw an exception.
             if (\is_numeric($attribute)) {
@@ -124,7 +134,12 @@ class Validator
                 $namespaced = 'LoyaltyCorp\\SdkBlueprint\\Sdk\\Validation\\Rules\\' . \ucfirst($rule);
                 if (\class_exists($namespaced) === false) {
                     // Rule is unknown, add as error
-                    throw new UndefinedValidationRuleException(\sprintf("Unknown rule '%s' used for validation", $rule));
+                    throw new UndefinedValidationRuleException(
+                        \sprintf(
+                            "Unknown rule '%s' used for validation",
+                            $rule
+                        )
+                    );
                 }
 
                 // Add rule to rules array

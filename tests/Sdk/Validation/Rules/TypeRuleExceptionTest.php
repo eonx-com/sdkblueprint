@@ -8,7 +8,10 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class TypeRuleExceptionTest extends ValidationTestCase
 {
-    public function setUp()
+    /**
+     * @inheritdoc
+     */
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -16,6 +19,9 @@ class TypeRuleExceptionTest extends ValidationTestCase
         $this->errorMessage = 'type parameter is missing, please specify';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function testRule(): void
     {
         $dto = new $this->objectStubClass([self::ATTRIBUTE => $this->invalidValue]);

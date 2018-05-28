@@ -8,7 +8,10 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 
 class RegexTest extends ValidationTestCase
 {
-    public function setUp()
+    /**
+     * @inheritdoc
+     */
+    public function setUp(): void
     {
         parent::setUp();
 
