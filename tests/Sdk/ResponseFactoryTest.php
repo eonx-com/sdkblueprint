@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use GuzzleHttp\Exception\RequestException;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
-use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
+use Tests\LoyaltyCorp\SdkBlueprint\HttpRequestTestCase;
 
-class ResponseFactoryTest extends TestCase
+class ResponseFactoryTest extends HttpRequestTestCase
 {
     /**
      * @var ResponseFactory
@@ -59,26 +56,5 @@ class ResponseFactoryTest extends TestCase
                 '{"data":{"user_id":"1"}}',
                 200
             )));
-    }
-
-    private function createMockPsrRequest(): RequestInterface
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection returned mock object has the same type as expected*/
-        return $this->getMockBuilder(RequestInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    private function createMockPsrResponse(?string $content = null, int $statusCode): ResponseInterface
-    {
-        //test response is not valid json
-        $streamInterface = $this->getMockBuilder(StreamInterface::class)->getMock();
-        $streamInterface->method('getContents')->willReturn($content);
-        $psrResponse = $this->getMockBuilder(ResponseInterface::class)->getMock();
-        $psrResponse->method('getBody')->willReturn($streamInterface);
-        $psrResponse->method('getStatusCode')->willReturn($statusCode);
-
-        /** @noinspection PhpIncompatibleReturnTypeInspection returned mock object has the same type as expected*/
-        return $psrResponse;
     }
 }

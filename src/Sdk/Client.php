@@ -5,7 +5,7 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestData;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ClientInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
@@ -45,7 +45,7 @@ class Client implements ClientInterface
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestData
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function request(RequestInterface $request): ResponseInterface
@@ -55,7 +55,7 @@ class Client implements ClientInterface
                 $errors = $this->validator->validate($request);
 
                 if (\count($errors) > 0) {
-                    throw new InvalidRequestData(\json_encode($errors));
+                    throw new InvalidRequestDataException(\json_encode($errors));
                 }
             }
 
