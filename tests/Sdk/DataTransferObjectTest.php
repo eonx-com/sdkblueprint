@@ -28,14 +28,14 @@ class DataTransferObjectTest extends TestCase
     /**
      * Data transfer object.
      *
-     * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\DataTransferObjectStub
+     * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\DataTransferObjectStub $dto
      */
     private $dto;
 
     /**
      * The validator instance.
      *
-     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator $validator
      */
     private $validator;
 

@@ -8,11 +8,17 @@ use Tests\LoyaltyCorp\SdkBlueprint\ExceptionTestCase;
 
 class InvalidArgumentExceptionTest extends ExceptionTestCase
 {
+    /**
+     * @inheritdoc
+     */
     protected function getExceptionClass(): string
     {
         return InvalidArgumentException::class;
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function getExpectSubCode(): int
     {
         return 2;

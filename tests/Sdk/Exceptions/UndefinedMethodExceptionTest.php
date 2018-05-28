@@ -8,11 +8,17 @@ use Tests\LoyaltyCorp\SdkBlueprint\ExceptionTestCase;
 
 class UndefinedMethodExceptionTest extends ExceptionTestCase
 {
+    /**
+     * @inheritdoc
+     */
     protected function getExceptionClass(): string
     {
         return UndefinedMethodException::class;
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function getExpectSubCode(): int
     {
         return 4;

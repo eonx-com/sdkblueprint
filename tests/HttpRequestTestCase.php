@@ -10,6 +10,11 @@ use Psr\Http\Message\StreamInterface;
 
 class HttpRequestTestCase extends TestCase
 {
+    /**
+     * Mock the psr request.
+     *
+     * @return \PHPUnit\Framework\MockObject\MockObject
+     */
     protected function createMockPsrRequest(): MockObject
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection returned mock object has the same type as expected*/
@@ -18,6 +23,14 @@ class HttpRequestTestCase extends TestCase
             ->getMock();
     }
 
+    /**
+     * Mock the psr response
+     *
+     * @param null|string $content
+     * @param int $statusCode
+     *
+     * @return \PHPUnit\Framework\MockObject\MockObject
+     */
     protected function createMockPsrResponse(?string $content = null, int $statusCode): MockObject
     {
         //test response is not valid json

@@ -1,12 +1,12 @@
 {
-  "name": "loyaltycorp/sdkblueprint",
+  "name": "loyaltycorp/sdkblueprintv2",
   "description": "A library for quickly building an SDK for a RESTful API",
   "keywords": [
     "loyaltycorp",
     "api",
     "sdk"
   ],
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "type": "package",
   "require": {
     "php": ">=7.1",

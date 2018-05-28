@@ -49,6 +49,8 @@ class ValidationTestCase extends TestCase
 
     /**
      * Instantiate attributes.
+     *
+     * @return void
      */
     public function setUp(): void
     {
