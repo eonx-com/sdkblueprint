@@ -45,8 +45,17 @@ class ClientTest extends HttpRequestTestCase
     public function testInvalidRequestData(): void
     {
         $this->expectException(InvalidRequestDataException::class);
-        $this->expectExceptionMessage('{"name":["name is required","attribute must be type of string, NULL given"],
-        "number":["number is required","attribute must be type of string, NULL given"]}');
+        $message = [
+            'name' => [
+                'name is required',
+                'attribute must be type of string, NULL given'
+            ],
+            'number' => [
+                'number is required',
+                'attribute must be type of string, NULL given'
+            ]
+        ];
+        $this->expectExceptionMessage(\json_encode($message));
         $this->client->request(new InvalidRequestStub());
     }
 
