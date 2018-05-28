@@ -6,9 +6,14 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidArgumentException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRulesException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedMethodException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Validation\Validator;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\AssemblableObjectObjectStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\ArrayRulesStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\InvalidRuleStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\RuleWithoutAttributeStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObjectStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\EmptyAttributeObjectStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\TransactionDtoStub;
@@ -131,6 +136,13 @@ class DataTransferObjectTest extends TestCase
         $dto->getUndefineMethod();
     }
 
+    public function testInvalidRule(): void
+    {
+        $dto = new InvalidRuleStub();
+        $this->expectException(UndefinedValidationRuleException::class);
+        $this->validator->validate($dto);
+    }
+
     public function testFillableFromArray(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -165,6 +177,48 @@ class DataTransferObjectTest extends TestCase
 
         /** @noinspection PhpUnhandledExceptionInspection */
         self::assertSame($expect, $this->validator->validate($transaction));
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $transaction = new TransactionDtoStub(['dto' => new DataTransferObjectStub()]);
+
+        $expect = [
+            'dto' => [
+                'name' => [
+                    'name is required',
+                    'attribute must be type of string, NULL given'
+                ],
+                'number' => [
+                    'number is required',
+                    'attribute must be type of string, NULL given'
+                ]
+            ],
+            'amount' => ['amount is required', 'attribute must be type of string, NULL given'],
+            'currency' => ['currency is required', 'attribute must be type of string, NULL given']
+        ];
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        self::assertSame($expect, $this->validator->validate($transaction));
+    }
+
+    public function testInvalidRules(): void
+    {
+        $dto = new RuleWithoutAttributeStub(['attribute' => 'fdsfd']);
+
+        $this->expectException(InvalidRulesException::class);
+        $this->validator->validate($dto);
+    }
+
+    public function testArrayRules(): void
+    {
+        $dto = new ArrayRulesStub(['attribute' => 'string']);
+
+        $expect = ['attribute' => ['attribute must be a numeric']];
+        self::assertSame($expect, $this->validator->validate($dto));
+
+        $dto = new ArrayRulesStub(['attribute' => null]);
+
+        $expect = ['attribute' => ['attribute is required']];
+        self::assertSame($expect, $this->validator->validate($dto));
     }
 
     public function testValidateParametersNumber(): void

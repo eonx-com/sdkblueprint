@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace LoyaltyCorp\SdkBlueprint\Sdk\Validation;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRulesException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException;
 
 class Validator
@@ -81,15 +82,20 @@ class Validator
     }
 
     /**
-     * Convert the rules into a more readable format
+     * @param array $ruleset
      *
-     * @param mixed[] $ruleset The ruleset to parse
+     * @throws InvalidRulesException
      *
      * @throws UndefinedValidationRuleException
      */
     private function parseRules(array $ruleset): void
     {
         foreach ($ruleset as $attribute => $rules) {
+            //If we only pass rules without specifying attribute, we throw an exception.
+            if (\is_numeric($attribute)) {
+                throw new InvalidRulesException('attribute is required as the key');
+            }
+
             // If rules aren't an array parse string
             if (\is_array($rules) === false) {
                 $rules = $this->parseRuleString($rules);

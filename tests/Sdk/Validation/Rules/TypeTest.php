@@ -12,7 +12,7 @@ class TypeTest extends ValidationTestCase
     {
         parent::setUp();
 
-        $this->errorMessage = 'attribute must be type of numeric, string given';
+        $this->errorMessage = 'attribute must be type of digit, string given';
         $this->invalidValue = 'sdfdf';
         $this->objectStubClass = TypeStub::class;
         $this->validValue = '1234';
