@@ -173,6 +173,28 @@ class DataTransferObjectTest extends TestCase
 
         /** @noinspection PhpUnhandledExceptionInspection */
         self::assertSame($expect, (new AssemblableObjectObjectStub($expect))->toArray());
+
+
+        //if value of the attribute is null, we don't display it at all.
+        $expect = [
+            'name' => 'John Smith',
+            'number' => null
+        ];
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $dto = new DataTransferObjectStub($expect);
+        self::assertSame(['name' => 'John Smith'], $dto->toArray());
+
+
+        //if value of empty string, we still display the attribute.
+        $expect = [
+            'name' => 'John Smith',
+            'number' => ''
+        ];
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $dto = new DataTransferObjectStub($expect);
+        self::assertSame($expect, $dto->toArray());
     }
 
     /**

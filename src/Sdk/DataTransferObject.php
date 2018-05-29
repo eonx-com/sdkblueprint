@@ -119,6 +119,11 @@ abstract class DataTransferObject
         $array = [];
 
         foreach ($this->attributes as $attribute => $value) {
+            //if value is null, we don't display the attribute at all.
+            if ($value === null) {
+                continue;
+            }
+
             if (\count($this->embedObjects()) === 0) {
                 $array[$attribute] = $value;
                 continue;
