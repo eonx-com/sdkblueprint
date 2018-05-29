@@ -14,7 +14,8 @@
     "ext-json": "*",
     "ext-mbstring": "*",
     "guzzlehttp/guzzle": "~6.0",
-    "eoneopay/utils": "dev-master"
+    "eoneopay/utils": "dev-master",
+    "symfony/validator": "^4.0"
   },
   "require-dev": {
     "eoneopay/standards": "dev-master",
