@@ -9,7 +9,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 class UrlTest extends ValidationTestCase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setUp(): void
     {

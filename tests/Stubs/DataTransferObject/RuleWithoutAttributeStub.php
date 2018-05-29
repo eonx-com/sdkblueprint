@@ -8,7 +8,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\DataTransferObject;
 class RuleWithoutAttributeStub extends DataTransferObject
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function hasAttributes(): array
     {
@@ -16,7 +16,7 @@ class RuleWithoutAttributeStub extends DataTransferObject
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasValidationRules(): array
     {

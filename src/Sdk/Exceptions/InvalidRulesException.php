@@ -6,7 +6,7 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk\Exceptions;
 class InvalidRulesException extends SdkBlueprintException
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorSubCode(): int
     {

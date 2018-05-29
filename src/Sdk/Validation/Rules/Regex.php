@@ -15,7 +15,7 @@ class Regex extends Rule
     protected function process(): void
     {
         // If attribute doesn't match pattern, validation fails
-        if ($this->hasValue() && \preg_match($this->parameters, (string) $this->getValue()) === 0) {
+        if ($this->hasValue() && \preg_match($this->parameters, (string) $this->getValue()) !== 1) {
             $this->error = $this->attribute . ' must match regular expression ' . $this->parameters;
         }
     }

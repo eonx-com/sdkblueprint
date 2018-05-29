@@ -9,7 +9,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 class TypeRuleExceptionTest extends ValidationTestCase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setUp(): void
     {
@@ -20,7 +20,7 @@ class TypeRuleExceptionTest extends ValidationTestCase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function testRule(): void
     {

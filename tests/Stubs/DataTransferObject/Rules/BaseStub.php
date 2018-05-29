@@ -12,7 +12,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 abstract class BaseStub extends DataTransferObject
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function hasAttributes(): array
     {
@@ -20,7 +20,7 @@ abstract class BaseStub extends DataTransferObject
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasValidationRules(): array
     {

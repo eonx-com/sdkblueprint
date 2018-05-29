@@ -9,7 +9,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 class LessThanOrEqualToTest extends ValidationTestCase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setUp(): void
     {

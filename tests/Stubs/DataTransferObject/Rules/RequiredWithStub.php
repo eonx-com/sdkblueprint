@@ -6,7 +6,7 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules;
 class RequiredWithStub extends BaseStub
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function hasAttributes(): array
     {
@@ -14,7 +14,7 @@ class RequiredWithStub extends BaseStub
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getRuleString(): string
     {

@@ -9,7 +9,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\ExceptionTestCase;
 class UndefinedMethodExceptionTest extends ExceptionTestCase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getExceptionClass(): string
     {
@@ -17,7 +17,7 @@ class UndefinedMethodExceptionTest extends ExceptionTestCase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getExpectSubCode(): int
     {

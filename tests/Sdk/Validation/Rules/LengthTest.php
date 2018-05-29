@@ -9,7 +9,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 class LengthTest extends ValidationTestCase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setUp(): void
     {

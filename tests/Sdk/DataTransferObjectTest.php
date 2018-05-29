@@ -39,6 +39,13 @@ class DataTransferObjectTest extends TestCase
      */
     private $validator;
 
+    /**
+     * Instantiate attributes.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
+     */
     public function setUp(): void
     {
         parent::setUp();
@@ -48,6 +55,13 @@ class DataTransferObjectTest extends TestCase
         $this->validator = new Validator();
     }
 
+    /**
+     * Test getters and setters.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
+     */
     public function testSuccessfulGetterAndSetter(): void
     {
         $this->dto->setNumber('123');
@@ -59,6 +73,13 @@ class DataTransferObjectTest extends TestCase
         self::assertInstanceOf(DataTransferObjectStub::class, $transactionDto->getDto());
     }
 
+    /**
+     * Test fill data.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
+     */
     public function testFillData(): void
     {
         $data = [
@@ -73,6 +94,13 @@ class DataTransferObjectTest extends TestCase
         self::assertSame('4200000000000000', $dto->getNumber());
     }
 
+    /**
+     * Test embedded data.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
+     */
     public function testFillEmbedData(): void
     {
         $data = [
@@ -97,6 +125,11 @@ class DataTransferObjectTest extends TestCase
         self::assertSame('AUD', $dto->getTransaction()->getCurrency());
     }
 
+    /**
+     * Make sure all attributes are set.
+     *
+     * @return void
+     */
     public function testHasAttributes(): void
     {
         self::assertSame(
@@ -108,6 +141,13 @@ class DataTransferObjectTest extends TestCase
         );
     }
 
+    /**
+     * Test to array.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
+     */
     public function testToArray(): void
     {
         $expect = [
@@ -135,6 +175,13 @@ class DataTransferObjectTest extends TestCase
         self::assertSame($expect, (new AssemblableObjectObjectStub($expect))->toArray());
     }
 
+    /**
+     * Test invalid magic method.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
+     */
     public function testInvalidMethod(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -161,6 +208,14 @@ class DataTransferObjectTest extends TestCase
         $this->validator->validate($dto);
     }
 
+    /**
+     * Make sure passed attributes are fillable.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
+     * @throws \ReflectionException
+     */
     public function testFillableFromArray(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -171,6 +226,15 @@ class DataTransferObjectTest extends TestCase
         $method->invokeArgs(new EmptyAttributeObjectStub(), [[]]);
     }
 
+    /**
+     * Test object validation.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRulesException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedValidationRuleException
+     */
     public function testValidate(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -257,6 +321,14 @@ class DataTransferObjectTest extends TestCase
         self::assertSame($expect, $this->validator->validate($dto));
     }
 
+    /**
+     * Make sure the numbers of parameter passed correct.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\EmptyAttributesException
+     * @throws \ReflectionException
+     */
     public function testValidateParametersNumber(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */

@@ -8,7 +8,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\DataTransferObjectSt
 class InstanceStub extends BaseStub
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getRuleString(): string
     {

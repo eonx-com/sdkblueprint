@@ -9,7 +9,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 class RequiredWithTest extends ValidationTestCase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setUp(): void
     {
@@ -22,7 +22,7 @@ class RequiredWithTest extends ValidationTestCase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function testRule(): void
     {

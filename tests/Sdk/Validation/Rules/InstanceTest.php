@@ -11,7 +11,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\ValidationTestCase;
 class InstanceTest extends ValidationTestCase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setUp(): void
     {

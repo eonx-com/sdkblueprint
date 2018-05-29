@@ -65,7 +65,7 @@ abstract class DataTransferObject
         $type = \mb_strtolower($matches[1] ?? '');
         $attribute = $matches[2] ?? '';
 
-        if ($type === null || $this->hasAttribute($attribute) === false) {
+        if ($type === '' || $this->hasAttribute($attribute) === false) {
             throw new UndefinedMethodException(\sprintf('%s method not supported', $method));
         }
 
@@ -83,7 +83,7 @@ abstract class DataTransferObject
     /**
      * Set all required validation rules.
      *
-     * @return string[]
+     * @return mixed[] can return string[] or array of string array.
      */
     abstract public function hasValidationRules(): array;
 

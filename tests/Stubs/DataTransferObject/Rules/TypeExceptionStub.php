@@ -6,7 +6,7 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\Rules;
 class TypeExceptionStub extends BaseStub
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getRuleString(): string
     {

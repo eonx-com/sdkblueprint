@@ -9,7 +9,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\DataTransferObject\DataTransferObjectSt
 class InvalidRequestStub extends DataTransferObjectStub implements RequestInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMethod(): string
     {
@@ -17,7 +17,7 @@ class InvalidRequestStub extends DataTransferObjectStub implements RequestInterf
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUri(): string
     {
@@ -25,7 +25,7 @@ class InvalidRequestStub extends DataTransferObjectStub implements RequestInterf
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getOptions(): array
     {

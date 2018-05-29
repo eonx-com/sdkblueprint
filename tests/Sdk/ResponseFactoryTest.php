@@ -18,7 +18,7 @@ class ResponseFactoryTest extends HttpRequestTestCase
     private $factory;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setUp(): void
     {

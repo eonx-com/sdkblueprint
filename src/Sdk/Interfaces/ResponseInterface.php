@@ -29,7 +29,7 @@ interface ResponseInterface
     /**
      * Get response status code.
      *
-     * @return int|null
+     * @return null|int
      */
     public function getStatusCode(): ?int;
 }
