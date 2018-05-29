@@ -1,0 +1,6 @@
+parameters:
+    ignoreErrors:
+        - '#Call to an undefined method Tests\\LoyaltyCorp\\SdkBlueprint\\Stubs\\DataTransferObject\\DataTransferObjectStub::getUndefineMethod\(\)#'
+        - '/Parameter #3 \$response of class GuzzleHttp\\Exception\\RequestException constructor expects Psr\\Http\\Message\\ResponseInterface|null, PHPUnit\\Framework\\MockObject\\MockObject given./'
+        - '/Parameter #1 \$response of method LoyaltyCorp\\SdkBlueprint\\Sdk\\ResponseFactory::createSuccessfulResponse\(\) expects Psr\\Http\\Message\\ResponseInterface, PHPUnit\\Framework\\MockObject\\MockObject given./'
+        - '/Parameter #1 \$request of method LoyaltyCorp\\SdkBlueprint\\Sdk\\Client::request\(\) expects LoyaltyCorp\\SdkBlueprint\\Sdk\\Interfaces\\RequestInterface, PHPUnit\\Framework\\MockObject\\MockObject given./'
