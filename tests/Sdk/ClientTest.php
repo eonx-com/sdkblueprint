@@ -50,10 +50,16 @@ class ClientTest extends HttpRequestTestCase
     {
         $creditCardAuthorise = new CreditCardAuthorise();
         $creditCardAuthorise->setGateway(new Gateway());
+        $this->expectException(InvalidRequestDataException::class);
+        $this->expectExceptionMessage('creditCard.expiry: This value should not be blank.');
         $creditCardAuthorise->setCreditCard(new CreditCard());
 
+
+        $creditCardAuthorise->setCreditCard((new CreditCard())->setExpiry(new Expiry()));
         $this->expectException(InvalidRequestDataException::class);
-        $this->expectExceptionMessage("creditCard.expiry: This value should not be blank.");
+        $this->expectExceptionMessage('creditCard.expiry.month: This value should not be blank.creditCard.expiry.year: This value should not be blank.creditCard.cvc: This value should not be blank.');
+
+
         $this->client->create($creditCardAuthorise);
     }
 

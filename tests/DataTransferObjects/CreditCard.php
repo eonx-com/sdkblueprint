@@ -8,8 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CreditCard
 {
     /**
-     * @Assert\NotBlank()
-     * @Assert\Valid()
+     * @Assert\Valid(groups={"create"})
+     * @Assert\NotBlank(groups={"create"})
      */
     private $expiry;
     private $cvc;
@@ -19,7 +19,7 @@ class CreditCard
     /**
      * @return mixed
      */
-    public function getExpiry(): Expiry
+    public function getExpiry(): ?Expiry
     {
         return $this->expiry;
     }

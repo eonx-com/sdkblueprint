@@ -28,7 +28,7 @@ class User extends RequestObject
      */
     private $email;
 
-    public function __construct($id, $name, $email)
+    public function __construct(?string $id = null, ?string $name = null, ?string $email = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -93,24 +93,6 @@ class User extends RequestObject
             RequestMethodInterface::CREATE => 'create_uri',
             RequestMethodInterface::UPDATE => 'update_uri',
             RequestMethodInterface::DELETE => 'delete_uri'
-        ];
-    }
-
-    public function getOptions(): array
-    {
-        return [
-            RequestMethodInterface::CREATE => ['name' => $this->name, 'email' => $this->email],
-            RequestMethodInterface::UPDATE => ['name' => $this->name, 'email' => $this->email],
-            RequestMethodInterface::DELETE => ['id' => $this->id]
-        ];
-    }
-
-    public function getValidationGroups(): array
-    {
-        return [
-            RequestMethodInterface::CREATE => [RequestMethodInterface::CREATE],
-            RequestMethodInterface::UPDATE => [RequestMethodInterface::UPDATE],
-            RequestMethodInterface::DELETE => [RequestMethodInterface::DELETE]
         ];
     }
 }

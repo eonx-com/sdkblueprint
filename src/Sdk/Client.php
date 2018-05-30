@@ -21,9 +21,7 @@ class Client
     private $client;
 
     /**
-     * Serializer.
-     *
-     * @var null|\Symfony\Component\Validator\Validator\ValidatorInterface $validator
+     * @var \Symfony\Component\Serializer\Serializer $serializer
      */
     private $serializer;
 
@@ -65,36 +63,40 @@ class Client
     private function sendRequest(RequestObject $request, string $httpMethod, string $requestMethod)
     {
         $uris = $request->getUris();
-        $optionCollection = $request->getOptions();
         if (isset($uris[$requestMethod]) === false) {
             throw new InvalidRequestUriException('Uri of deletion is required.');
         }
 
         $uri = $uris[$requestMethod];
-        $options = $optionCollection[$requestMethod] ?? [];
 
-        $validationGroupCollection = $request->getValidationGroups();
-        $validationGroup = $validationGroupCollection[$requestMethod] ?? [];
-        return $this->send($request, $httpMethod, $uri, $options, $validationGroup);
+        $options = ['json' => $this->serializer->normalize($request, null, ['groups' => [$requestMethod]])];
+
+        return $this->send($request, $httpMethod, $uri, $options, $requestMethod);
     }
 
     /**
      * @param RequestObject $request
-     * @param string $method
+     * @param string $httpMethod
      * @param string $uri
      * @param array|null $options
+     * @param string $requestMethod
      * @return object
      * @throws InvalidRequestDataException
      * @throws ResponseFailedException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function send(RequestObject $request, string $method, string $uri, ?array $options, ?array $validationGroups = null)
-    {
+    private function send(
+        RequestObject $request,
+        string $httpMethod,
+        string $uri,
+        ?array $options,
+        string $requestMethod
+    ) {
         if ($request->expectObject() === null) {
             throw new \Exception('client can not populate the response back to object.');
         }
 
-        $response = $this->request($request, $method, $uri, $options, $validationGroups);
+        $response = $this->request($request, $httpMethod, $uri, $options, [$requestMethod]);
 
         if ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300) {
             throw new ResponseFailedException($response->getMessage());

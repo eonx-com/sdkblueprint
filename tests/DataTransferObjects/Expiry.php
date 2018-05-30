@@ -8,16 +8,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Expiry
 {
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"create"})
      */
     private $month;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"create"})
      */
     private $year;
 
-    public function __construct(string $month, string $year)
+    public function __construct(?string $month = null, ?string $year = null)
     {
         $this->month = $month;
         $this->year = $year;

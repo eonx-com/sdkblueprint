@@ -7,6 +7,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\RequestObject;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\CreditCard;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Gateway;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Transaction;
@@ -14,20 +15,23 @@ use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Transaction;
 class CreditCardAuthorise extends RequestObject
 {
     /**
-     * @Assert\NotBlank()
-     * @Assert\Valid()
+     * @Assert\NotBlank(groups={"create"})
+     * @Assert\Valid(groups={"create"})
+     * @Groups({"create"})
      */
     private $gateway;
 
     /**
-     * @Assert\Valid()
+     * @Assert\NotBlank(groups={"create"})
+     * @Assert\Valid(groups={"create"})
+     * @Groups({"create"})
      */
     private $creditCard;
 
     /**
      * @return mixed
      */
-    public function getGateway(): Gateway
+    public function getGateway(): ?Gateway
     {
         return $this->gateway;
     }
@@ -43,7 +47,7 @@ class CreditCardAuthorise extends RequestObject
     /**
      * @return mixed
      */
-    public function getCreditCard(): CreditCard
+    public function getCreditCard(): ?CreditCard
     {
         return $this->creditCard;
     }
@@ -71,10 +75,5 @@ class CreditCardAuthorise extends RequestObject
         return [
             RequestMethodInterface::CREATE => ['json'=> ['data']]
         ];
-    }
-
-    public function getValidationGroups(): array
-    {
-        return [];
     }
 }

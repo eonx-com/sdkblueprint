@@ -8,10 +8,5 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface;
 abstract class RequestObject
 {
     abstract public function expectObject(): ?string;
-
     abstract public function getUris(): array;
-
-    abstract public function getOptions(): array;
-
-    abstract public function getValidationGroups(): array;
 }
