@@ -1,0 +1,44 @@
+{
+  "name": "loyaltycorp/sdkblueprintv2",
+  "description": "A library for quickly building an SDK for a RESTful API",
+  "keywords": [
+    "loyaltycorp",
+    "api",
+    "sdk"
+  ],
+  "license": "MIT",
+  "type": "package",
+  "require": {
+    "php": ">=7.1",
+    "ext-dom": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "guzzlehttp/guzzle": "~6.0",
+    "eoneopay/utils": "dev-master",
+    "symfony/validator": "^4.0",
+    "symfony/serializer": "^4.0",
+    "symfony/property-access": "^4.0"
+  },
+  "require-dev": {
+    "eoneopay/standards": "dev-master",
+    "php-http/guzzle6-adapter": "^1.1",
+    "phpmd/phpmd": "^2.6",
+    "phpstan/phpstan": "^0.9",
+    "phpunit/phpunit": "^7.0",
+    "roave/security-advisories": "dev-master",
+    "sebastian/phpcpd": "^4.0",
+    "squizlabs/php_codesniffer": "3.*",
+    "woohoolabs/yang": "^1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "LoyaltyCorp\\SdkBlueprint\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\LoyaltyCorp\\SdkBlueprint\\": "tests/"
+    }
+  },
+  "minimum-stability": "stable"
+}
