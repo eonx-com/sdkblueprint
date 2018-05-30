@@ -6,7 +6,6 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\RequestObject;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\CreditCard;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Gateway;
@@ -14,7 +13,15 @@ use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Transaction;
 
 class CreditCardAuthorise extends RequestObject
 {
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Valid()
+     */
     private $gateway;
+
+    /**
+     * @Assert\Valid()
+     */
     private $creditCard;
 
     /**
@@ -69,12 +76,5 @@ class CreditCardAuthorise extends RequestObject
     public function getValidationGroups(): array
     {
         return [];
-    }
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
-    {
-        $metadata->addPropertyConstraint('gateway', new Assert\Valid());
-        $metadata->addPropertyConstraint('gateway', new Assert\NotBlank());
-        $metadata->addPropertyConstraint('creditCard', new Assert\Valid());
     }
 }

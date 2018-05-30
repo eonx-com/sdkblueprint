@@ -41,16 +41,14 @@ class Client
      *
      * @param null|\GuzzleHttp\Client $client
      * @param null|\Symfony\Component\Serializer\SerializerInterface $serializer
-     * @param null|\Symfony\Component\Validator\Validator\ValidatorInterface $validator
      */
     public function __construct(
         ?GuzzleClient $client = null,
-        SerializerInterface $serializer,
-        ValidatorInterface $validator
+        SerializerInterface $serializer
     ) {
         $this->client = $client ?? new GuzzleClient();
         $this->serializer = $serializer;
-        $this->validator = $validator;
+        $this->validator = (new ValidatorFactory())->create();
     }
 
     public function create(RequestObject $request)

@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects;
 
-use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class CreditCard
 {
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Valid()
+     */
     private $expiry;
     private $cvc;
     private $name;
@@ -74,11 +77,5 @@ class CreditCard
     public function setNumber($number): void
     {
         $this->number = $number;
-    }
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
-    {
-        $metadata->addPropertyConstraint('expiry', new Assert\Valid());
-        $metadata->addPropertyConstraint('expiry', new Assert\NotBlank());
     }
 }

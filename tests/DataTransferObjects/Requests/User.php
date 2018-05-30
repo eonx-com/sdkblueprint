@@ -5,13 +5,23 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\RequestObject;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class User extends RequestObject
 {
+    /**
+     * @Assert\NotBlank(groups={"delete"})
+     */
     private $id;
+
+    /**
+     * @Assert\NotBlank(groups={"update","create"})
+     */
     private $name;
+
+    /**
+     * @Assert\NotBlank(groups={"update","create"})
+     */
     private $email;
 
     /**
@@ -59,21 +69,6 @@ class User extends RequestObject
         $this->email = $email;
 
         return $this;
-    }
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
-    {
-        $metadata->addPropertyConstraint('email', new Assert\NotBlank([
-            'groups' => [RequestMethodInterface::CREATE]
-        ]));
-
-        $metadata->addPropertyConstraint('id', new Assert\NotBlank([
-            'groups' => [RequestMethodInterface::UPDATE, RequestMethodInterface::DELETE]
-        ]));
-
-        $metadata->addPropertyConstraint('name', new Assert\NotBlank([
-            'groups' => [RequestMethodInterface::CREATE]
-        ]));
     }
 
     public function expectObject(): ?string
