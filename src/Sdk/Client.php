@@ -99,7 +99,7 @@ class Client
     {
         try {
             if ($this->validator instanceof ValidatorInterface) {
-                $errors = $this->validator->validate($request);
+                $errors = $this->validator->validate($request, null, $request->getValidationGroups());
 
                 if (\count($errors) > 0) {
                     $errorMessage = null;

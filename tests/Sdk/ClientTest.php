@@ -13,8 +13,11 @@ use Symfony\Component\Validator\Validation;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\CreditCard;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Expiry;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Gateway;
+use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests\CreateUser;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests\CreditCardAuthorise;
+use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests\DeleteUser;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Transaction;
+use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\User;
 use Tests\LoyaltyCorp\SdkBlueprint\HttpRequestTestCase;
 
 class ClientTest extends HttpRequestTestCase
@@ -74,5 +77,34 @@ class ClientTest extends HttpRequestTestCase
         self::assertInstanceOf(Transaction::class, $transaction);
         self::assertSame('123', $transaction->getAmount());
         self::assertSame('AUD', $transaction->getCurrency());
+    }
+
+    public function testCreateUserSuccessful(): void
+    {
+        $guzzleClient = $this->getMockBuilder(GuzzleClient::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $guzzleClient->method('request')->willReturn($this->createMockPsrResponse('{"id":"uuid","name":"julian","email":"test@gmail.com"}', 200));
+
+        $client = new Client($guzzleClient, $this->serializer, $this->validator);
+        $user = $client->create((new CreateUser())->setName('test')->setEmail('test@gmail.com'));
+
+        self::assertInstanceOf(User::class, $user);
+        self::assertSame('uuid', $user->getId());
+    }
+
+    public function testDeleteUserSuccessful(): void
+    {
+        $guzzleClient = $this->getMockBuilder(GuzzleClient::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $guzzleClient->method('request')->willReturn($this->createMockPsrResponse('{"id":"julian"}', 200));
+
+        $client = new Client($guzzleClient, $this->serializer, $this->validator);
+        $user = $client->delete((new DeleteUser())->setId('julian'));
+
+        self::assertInstanceOf(User::class, $user);
+        self::assertSame('uuid', $user->getId());
     }
 }

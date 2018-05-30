@@ -25,4 +25,7 @@ interface RequestInterface
      * @return mixed[]
      */
     public function getOptions(): array;
+
+
+    public function getValidationGroups(): array;
 }

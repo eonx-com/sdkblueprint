@@ -60,6 +60,11 @@ class CreditCardAuthorise implements RequestInterface
         return ['json' => $this->toArray()];
     }
 
+    public function getValidationGroups(): array
+    {
+        return [];
+    }
+
     public function toArray()
     {
         return ['id' => 123];
