@@ -4,11 +4,13 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\RequestObject;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Transaction;
 
-class CreditCardAuthorise implements RequestInterface
+class CreditCardAuthorise extends RequestObject
 {
     private $gateway;
     private $creditCard;
@@ -50,24 +52,21 @@ class CreditCardAuthorise implements RequestInterface
         return Transaction::class;
     }
 
-    public function getUri(): string
+    public function getUris(): array
     {
-        return 'localhost';
+        return [RequestMethodInterface::CREATE => 'create_uri'];
     }
 
     public function getOptions(): array
     {
-        return ['json' => $this->toArray()];
+        return [
+            RequestMethodInterface::CREATE => ['json'=> ['data']]
+        ];
     }
 
     public function getValidationGroups(): array
     {
         return [];
-    }
-
-    public function toArray()
-    {
-        return ['id' => 123];
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
@@ -76,5 +75,4 @@ class CreditCardAuthorise implements RequestInterface
         $metadata->addPropertyConstraint('gateway', new Assert\NotBlank());
         $metadata->addPropertyConstraint('creditCard', new Assert\Valid());
     }
-
 }

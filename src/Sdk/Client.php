@@ -6,8 +6,9 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -44,38 +45,62 @@ class Client
      */
     public function __construct(
         ?GuzzleClient $client = null,
-        ?SerializerInterface $serializer,
-        ?ValidatorInterface $validator
+        SerializerInterface $serializer,
+        ValidatorInterface $validator
     ) {
         $this->client = $client ?? new GuzzleClient();
         $this->serializer = $serializer;
         $this->validator = $validator;
     }
 
-    public function create(RequestInterface $request)
+    public function create(RequestObject $request)
     {
-        return $this->send($request, 'POST');
+        return $this->sendRequest($request, 'POST', RequestMethodInterface::CREATE);
     }
 
-    public function update(RequestInterface $request)
+    public function update(RequestObject $request)
     {
-        return $this->send($request, 'PUT');
+        return $this->sendRequest($request, 'PUT', RequestMethodInterface::UPDATE);
     }
 
-    public function delete(RequestInterface $request)
+    public function delete(RequestObject $request)
     {
-        return $this->send($request, 'DELETE');
+        return $this->sendRequest($request, 'DELETE', RequestMethodInterface::DELETE);
     }
 
-    private function send(RequestInterface $request, string $method)
+    private function sendRequest(RequestObject $request, string $httpMethod, string $requestMethod)
     {
-        if ($request->expectObject() === null |
-            ($this->serializer instanceof SerializerInterface) === false
-        ) {
+        $uris = $request->getUris();
+        $optionCollection = $request->getOptions();
+        if (isset($uris[$requestMethod]) === false) {
+            throw new InvalidRequestUriException('Uri of deletion is required.');
+        }
+
+        $uri = $uris[$requestMethod];
+        $options = $optionCollection[$requestMethod] ?? [];
+
+        $validationGroupCollection = $request->getValidationGroups();
+        $validationGroup = $validationGroupCollection[$requestMethod] ?? [];
+        return $this->send($request, $httpMethod, $uri, $options, $validationGroup);
+    }
+
+    /**
+     * @param RequestObject $request
+     * @param string $method
+     * @param string $uri
+     * @param array|null $options
+     * @return object
+     * @throws InvalidRequestDataException
+     * @throws ResponseFailedException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function send(RequestObject $request, string $method, string $uri, ?array $options, ?array $validationGroups = null)
+    {
+        if ($request->expectObject() === null) {
             throw new \Exception('client can not populate the response back to object.');
         }
 
-        $response = $this->request($request, $method);
+        $response = $this->request($request, $method, $uri, $options, $validationGroups);
 
         if ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300) {
             throw new ResponseFailedException($response->getMessage());
@@ -87,19 +112,27 @@ class Client
     /**
      * Send HTTP request.
      *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestObject $request
      * @param string $method
+     * @param string uri
+     * @param null|mixed $options
+     * @param null|string[] $validationGroups
      *
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
      */
-    private function request(RequestInterface $request, string $method): ResponseInterface
-    {
+    private function request(
+        RequestObject $request,
+        string $method,
+        string $uri = null,
+        ?array $options = null,
+        ?array $validationGroups = null
+    ): ResponseInterface {
         try {
             if ($this->validator instanceof ValidatorInterface) {
-                $errors = $this->validator->validate($request, null, $request->getValidationGroups());
+                $errors = $this->validator->validate($request, null, $validationGroups);
 
                 if (\count($errors) > 0) {
                     $errorMessage = null;
@@ -112,7 +145,7 @@ class Client
             }
 
             /** @noinspection PhpUnhandledExceptionInspection all exception will be caught*/
-            $response = $this->client->request($method, $request->getUri(), $request->getOptions());
+            $response = $this->client->request($method, $uri, $options);
         } catch (RequestException $exception) {
             return (new ResponseFactory())->createErrorResponse($exception);
         }
