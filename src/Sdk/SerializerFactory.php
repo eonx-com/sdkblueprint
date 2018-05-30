@@ -12,16 +12,34 @@ use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class SerializerFactory
 {
-    public function create(): SerializerInterface
+    /**
+     * Create the serializer.
+     *
+     * @return \Symfony\Component\Serializer\Serializer
+     *
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     */
+    public function create(): Serializer
     {
+        /** @noinspection PhpDeprecationInspection currently this is the best way to register annotation loader*/
         AnnotationRegistry::registerUniqueLoader('class_exists');
 
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
-
-        return new Serializer([new ObjectNormalizer($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter(), null, new ReflectionExtractor())], [new JsonEncoder()]);
+        return new Serializer(
+            [
+                new ObjectNormalizer(
+                    $classMetadataFactory,
+                    new CamelCaseToSnakeCaseNameConverter(),
+                    null,
+                    new ReflectionExtractor()
+                )
+            ],
+            [
+                new JsonEncoder()
+            ]
+        );
     }
 }

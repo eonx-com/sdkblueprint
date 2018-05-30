@@ -10,6 +10,8 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Client
 {
@@ -33,33 +35,67 @@ class Client
     private $validator;
 
     /**
-     * Instantiate the object and fill all its attributes by given data.
+     * Instantiate the attributes.
      *
-     * @param null|\GuzzleHttp\Client $client
+     * @param null|GuzzleClient $client
+     * @param null|Serializer $serializer
+     * @param null|ValidatorInterface $validator
+     *
+     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function __construct(
-        ?GuzzleClient $client = null
+        ?GuzzleClient $client = null,
+        ?Serializer $serializer = null,
+        ?ValidatorInterface $validator = null
     ) {
         $this->client = $client ?? new GuzzleClient();
-        $this->serializer = (new SerializerFactory())->create();
-        $this->validator = (new ValidatorFactory())->create();
+        $this->serializer = $serializer ?? (new SerializerFactory())->create();
+        $this->validator = $validator ?? (new ValidatorFactory())->create();
     }
 
+    /**
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestObject $request
+     *
+     * @return object
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     */
     public function create(RequestObject $request)
     {
         return $this->sendRequest($request, 'POST', RequestMethodInterface::CREATE);
     }
 
+    /**
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestObject $request
+     *
+     * @return object
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     */
     public function update(RequestObject $request)
     {
         return $this->sendRequest($request, 'PUT', RequestMethodInterface::UPDATE);
     }
 
+    /**
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestObject $request
+     *
+     * @return object
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     */
     public function delete(RequestObject $request)
     {
         return $this->sendRequest($request, 'DELETE', RequestMethodInterface::DELETE);
     }
 
+    /**
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestObject $request
+     *
+     * @return object
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     */
     private function sendRequest(RequestObject $request, string $httpMethod, string $requestMethod)
     {
         $uris = $request->getUris();
@@ -92,6 +128,7 @@ class Client
         ?array $options,
         string $requestMethod
     ) {
+        //TODO: do we always need to return a DTO instead of returning the response object?
         if ($request->expectObject() === null) {
             throw new \Exception('client can not populate the response back to object.');
         }
