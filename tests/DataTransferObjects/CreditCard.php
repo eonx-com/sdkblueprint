@@ -16,12 +16,12 @@ class CreditCard
     /**
      * @return mixed
      */
-    public function getExpiry(): ?Expiry
+    public function getExpiry(): Expiry
     {
         return $this->expiry;
     }
 
-    public function setExpiry($expiry): self
+    public function setExpiry(Expiry $expiry): self
     {
         $this->expiry = $expiry;
 

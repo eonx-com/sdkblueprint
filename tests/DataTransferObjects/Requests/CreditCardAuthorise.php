@@ -8,6 +8,8 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\RequestObject;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
+use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\CreditCard;
+use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Gateway;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Transaction;
 
 class CreditCardAuthorise extends RequestObject
@@ -18,7 +20,7 @@ class CreditCardAuthorise extends RequestObject
     /**
      * @return mixed
      */
-    public function getGateway()
+    public function getGateway(): Gateway
     {
         return $this->gateway;
     }
@@ -26,7 +28,7 @@ class CreditCardAuthorise extends RequestObject
     /**
      * @param mixed $gateway
      */
-    public function setGateway($gateway): void
+    public function setGateway(Gateway $gateway): void
     {
         $this->gateway = $gateway;
     }
@@ -34,7 +36,7 @@ class CreditCardAuthorise extends RequestObject
     /**
      * @return mixed
      */
-    public function getCreditCard()
+    public function getCreditCard(): CreditCard
     {
         return $this->creditCard;
     }
@@ -42,7 +44,7 @@ class CreditCardAuthorise extends RequestObject
     /**
      * @param mixed $creditCard
      */
-    public function setCreditCard($creditCard): void
+    public function setCreditCard(CreditCard $creditCard): void
     {
         $this->creditCard = $creditCard;
     }

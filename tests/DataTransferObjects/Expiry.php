@@ -18,6 +18,22 @@ class Expiry
     }
 
     /**
+     * @return string
+     */
+    public function getMonth(): string
+    {
+        return $this->month;
+    }
+
+    /**
+     * @return string
+     */
+    public function getYear(): string
+    {
+        return $this->year;
+    }
+
+    /**
      * @param mixed $month
      */
     public function setMonth($month): void
