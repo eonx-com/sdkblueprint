@@ -105,6 +105,6 @@ class ClientTest extends HttpRequestTestCase
         $user = $client->delete((new DeleteUser())->setId('julian'));
 
         self::assertInstanceOf(User::class, $user);
-        self::assertSame('uuid', $user->getId());
+        self::assertSame('julian', $user->getId());
     }
 }

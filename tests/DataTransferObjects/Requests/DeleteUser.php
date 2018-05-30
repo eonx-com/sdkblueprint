@@ -25,6 +25,6 @@ class DeleteUser extends User implements RequestInterface
 
     public function getValidationGroups(): array
     {
-        return ['create'];
+        return ['delete'];
     }
 }
