@@ -10,8 +10,6 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Client
 {
@@ -40,14 +38,12 @@ class Client
      * Instantiate the object and fill all its attributes by given data.
      *
      * @param null|\GuzzleHttp\Client $client
-     * @param null|\Symfony\Component\Serializer\SerializerInterface $serializer
      */
     public function __construct(
-        ?GuzzleClient $client = null,
-        SerializerInterface $serializer
+        ?GuzzleClient $client = null
     ) {
         $this->client = $client ?? new GuzzleClient();
-        $this->serializer = $serializer;
+        $this->serializer = (new SerializerFactory())->create();
         $this->validator = (new ValidatorFactory())->create();
     }
 
@@ -129,17 +125,15 @@ class Client
         ?array $validationGroups = null
     ): ResponseInterface {
         try {
-            if ($this->validator instanceof ValidatorInterface) {
-                $errors = $this->validator->validate($request, null, $validationGroups);
+            $errors = $this->validator->validate($request, null, $validationGroups);
 
-                if (\count($errors) > 0) {
-                    $errorMessage = null;
-                    foreach ($errors as $error) {
-                        $errorMessage .= $error->getPropertyPath(). ': ' .$error->getMessage();
-                    }
-
-                    throw new InvalidRequestDataException($errorMessage);
+            if (\count($errors) > 0) {
+                $errorMessage = null;
+                foreach ($errors as $error) {
+                    $errorMessage .= $error->getPropertyPath(). ': ' .$error->getMessage();
                 }
+
+                throw new InvalidRequestDataException($errorMessage);
             }
 
             /** @noinspection PhpUnhandledExceptionInspection all exception will be caught*/
