@@ -102,7 +102,12 @@ class Client
                 $errors = $this->validator->validate($request);
 
                 if (\count($errors) > 0) {
-                    throw new InvalidRequestDataException((string)$errors);
+                    $errorMessage = null;
+                    foreach ($errors as $error) {
+                        $errorMessage .= $error->getPropertyPath(). ': ' .$error->getMessage();
+                    }
+
+                    throw new InvalidRequestDataException($errorMessage);
                 }
             }
 

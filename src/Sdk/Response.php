@@ -39,13 +39,13 @@ class Response implements ResponseInterface
      * Instantiate the object.
      *
      * @param int $statusCode
-     * @param null|mixed[] $content
+     * @param null|string $content
      * @param null|string $code
      * @param null|string $message
      */
     public function __construct(
         int $statusCode,
-        ?array $content = null,
+        ?string $content = null,
         ?string $code = null,
         ?string $message = null
     ) {
@@ -68,9 +68,9 @@ class Response implements ResponseInterface
     /**
      * Get the successful response content.
      *
-     * @return null|mixed[]
+     * @return null|string
      */
-    public function getContent(): ?array
+    public function getContent(): ?string
     {
         return $this->content;
     }
