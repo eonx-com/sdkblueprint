@@ -28,11 +28,17 @@ class User extends RequestObject
      */
     private $email;
 
-    public function __construct(?string $id = null, ?string $name = null, ?string $email = null)
+    /**
+     * @Groups({"create", "update"})
+     */
+    private $postCode;
+
+    public function __construct(?string $id = null, ?string $name = null, ?string $email = null, ?int $postCode = null)
     {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
+        $this->postCode = $postCode;
     }
 
     /**
@@ -80,6 +86,22 @@ class User extends RequestObject
         $this->email = $email;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPostCode()
+    {
+        return $this->postCode;
+    }
+
+    /**
+     * @param mixed $postCode
+     */
+    public function setPostCode($postCode): void
+    {
+        $this->postCode = $postCode;
     }
 
     public function expectObject(): ?string

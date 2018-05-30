@@ -32,7 +32,7 @@ class SerializerTest extends TestCase
                 'certificate' => 'CCNA',
                 'service' => 'my service'
             ],
-            'creditCard' => [
+            'credit_card' => [
                 'expiry' => [
                     'month' => '03',
                     'year' => '2019'
@@ -59,7 +59,8 @@ class SerializerTest extends TestCase
 
         $expect = [
             'name' => 'julian',
-            'email' => 'test@test.com'
+            'email' => 'test@test.com',
+            'post_code' => null
         ];
 
         self::assertSame($expect, $this->serializer->normalize($user, null, ['groups' => ['create']]));

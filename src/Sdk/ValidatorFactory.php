@@ -12,8 +12,7 @@ class ValidatorFactory
     {
         $builder = Validation::createValidatorBuilder();
 
-        $loader = require __DIR__.'/../../vendor/autoload.php';
-        AnnotationRegistry::registerLoader([$loader, 'loadClass']);
+        AnnotationRegistry::registerUniqueLoader('class_exists');
 
         $builder->enableAnnotationMapping();
         return $builder->getValidator();
