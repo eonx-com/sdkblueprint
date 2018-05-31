@@ -28,18 +28,16 @@ class SerializerFactory
         AnnotationRegistry::registerUniqueLoader('class_exists');
 
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
-        return new Serializer(
-            [
-                new ObjectNormalizer(
-                    $classMetadataFactory,
-                    new CamelCaseToSnakeCaseNameConverter(),
-                    null,
-                    new ReflectionExtractor()
-                )
-            ],
-            [
-                new JsonEncoder()
-            ]
+        $normalizer = new ObjectNormalizer(
+            $classMetadataFactory,
+            new CamelCaseToSnakeCaseNameConverter(),
+            null,
+            new ReflectionExtractor()
         );
+
+        // Ignore attributes from RequestObject.
+        $normalizer->setIgnoredAttributes(['uris']);
+
+        return new Serializer([$normalizer], [new JsonEncoder()]);
     }
 }
