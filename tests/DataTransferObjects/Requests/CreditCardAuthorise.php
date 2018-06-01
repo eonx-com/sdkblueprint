@@ -5,14 +5,14 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
-use LoyaltyCorp\SdkBlueprint\Sdk\RequestObject;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\CreditCard;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Gateway;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Transaction;
 
-class CreditCardAuthorise extends RequestObject
+class CreditCardAuthorise implements RequestObjectInterface
 {
     /**
      * @Assert\NotBlank(groups={"create"})

@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
-use LoyaltyCorp\SdkBlueprint\Sdk\RequestObject;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-class User extends RequestObject
+class User implements RequestObjectInterface
 {
     /**
      * @Assert\NotBlank(groups={"delete"})

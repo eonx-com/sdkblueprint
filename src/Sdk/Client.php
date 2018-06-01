@@ -9,6 +9,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -54,49 +55,43 @@ class Client
     }
 
     /**
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestObject $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return object
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
      */
-    public function create(RequestObject $request)
+    public function create(RequestObjectInterface $request)
     {
         return $this->sendRequest($request, 'POST', RequestMethodInterface::CREATE);
     }
 
     /**
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestObject $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return object
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
      */
-    public function update(RequestObject $request)
+    public function update(RequestObjectInterface $request)
     {
         return $this->sendRequest($request, 'PUT', RequestMethodInterface::UPDATE);
     }
 
     /**
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestObject $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return object
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
      */
-    public function delete(RequestObject $request)
+    public function delete(RequestObjectInterface $request)
     {
         return $this->sendRequest($request, 'DELETE', RequestMethodInterface::DELETE);
     }
 
-    /**
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestObject $request
-     *
-     * @return object
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
-     */
-    private function sendRequest(RequestObject $request, string $httpMethod, string $requestMethod)
+
+    private function sendRequest(RequestObjectInterface $request, string $httpMethod, string $requestMethod)
     {
         $uris = $request->getUris();
         if (isset($uris[$requestMethod]) === false) {
@@ -111,18 +106,20 @@ class Client
     }
 
     /**
-     * @param RequestObject $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      * @param string $httpMethod
      * @param string $uri
      * @param array|null $options
      * @param string $requestMethod
+     *
      * @return object
+     *
      * @throws InvalidRequestDataException
      * @throws ResponseFailedException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function send(
-        RequestObject $request,
+        RequestObjectInterface $request,
         string $httpMethod,
         string $uri,
         ?array $options,
@@ -145,7 +142,7 @@ class Client
     /**
      * Send HTTP request.
      *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestObject $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      * @param string $method
      * @param string uri
      * @param null|mixed $options
@@ -157,7 +154,7 @@ class Client
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
      */
     private function request(
-        RequestObject $request,
+        RequestObjectInterface $request,
         string $method,
         string $uri = null,
         ?array $options = null,
