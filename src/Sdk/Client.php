@@ -92,7 +92,7 @@ class Client
 
     private function sendRequest(RequestObjectInterface $request, string $httpMethod, string $requestMethod)
     {
-        $uris = $request->getUris();
+        $uris = $request->uris();
         if (isset($uris[$requestMethod]) === false) {
             throw new InvalidRequestUriException('Uri of deletion is required.');
         }
@@ -100,7 +100,7 @@ class Client
         $uri = $uris[$requestMethod];
 
         $options = \array_merge(
-            $request->getOptions(),
+            $request->options(),
             [
                 'json' => $this->serializer->normalize($request, null, ['groups' => [$requestMethod]])
             ]

@@ -109,7 +109,7 @@ class User implements RequestObjectInterface
         return self::class;
     }
 
-    public function getUris(): array
+    public function options(): array
     {
         return [
             RequestMethodInterface::CREATE => 'create_uri',
@@ -118,8 +118,11 @@ class User implements RequestObjectInterface
         ];
     }
 
-    public function getOptions(): array
+    public function uris(): array
     {
-        return [];
+        return [
+            RequestMethodInterface::CREATE => 'create_uri',
+            RequestMethodInterface::DELETE => 'delete'
+        ];
     }
 }

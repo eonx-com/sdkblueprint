@@ -65,12 +65,12 @@ class CreditCardAuthorise implements RequestObjectInterface
         return Transaction::class;
     }
 
-    public function getUris(): array
+    public function uris(): array
     {
         return [RequestMethodInterface::CREATE => 'create_uri'];
     }
 
-    public function getOptions(): array
+    public function options(): array
     {
         return [];
     }

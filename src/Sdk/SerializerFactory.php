@@ -35,9 +35,6 @@ class SerializerFactory
             new ReflectionExtractor()
         );
 
-        // Ignore attributes from RequestObject.
-        $normalizer->setIgnoredAttributes(['uris']);
-
         return new Serializer([$normalizer], [new JsonEncoder()]);
     }
 }

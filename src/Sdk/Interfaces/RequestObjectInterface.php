@@ -13,16 +13,20 @@ interface RequestObjectInterface
     public function expectObject(): ?string;
 
     /**
+     * Don't prefix method with get or set as serializer will output the method name as attributes.
+     *
      * Specify the requst uri.
      *
      * @return array
      */
-    public function getUris(): array;
+    public function uris(): array;
 
     /**
+     * Don't prefix method with get or set as serializer will output the method name as attributes.
+     *
      * Add options along with sending the request. For example, adding api key in the header.
      *
      * @return null|mixed[]
      */
-    public function getOptions(): array;
+    public function options(): array;
 }
