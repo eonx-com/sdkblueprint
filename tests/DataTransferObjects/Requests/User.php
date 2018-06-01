@@ -117,4 +117,9 @@ class User implements RequestObjectInterface
             RequestMethodInterface::DELETE => 'delete_uri'
         ];
     }
+
+    public function getOptions(): array
+    {
+        return [];
+    }
 }

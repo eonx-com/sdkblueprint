@@ -90,7 +90,6 @@ class Client
         return $this->sendRequest($request, 'DELETE', RequestMethodInterface::DELETE);
     }
 
-
     private function sendRequest(RequestObjectInterface $request, string $httpMethod, string $requestMethod)
     {
         $uris = $request->getUris();
@@ -100,7 +99,12 @@ class Client
 
         $uri = $uris[$requestMethod];
 
-        $options = ['json' => $this->serializer->normalize($request, null, ['groups' => [$requestMethod]])];
+        $options = \array_merge(
+            $request->getOptions(),
+            [
+                'json' => $this->serializer->normalize($request, null, ['groups' => [$requestMethod]])
+            ]
+        );
 
         return $this->send($request, $httpMethod, $uri, $options, $requestMethod);
     }

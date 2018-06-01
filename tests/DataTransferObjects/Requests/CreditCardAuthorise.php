@@ -72,8 +72,6 @@ class CreditCardAuthorise implements RequestObjectInterface
 
     public function getOptions(): array
     {
-        return [
-            RequestMethodInterface::CREATE => ['json'=> ['data']]
-        ];
+        return [];
     }
 }
