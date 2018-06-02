@@ -7,6 +7,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Mapping\ClassDiscriminatorFromClassMetadata;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
@@ -29,11 +30,15 @@ class SerializerFactory
         AnnotationRegistry::registerUniqueLoader('class_exists');
 
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
+
+        $discriminator = new ClassDiscriminatorFromClassMetadata($classMetadataFactory);
+
         $normalizer = new ObjectNormalizer(
             $classMetadataFactory,
             new CamelCaseToSnakeCaseNameConverter(),
             null,
-            new ReflectionExtractor()
+            new ReflectionExtractor(),
+            $discriminator
         );
 
         return new Serializer([$normalizer, new ArrayDenormalizer()], [new JsonEncoder()]);
