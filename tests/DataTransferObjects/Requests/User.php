@@ -29,6 +29,11 @@ class User implements RequestObjectInterface
     private $email;
 
     /**
+     * @var Ewallet[]
+     */
+    private $ewallets;
+
+    /**
      * @Groups({"create", "update"})
      */
     private $postCode;
@@ -39,6 +44,11 @@ class User implements RequestObjectInterface
         $this->name = $name;
         $this->email = $email;
         $this->postCode = $postCode;
+    }
+
+    public function addEwallet(Ewallet $ewallet): void
+    {
+        $this->ewallets[] = $ewallet;
     }
 
     /**
@@ -102,6 +112,22 @@ class User implements RequestObjectInterface
     public function setPostCode($postCode): void
     {
         $this->postCode = $postCode;
+    }
+
+    /**
+     * @return Ewallet[]
+     */
+    public function getEwallets(): array
+    {
+        return $this->ewallets;
+    }
+
+    /**
+     * @param Ewallet[] $ewallets
+     */
+    public function setEwallets(array $ewallets): void
+    {
+        $this->ewallets = $ewallets;
     }
 
     public function expectObject(): ?string

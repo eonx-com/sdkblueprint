@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -35,6 +36,6 @@ class SerializerFactory
             new ReflectionExtractor()
         );
 
-        return new Serializer([$normalizer], [new JsonEncoder()]);
+        return new Serializer([$normalizer, new ArrayDenormalizer()], [new JsonEncoder()]);
     }
 }

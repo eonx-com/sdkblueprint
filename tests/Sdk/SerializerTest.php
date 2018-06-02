@@ -9,7 +9,9 @@ use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\CreditCard;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Expiry;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Gateway;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests\CreditCardAuthorise;
+use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests\Ewallet;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests\User;
+use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests\UserCollection;
 use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 
 class SerializerTest extends TestCase
@@ -51,6 +53,49 @@ class SerializerTest extends TestCase
         self::assertInstanceOf(Expiry::class, $creditCardAuthorise->getCreditCard()->getExpiry());
         self::assertSame('03', $creditCardAuthorise->getCreditCard()->getExpiry()->getMonth());
         self::assertSame('2019', $creditCardAuthorise->getCreditCard()->getExpiry()->getYear());
+    }
+
+    public function testNestedDenormalization(): void
+    {
+        $data = [
+            [
+                'id' => 1,
+                'email' => 'test1@gamil.com',
+                'ewallets' => [
+                    [
+                        'id' => 'ewallet1',
+                        'amount' => '100'
+                    ],
+                    [
+                        'id' => 'ewallet2',
+                        'amount' => '200'
+                    ]
+                ]
+            ],
+            [
+                'id' => 2,
+                'email' => 'test2@gamil.com',
+                'ewallets' => [
+                    [
+                        'id' => 'ewallet3',
+                        'amount' => '500'
+                    ],
+                    [
+                        'id' => 'ewallet4',
+                        'amount' => '500'
+                    ]
+                ]
+            ],
+        ];
+
+        $users = $this->serializer->denormalize($data, \sprintf('%s[]', User::class));
+
+        foreach ($users as $user) {
+            self::assertInstanceOf(User::class, $user);
+            foreach ($user->getEwallets() as $ewallet) {
+                self::assertInstanceOf(Ewallet::class, $ewallet);
+            }
+        }
     }
 
     public function testNormalization(): void
