@@ -3,9 +3,22 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use LoyaltyCorp\SdkBlueprint\Sdk\SerializerFactory;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Mapping\ClassDiscriminatorFromClassMetadata;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\CreditCard;
+use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Endpoints\CreditCardEndpoint;
+use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Endpoints\BankAccount;
+use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Endpoints\Endpoint;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Expiry;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Gateway;
 use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests\CreditCardAuthorise;
@@ -53,6 +66,47 @@ class SerializerTest extends TestCase
         self::assertInstanceOf(Expiry::class, $creditCardAuthorise->getCreditCard()->getExpiry());
         self::assertSame('03', $creditCardAuthorise->getCreditCard()->getExpiry()->getMonth());
         self::assertSame('2019', $creditCardAuthorise->getCreditCard()->getExpiry()->getYear());
+    }
+
+    public function testDescriminatorDenormalization(): void
+    {
+        /** @noinspection PhpDeprecationInspection currently this is the best way to register annotation loader*/
+        AnnotationRegistry::registerUniqueLoader('class_exists');
+
+        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
+
+        $discriminator = new ClassDiscriminatorFromClassMetadata($classMetadataFactory);
+
+        $normalizer = new ObjectNormalizer(
+            $classMetadataFactory,
+            new CamelCaseToSnakeCaseNameConverter(),
+            null,
+            new ReflectionExtractor(),
+            $discriminator
+        );
+
+        $serializer = new Serializer([$normalizer, new ArrayDenormalizer()], [new JsonEncoder()]);
+
+        $data = [
+            'id' => 4,
+            'bsb' => '084-222',
+            'pan' => '1...455',
+            'type' => 'bank_account'
+        ];
+
+        $object = $serializer->denormalize($data, Endpoint::class);
+
+        self::assertInstanceOf(BankAccount::class, $object);
+
+        $data = [
+            'id' => 4,
+            'pan' => '1...455',
+            'type' => 'credit_card'
+        ];
+
+        $object = $serializer->denormalize($data, Endpoint::class);
+
+        self::assertInstanceOf(CreditCardEndpoint::class, $object);
     }
 
     public function testNestedDenormalization(): void
