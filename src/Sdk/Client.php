@@ -85,6 +85,18 @@ class Client
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
      */
+    public function get(RequestObjectInterface $request)
+    {
+        return $this->sendRequest($request, 'GET', RequestMethodInterface::GET);
+    }
+
+    /**
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
+     *
+     * @return object
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     */
     public function list(RequestObjectInterface $request)
     {
         return $this->sendRequest($request, 'GET', RequestMethodInterface::LIST);
