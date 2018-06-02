@@ -73,9 +73,9 @@ class Client
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
      */
-    public function update(RequestObjectInterface $request)
+    public function delete(RequestObjectInterface $request)
     {
-        return $this->sendRequest($request, 'PUT', RequestMethodInterface::UPDATE);
+        return $this->sendRequest($request, 'DELETE', RequestMethodInterface::DELETE);
     }
 
     /**
@@ -85,9 +85,21 @@ class Client
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
      */
-    public function delete(RequestObjectInterface $request)
+    public function list(RequestObjectInterface $request)
     {
-        return $this->sendRequest($request, 'DELETE', RequestMethodInterface::DELETE);
+        return $this->sendRequest($request, 'GET', RequestMethodInterface::LIST);
+    }
+
+    /**
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
+     *
+     * @return object
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     */
+    public function update(RequestObjectInterface $request)
+    {
+        return $this->sendRequest($request, 'PUT', RequestMethodInterface::UPDATE);
     }
 
     private function sendRequest(RequestObjectInterface $request, string $httpMethod, string $requestMethod)
@@ -129,7 +141,6 @@ class Client
         ?array $options,
         string $requestMethod
     ) {
-        //TODO: do we always need to return a DTO instead of returning the response object?
         if ($request->expectObject() === null) {
             throw new \Exception('client can not populate the response back to object.');
         }
@@ -140,7 +151,12 @@ class Client
             throw new ResponseFailedException($response->getMessage());
         }
 
-        return $this->serializer->deserialize($response->getContent(), $request->expectObject(), 'json');
+        $type = $request->expectObject();
+        if ($requestMethod === RequestMethodInterface::LIST) {
+            $type = \sprintf('%s[]', $request->expectObject());
+        }
+
+        return $this->serializer->deserialize($response->getContent(), $type, 'json');
     }
 
     /**
