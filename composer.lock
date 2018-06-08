@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "154f64459eca94decbc191079f9270c3",
+    "content-hash": "c3d2afd307092a0c42a2650134814e3d",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -208,12 +208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/loyaltycorp/utils.git",
-                "reference": "a3455c532edd628ce5f950ec2c123334385621ce"
+                "reference": "d9cdb0f18ec314037fd8daffce12c08e63c705a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loyaltycorp/utils/zipball/a3455c532edd628ce5f950ec2c123334385621ce",
-                "reference": "a3455c532edd628ce5f950ec2c123334385621ce",
+                "url": "https://api.github.com/repos/loyaltycorp/utils/zipball/d9cdb0f18ec314037fd8daffce12c08e63c705a9",
+                "reference": "d9cdb0f18ec314037fd8daffce12c08e63c705a9",
                 "shasum": ""
             },
             "require": {
@@ -253,7 +253,7 @@
                 "helpers",
                 "utilities"
             ],
-            "time": "2018-05-24T22:22:11+00:00"
+            "time": "2018-06-03T22:17:13+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -435,6 +435,66 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
+        },
+        {
+            "name": "loyaltycorp/sdkspecification",
+            "version": "dev-init",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/loyaltycorp/sdkspecification.git",
+                "reference": "b1e079cb4fe7b494f7d7d0c8b35b758d86c87846"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/loyaltycorp/sdkspecification/zipball/b1e079cb4fe7b494f7d7d0c8b35b758d86c87846",
+                "reference": "b1e079cb4fe7b494f7d7d0c8b35b758d86c87846",
+                "shasum": ""
+            },
+            "require": {
+                "eoneopay/utils": "dev-master",
+                "ext-dom": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "eoneopay/standards": "dev-master",
+                "php-http/guzzle6-adapter": "^1.1",
+                "phpmd/phpmd": "^2.6",
+                "phpstan/phpstan": "^0.9",
+                "phpunit/phpunit": "^7.0",
+                "roave/security-advisories": "dev-master",
+                "sebastian/phpcpd": "^4.0",
+                "squizlabs/php_codesniffer": "3.*",
+                "woohoolabs/yang": "^1.2"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "LoyaltyCorp\\SdkSpecification\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\LoyaltyCorp\\SdkSpecification\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A sdk specification for quickly building an SDK for a RESTful API",
+            "keywords": [
+                "api",
+                "loyaltycorp",
+                "sdk",
+                "specification"
+            ],
+            "support": {
+                "source": "https://github.com/loyaltycorp/sdkspecification/tree/init",
+                "issues": "https://github.com/loyaltycorp/sdkspecification/issues"
+            },
+            "time": "2018-06-08T06:41:13+00:00"
         },
         {
             "name": "psr/http-message",
@@ -2882,16 +2942,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.2.2",
+            "version": "7.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3cf0836680bf5c365c627e8566d46c9e1f544db9"
+                "reference": "00bc0b93f0ff4f557e9ea766557fde96da9a03dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3cf0836680bf5c365c627e8566d46c9e1f544db9",
-                "reference": "3cf0836680bf5c365c627e8566d46c9e1f544db9",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/00bc0b93f0ff4f557e9ea766557fde96da9a03dd",
+                "reference": "00bc0b93f0ff4f557e9ea766557fde96da9a03dd",
                 "shasum": ""
             },
             "require": {
@@ -2962,7 +3022,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-06-01T07:54:27+00:00"
+            "time": "2018-06-05T03:40:05+00:00"
         },
         {
             "name": "psr/container",
@@ -3019,12 +3079,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "4d93302eb93402083f5abe72002fe8dc35e12dae"
+                "reference": "ff09cbe142c9195e1ed85a409d7940d43d7306c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/4d93302eb93402083f5abe72002fe8dc35e12dae",
-                "reference": "4d93302eb93402083f5abe72002fe8dc35e12dae",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/ff09cbe142c9195e1ed85a409d7940d43d7306c7",
+                "reference": "ff09cbe142c9195e1ed85a409d7940d43d7306c7",
                 "shasum": ""
             },
             "conflict": {
@@ -3114,7 +3174,7 @@
                 "symfony/routing": ">=2,<2.0.19",
                 "symfony/security": ">=2,<2.7.48|>=2.8,<2.8.41|>=3,<3.3.17|>=3.4,<3.4.11|>=4,<4.0.11",
                 "symfony/security-bundle": ">=2,<2.7.48|>=2.8,<2.8.41|>=3,<3.3.17|>=3.4,<3.4.11|>=4,<4.0.11",
-                "symfony/security-core": ">=2.4,<2.6.13|>=2.7,<2.7.9|>=2.7.30,<2.7.32|>=2.8,<2.8.41|>=3,<3.3.17|>=3.4,<3.4.11|>=4,<4.0.11",
+                "symfony/security-core": ">=2.4,<2.6.13|>=2.7,<2.7.9|>=2.7.30,<2.7.32|>=2.8,<2.8.37|>=3,<3.3.17|>=3.4,<3.4.7|>=4,<4.0.7",
                 "symfony/security-csrf": ">=2.4,<2.7.48|>=2.8,<2.8.41|>=3,<3.3.17|>=3.4,<3.4.11|>=4,<4.0.11",
                 "symfony/security-guard": ">=2.8,<2.8.41|>=3,<3.3.17|>=3.4,<3.4.11|>=4,<4.0.11",
                 "symfony/security-http": ">=2.3,<2.3.41|>=2.4,<2.7.48|>=2.8,<2.8.41|>=3,<3.3.17|>=3.4,<3.4.11|>=4,<4.0.11",
@@ -3177,7 +3237,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2018-05-30T02:58:56+00:00"
+            "time": "2018-06-06T08:36:30+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -3872,16 +3932,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.2.3",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "4842476c434e375f9d3182ff7b89059583aa8b27"
+                "reference": "d86873af43b4aa9d1f39a3601cc0cfcf02b25266"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4842476c434e375f9d3182ff7b89059583aa8b27",
-                "reference": "4842476c434e375f9d3182ff7b89059583aa8b27",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d86873af43b4aa9d1f39a3601cc0cfcf02b25266",
+                "reference": "d86873af43b4aa9d1f39a3601cc0cfcf02b25266",
                 "shasum": ""
             },
             "require": {
@@ -3919,7 +3979,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2018-02-20T21:35:23+00:00"
+            "time": "2018-06-06T23:58:19+00:00"
         },
         {
             "name": "symfony/config",
@@ -4410,6 +4470,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "eoneopay/utils": 20,
+        "loyaltycorp/sdkspecification": 20,
         "eoneopay/standards": 20,
         "roave/security-advisories": 20
     },
