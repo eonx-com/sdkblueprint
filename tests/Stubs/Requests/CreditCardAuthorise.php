@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests;
+namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\CreditCard;
-use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Gateway;
-use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Transaction;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\CreditCard;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Gateway;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Transaction;
 
 class CreditCardAuthorise implements RequestObjectInterface
 {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects;
+namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

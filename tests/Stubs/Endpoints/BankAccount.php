@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Endpoints;
+namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints;
 
 class BankAccount extends Endpoint
 {

@@ -6,16 +6,17 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 use GuzzleHttp\Client as GuzzleClient;
 use LoyaltyCorp\SdkBlueprint\Sdk\Client;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
-use LoyaltyCorp\SdkBlueprint\Sdk\SerializerFactory;
-use LoyaltyCorp\SdkBlueprint\Sdk\ValidatorFactory;
-use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\CreditCard;
-use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Expiry;
-use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Gateway;
-use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests\CreditCardAuthorise;
-use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Transaction;
-use Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests\User;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\CreditCard;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Gateway;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\CreditCardAuthorise;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Transaction;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User;
 use Tests\LoyaltyCorp\SdkBlueprint\HttpRequestTestCase;
 
+/**
+ * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Client
+ */
 class ClientTest extends HttpRequestTestCase
 {
     /**
@@ -24,29 +25,15 @@ class ClientTest extends HttpRequestTestCase
     private $client;
 
     /**
-     * @var \Symfony\Component\Serializer\Serializer $serializer
-     */
-    private $serializer;
-
-    /**
-     * @var \Symfony\Component\Validator\Validator\ValidatorInterface $validator
-     */
-    private $validator;
-
-    /**
      * Instantiate attributes.
      *
      * @return void
-     *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function setUp(): void
     {
         parent::setUp();
-        $this->serializer = (new SerializerFactory())->create();
-        $this->validator = (new ValidatorFactory())->create();
 
-        $this->client = new Client(new GuzzleClient(), $this->serializer, $this->validator);
+        $this->client = new Client(new GuzzleClient());
     }
 
     /**
@@ -54,7 +41,10 @@ class ClientTest extends HttpRequestTestCase
      *
      * @return void
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      */
     public function testCreditCardAuthoriseEmptyAttributeException(): void
     {
@@ -69,7 +59,10 @@ class ClientTest extends HttpRequestTestCase
      *
      * @return void
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      */
     public function testCreditCardAuthoriseInvalidEmbeddedObjectException(): void
     {
@@ -92,8 +85,10 @@ class ClientTest extends HttpRequestTestCase
      *
      * @return void
      *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
      * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      */
     public function testSuccessfulCreditCardAuthorise(): void
     {
@@ -104,7 +99,7 @@ class ClientTest extends HttpRequestTestCase
             ->method('request')
             ->willReturn($this->createMockPsrResponse('{"amount":"123","currency":"AUD"}', 200));
 
-        $client = new Client($guzzleClient, $this->serializer, $this->validator);
+        $client = new Client($guzzleClient);
 
         $creditCardAuthorise = new CreditCardAuthorise();
         $creditCardAuthorise->setGateway((new Gateway())->setService('service')->setCertificate('certificate'));
@@ -122,8 +117,10 @@ class ClientTest extends HttpRequestTestCase
      *
      * @return void
      *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
      * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      */
     public function testCreateUserSuccessful(): void
     {
@@ -135,7 +132,7 @@ class ClientTest extends HttpRequestTestCase
             ->method('request')
             ->willReturn($this->createMockPsrResponse('{"id":"uuid","name":"julian","email":"test@gmail.com"}', 200));
 
-        $client = new Client($guzzleClient, $this->serializer, $this->validator);
+        $client = new Client($guzzleClient);
 
         $user = $client->create((new User())->setName('test')->setEmail('test@gmail.com'));
         self::assertInstanceOf(User::class, $user);
@@ -145,10 +142,10 @@ class ClientTest extends HttpRequestTestCase
     /**
      * Test successful user deletion request.
      *
-     * @return void
-     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
      * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      */
     public function testDeleteUserSuccessful(): void
     {
@@ -158,7 +155,7 @@ class ClientTest extends HttpRequestTestCase
 
         $guzzleClient->method('request')->willReturn($this->createMockPsrResponse('{"id":"julian"}', 200));
 
-        $client = new Client($guzzleClient, $this->serializer, $this->validator);
+        $client = new Client($guzzleClient);
 
 
         $user = $client->delete((new User())->setId('julian'));

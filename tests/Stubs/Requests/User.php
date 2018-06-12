@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests;
+namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;

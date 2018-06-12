@@ -1,19 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Requests;
+namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs;
 
-class Ewallet
+class Transaction
 {
     private $amount;
-
-    private $id;
-
-    public function __construct($amount, $id)
-    {
-        $this->amount = $amount;
-        $this->id = $id;
-    }
+    private $currency;
 
     /**
      * @return mixed
@@ -34,16 +27,16 @@ class Ewallet
     /**
      * @return mixed
      */
-    public function getId()
+    public function getCurrency()
     {
-        return $this->id;
+        return $this->currency;
     }
 
     /**
-     * @param mixed $id
+     * @param mixed $currency
      */
-    public function setId($id): void
+    public function setCurrency($currency): void
     {
-        $this->id = $id;
+        $this->currency = $currency;
     }
 }

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Endpoints;
+namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints;
 
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 
 /**
  * @DiscriminatorMap(typeProperty="type", mapping={
- *    "bank_account"="Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Endpoints\BankAccount",
- *    "credit_card"="Tests\LoyaltyCorp\SdkBlueprint\DataTransferObjects\Endpoints\CreditCardEndpoint"
+ *    "bank_account"="Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints\BankAccount",
+ *    "credit_card"="Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints\CreditCardEndpoint"
  * })
  */
 abstract class Endpoint
