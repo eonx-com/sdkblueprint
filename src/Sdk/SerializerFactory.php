@@ -15,6 +15,9 @@ use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ * @SuppressWarnings("PMD.StaticAccess") static access is required for annotation loader.
+ */
 class SerializerFactory
 {
     /**

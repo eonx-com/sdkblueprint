@@ -33,7 +33,7 @@ class RequestAdapter implements RequestInterface
     /**
      * Request object instance.
      *
-     * @var RequestObjectInterface $object
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $object
      */
     private $object;
 

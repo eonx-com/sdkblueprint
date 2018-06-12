@@ -23,14 +23,16 @@ class ObjectFactory
     }
 
     /**
-     * @param mixed $data
+     * Create object from array data.
+     *
+     * @param mixed[] $data
      * @param string $class
      *
-     * @return object
+     * @return mixed returns object of expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedClassException
      */
-    public function create(array $data, $class)
+    public function create(array $data, string $class)
     {
         if (\class_exists($class) === false) {
             throw new UndefinedClassException(\sprintf('class %s is not defined', $class));

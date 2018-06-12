@@ -5,10 +5,19 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * @SuppressWarnings("PMD.StaticAccess") static access is required for annotation loader.
+ */
 class ValidatorFactory
 {
-    public function create()
+    /**
+     * Create the validator object.
+     *
+     * @return \Symfony\Component\Validator\Validator\ValidatorInterface
+     */
+    public function create(): ValidatorInterface
     {
         $builder = Validation::createValidatorBuilder();
 

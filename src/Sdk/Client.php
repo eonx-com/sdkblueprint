@@ -11,12 +11,12 @@ use LoyaltyCorp\SdkSpecification\Client as BaseClient;
 class Client extends BaseClient
 {
     /**
-     * @param RequestObjectInterface $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
-     * @throws ResponseFailedException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -26,12 +26,12 @@ class Client extends BaseClient
     }
 
     /**
-     * @param RequestObjectInterface $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
-     * @throws ResponseFailedException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -41,12 +41,12 @@ class Client extends BaseClient
     }
 
     /**
-     * @param RequestObjectInterface $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
-     * @throws ResponseFailedException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -56,12 +56,12 @@ class Client extends BaseClient
     }
 
     /**
-     * @param RequestObjectInterface $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
-     * @throws ResponseFailedException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -71,12 +71,12 @@ class Client extends BaseClient
     }
 
     /**
-     * @param RequestObjectInterface $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
-     * @throws ResponseFailedException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -86,12 +86,12 @@ class Client extends BaseClient
     }
 
     /**
-     * @param RequestAdapter $request
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestAdapter $request
      *
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
-     * @throws ResponseFailedException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function execute(RequestAdapter $request)
@@ -101,7 +101,11 @@ class Client extends BaseClient
         $response = $this->request($request);
 
         if ($response->isSuccessful() === false) {
-            throw new ResponseFailedException($response->getMessage(), $response->getCode(), $response->getStatusCode());
+            throw new ResponseFailedException(
+                $response->getMessage(),
+                $response->getCode(),
+                $response->getStatusCode()
+            );
         }
 
         return $request->getObject($response->getContents());

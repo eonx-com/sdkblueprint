@@ -15,9 +15,9 @@ interface RequestObjectInterface
     /**
      * Don't prefix method with get or set as serializer will output the method name as attributes.
      *
-     * Specify the requst uri.
+     * Specify the request uri.
      *
-     * @return array
+     * @return string[]
      */
     public function uris(): array;
 }

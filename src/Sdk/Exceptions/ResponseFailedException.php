@@ -29,7 +29,7 @@ class ResponseFailedException extends BaseException
      * @param null|int $code
      * @param null|int $statusCode
      * @param null|int $subCode
-     * @param null|Throwable $previous
+     * @param null|\Throwable $previous
      */
     public function __construct(
         ?string $message = null,
@@ -40,6 +40,7 @@ class ResponseFailedException extends BaseException
     ) {
         parent::__construct($message, $code, $previous);
         $this->statusCode = $statusCode;
+        $this->subCode = $subCode;
     }
 
     /**
