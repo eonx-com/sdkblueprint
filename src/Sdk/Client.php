@@ -101,7 +101,7 @@ class Client extends BaseClient
         $response = $this->request($request);
 
         if ($response->isSuccessful() === false) {
-            throw new ResponseFailedException($response->getMessage());
+            throw new ResponseFailedException($response->getMessage(), $response->getCode(), $response->getStatusCode());
         }
 
         return $request->getObject($response->getContents());
