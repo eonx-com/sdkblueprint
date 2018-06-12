@@ -3,30 +3,71 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectOptionAwareInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestOptionAwareInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestSerializationGroupAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestValidationGroupAwareInterface;
-use LoyaltyCorp\SdkSpecification\Exceptions\InvalidRequestDataException;
 use LoyaltyCorp\SdkSpecification\Interfaces\RequestInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RequestAdapter implements RequestInterface
 {
+    /**
+     * HTTP request method.
+     *
+     * @var string $httpMethod
+     */
     private $httpMethod;
+
+    /**
+     * Request method.
+     *
+     * @var string $requestMethod
+     */
     private $requestMethod;
+
+    /**
+     * Request object instance.
+     *
+     * @var RequestObjectInterface $object
+     */
     private $object;
+
+    /**
+     * The Serializer instance.
+     *
+     * @var null|\Symfony\Component\Serializer\Serializer $serializer
+     */
     private $serializer;
+
+    /**
+     * The Validator instance.
+     *
+     * @var null|\Symfony\Component\Validator\Validator\ValidatorInterface $validator
+     */
     private $validator;
 
+    /**
+     * Instantiate the attributes.
+     *
+     * @param string $httpMethod
+     * @param string $requestMethod
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $requestObject
+     * @param null|\Symfony\Component\Serializer\Serializer $serializer
+     * @param null|\Symfony\Component\Validator\Validator\ValidatorInterface $validator
+     *
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     */
     public function __construct(
         string $httpMethod,
         string $requestMethod,
         RequestObjectInterface $requestObject,
-        Serializer $serializer,
-        ValidatorInterface $validator
+        ?Serializer $serializer = null,
+        ?ValidatorInterface $validator = null
     ) {
         $this->httpMethod = $httpMethod;
         $this->requestMethod = $requestMethod;
@@ -38,12 +79,12 @@ class RequestAdapter implements RequestInterface
     /**
      * Get the expect object based on the response contents.
      *
-     * @param array $responseContents
+     * @param null|string $responseContents
      * @param string $format
      *
-     * @return object
+     * @return mixed returns the object of the expected class.
      */
-    public function getObject(array $responseContents, string $format = 'json'): object
+    public function getObject(?string $responseContents, string $format = 'json')
     {
         return $this->serializer->deserialize($responseContents, $this->deserializeType(), $format);
     }
@@ -62,10 +103,10 @@ class RequestAdapter implements RequestInterface
     public function options(): array
     {
         $body = [
-            'json' => $this->serializer->normalize($this->object, null, ['groups' => [$this->requestMethod]])
+            'json' => $this->serializer->normalize($this->object, null, ['groups' => $this->serializationGroup()])
         ];
 
-        if ($this->object instanceof RequestObjectOptionAwareInterface) {
+        if ($this->object instanceof RequestOptionAwareInterface) {
             return \array_merge($this->object->options(), $body);
         }
 
@@ -91,9 +132,9 @@ class RequestAdapter implements RequestInterface
     }
 
     /**
-     * Validate request object.
+     * Validate the request object.
      *
-     * @throws InvalidRequestDataException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
      */
     public function validate(): void
     {
@@ -125,12 +166,26 @@ class RequestAdapter implements RequestInterface
     /**
      * Get validation group.
      *
-     * @return array
+     * @return string[]
      */
     private function validationGroup(): array
     {
         if ($this->object instanceof RequestValidationGroupAwareInterface) {
             return $this->object->validationGroups();
+        }
+
+        return [$this->requestMethod];
+    }
+
+    /**
+     * Get serialization group.
+     *
+     * @return string[]
+     */
+    private function serializationGroup(): array
+    {
+        if ($this->object instanceof RequestSerializationGroupAwareInterface) {
+            return $this->object->serializationGroup();
         }
 
         return [$this->requestMethod];

@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk\Interfaces;
 
-interface RequestValidationGroupAwareInterface
+interface RequestSerializationGroupAwareInterface
 {
     /**
      * Set validation groups if request object needs.
      *
      * @return string[]
      */
-    public function validationGroups(): array;
+    public function serializationGroup(): array;
 }

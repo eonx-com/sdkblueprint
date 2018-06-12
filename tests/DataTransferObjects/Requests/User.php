@@ -130,7 +130,7 @@ class User implements RequestObjectInterface
         $this->ewallets = $ewallets;
     }
 
-    public function expectObject(): ?string
+    public function expectObject(): string
     {
         return self::class;
     }

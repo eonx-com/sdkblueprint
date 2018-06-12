@@ -60,7 +60,7 @@ class CreditCardAuthorise implements RequestObjectInterface
         $this->creditCard = $creditCard;
     }
 
-    public function expectObject(): ?string
+    public function expectObject(): string
     {
         return Transaction::class;
     }

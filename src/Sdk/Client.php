@@ -3,91 +3,104 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\RequestException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use LoyaltyCorp\SdkSpecification\Client as BaseClient;
-use LoyaltyCorp\SdkSpecification\Interfaces\ResponseInterface;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Client extends BaseClient
 {
     /**
-     * Guzzle HTTP client for requests
+     * @param RequestObjectInterface $request
      *
-     * @var \GuzzleHttp\Client
-     */
-    private $client;
-
-    /**
-     * @var \Symfony\Component\Serializer\Serializer $serializer
-     */
-    private $serializer;
-
-    /**
-     * Validator.
+     * @return mixed returns the object of the expected class.
      *
-     * @var null|\Symfony\Component\Validator\Validator\ValidatorInterface $validator
-     */
-    private $validator;
-
-    /**
-     * Instantiate the attributes.
-     *
-     * @param null|GuzzleClient $client
-     * @param null|Serializer $serializer
-     * @param null|ValidatorInterface $validator
-     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws ResponseFailedException
      * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function __construct(
-        ?GuzzleClient $client = null,
-        ?Serializer $serializer = null,
-        ?ValidatorInterface $validator = null
-    ) {
-        parent::__construct($client);
-        $this->serializer = $serializer ?? (new SerializerFactory())->create();
-        $this->validator = $validator ?? (new ValidatorFactory())->create();
-    }
-
-
     public function create(RequestObjectInterface $request)
     {
-        return $this->request(new RequestAdapter('POST', RequestMethodInterface::CREATE, $request));
+        return $this->execute(new RequestAdapter('POST', RequestMethodInterface::CREATE, $request));
     }
 
+    /**
+     * @param RequestObjectInterface $request
+     *
+     * @return mixed returns the object of the expected class.
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws ResponseFailedException
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function delete(RequestObjectInterface $request)
     {
-        return $this->request(new RequestAdapter('DELETE', RequestMethodInterface::DELETE, $request));
+        return $this->execute(new RequestAdapter('DELETE', RequestMethodInterface::DELETE, $request));
     }
 
+    /**
+     * @param RequestObjectInterface $request
+     *
+     * @return mixed returns the object of the expected class.
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws ResponseFailedException
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function get(RequestObjectInterface $request)
     {
-        return $this->request(new RequestAdapter('GET', RequestMethodInterface::GET, $request));
+        return $this->execute(new RequestAdapter('GET', RequestMethodInterface::GET, $request));
     }
 
+    /**
+     * @param RequestObjectInterface $request
+     *
+     * @return mixed returns the object of the expected class.
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws ResponseFailedException
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function list(RequestObjectInterface $request)
     {
-        return $this->request(new RequestAdapter('GET', RequestMethodInterface::LIST, $request));
+        return $this->execute(new RequestAdapter('GET', RequestMethodInterface::LIST, $request));
     }
 
+    /**
+     * @param RequestObjectInterface $request
+     *
+     * @return mixed returns the object of the expected class.
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws ResponseFailedException
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function update(RequestObjectInterface $request)
     {
-        return $this->request(new RequestAdapter('PUT', RequestMethodInterface::UPDATE, $request));
+        return $this->execute(new RequestAdapter('PUT', RequestMethodInterface::UPDATE, $request));
     }
 
-    protected function request(RequestAdapter $request): ResponseInterface
+    /**
+     * @param RequestAdapter $request
+     *
+     * @return mixed returns the object of the expected class.
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws ResponseFailedException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function execute(RequestAdapter $request)
     {
         $request->validate();
 
-        $response = parent::request($request);
+        $response = $this->request($request);
 
-        if ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300) {
+        if ($response->isSuccessful() === false) {
             throw new ResponseFailedException($response->getMessage());
         }
 
