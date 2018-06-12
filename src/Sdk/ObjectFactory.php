@@ -12,6 +12,11 @@ class ObjectFactory
      */
     private $serializer;
 
+    /**
+     * Instantiate the object.
+     *
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     */
     public function __construct()
     {
         $this->serializer = (new SerializerFactory())->create();
