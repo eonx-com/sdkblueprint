@@ -5,8 +5,8 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class User implements RequestObjectInterface
 {
@@ -46,12 +46,16 @@ class User implements RequestObjectInterface
     /**
      * Ewallets.
      *
-     * @var Ewallet[]
+     * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\Ewallet[]
      */
     private $ewallets;
 
     /**
+     * Post code.
+     *
      * @Groups({"create", "update"})
+     *
+     * @var null|string
      */
     private $postCode;
 
@@ -78,7 +82,7 @@ class User implements RequestObjectInterface
     /**
      * Add ewallet object into the collection.
      *
-     * @param Ewallet $ewallet
+     * @param \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\Ewallet $ewallet
      *
      * @return void
      */
@@ -108,7 +112,7 @@ class User implements RequestObjectInterface
     /**
      * Get ewallet collection.
      *
-     * @return Ewallet[]
+     * @return \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\Ewallet[]
      */
     public function getEwallets(): array
     {
@@ -152,7 +156,7 @@ class User implements RequestObjectInterface
      *
      * @return void
      */
-    public function setEmail($email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
@@ -160,7 +164,7 @@ class User implements RequestObjectInterface
     /**
      * Set ewallet collection.
      *
-     * @param Ewallet[] $ewallets
+     * @param \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\Ewallet[] $ewallets
      *
      * @return void
      */
@@ -172,11 +176,11 @@ class User implements RequestObjectInterface
     /**
      * Set user id.
      *
-     * @param $id
+     * @param null|string $id
      *
      * @return void
      */
-    public function setId($id): void
+    public function setId(?string $id): void
     {
         $this->id = $id;
     }
@@ -188,7 +192,7 @@ class User implements RequestObjectInterface
      *
      * @return void
      */
-    public function setName($name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }

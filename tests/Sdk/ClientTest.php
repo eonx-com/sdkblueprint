@@ -6,13 +6,13 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 use GuzzleHttp\Client as GuzzleClient;
 use LoyaltyCorp\SdkBlueprint\Sdk\Client;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+use Tests\LoyaltyCorp\SdkBlueprint\HttpRequestTestCase;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\CreditCard;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Gateway;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\CreditCardAuthorise;
-use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Transaction;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User;
-use Tests\LoyaltyCorp\SdkBlueprint\HttpRequestTestCase;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Transaction;
 
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Client
@@ -20,7 +20,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\HttpRequestTestCase;
 class ClientTest extends HttpRequestTestCase
 {
     /**
-     * @var Client $client
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Client; $client
      */
     private $client;
 
@@ -72,8 +72,10 @@ class ClientTest extends HttpRequestTestCase
         $this->expectExceptionMessage('creditCard.expiry: This value should not be blank.');
         $creditCardAuthorise->setCreditCard(new CreditCard());
 
+        $creditCard = new CreditCard();
+        $creditCard->setExpiry(new Expiry());
 
-        $creditCardAuthorise->setCreditCard((new CreditCard())->setExpiry(new Expiry()));
+        $creditCardAuthorise->setCreditCard($creditCard);
         $this->expectException(InvalidRequestDataException::class);
         $this->expectExceptionMessage('creditCard.expiry.month: This value should not be blank.creditCard.expiry.year: This value should not be blank.');
 
@@ -102,8 +104,16 @@ class ClientTest extends HttpRequestTestCase
         $client = new Client($guzzleClient);
 
         $creditCardAuthorise = new CreditCardAuthorise();
-        $creditCardAuthorise->setGateway((new Gateway())->setService('service')->setCertificate('certificate'));
-        $creditCardAuthorise->setCreditCard((new CreditCard())->setExpiry(new Expiry('01', '2019')));
+        $gateway = new Gateway();
+        $gateway->setService('service');
+        $gateway->setCertificate('certificate');
+
+        $creditCardAuthorise->setGateway($gateway);
+
+        $creditCard = new CreditCard();
+        $creditCard->setExpiry(new Expiry('01', '2019'));
+
+        $creditCardAuthorise->setCreditCard($creditCard);
 
 
         $transaction = $client->create($creditCardAuthorise);

@@ -4,10 +4,9 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\SerializerFactory;
-use Symfony\Component\Serializer\Serializer;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\CreditCard;
-use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints\CreditCardEndpoint;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints\BankAccount;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints\CreditCardEndpoint;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints\Endpoint;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Gateway;
@@ -22,7 +21,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 class SerializerFactoryTest extends TestCase
 {
     /**
-     * @var Serializer $serializer
+     * @var \Symfony\Component\Serializer\Serializer $serializer
      */
     private $serializer;
 
@@ -61,7 +60,7 @@ class SerializerFactoryTest extends TestCase
             ]
         ];
 
-        /** @var CreditCardAuthorise $creditCardAuthorise */
+        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\CreditCardAuthorise $creditCardAuthorise */
         $creditCardAuthorise = $this->serializer->denormalize($data, CreditCardAuthorise::class);
 
         self::assertInstanceOf(Gateway::class, $creditCardAuthorise->getGateway());
@@ -80,7 +79,7 @@ class SerializerFactoryTest extends TestCase
     public function testDescriminatorDenormalization(): void
     {
         $data = [
-            'id' => 4,
+            'id' => '4',
             'bsb' => '084-222',
             'pan' => '1...455',
             'type' => 'bank_account'
@@ -91,7 +90,7 @@ class SerializerFactoryTest extends TestCase
         self::assertInstanceOf(BankAccount::class, $object);
 
         $data = [
-            'id' => 4,
+            'id' => '4',
             'pan' => '1...455',
             'type' => 'credit_card'
         ];
@@ -144,7 +143,7 @@ class SerializerFactoryTest extends TestCase
         foreach ($users as $user) {
             self::assertInstanceOf(User::class, $user);
 
-            /** @var User $user */
+            /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User $user */
             foreach ($user->getEwallets() as $ewallet) {
                 self::assertInstanceOf(Ewallet::class, $ewallet);
             }

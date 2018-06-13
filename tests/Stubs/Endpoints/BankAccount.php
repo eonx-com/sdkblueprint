@@ -5,20 +5,31 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints;
 
 class BankAccount extends Endpoint
 {
+    /**
+     * The bsb,
+     *
+     * @var null|string
+     */
     private $bsb;
 
     /**
-     * @return mixed
+     * Get bsb.
+     *
+     * @return null|string
      */
-    public function getBsb()
+    public function getBsb(): ?string
     {
         return $this->bsb;
     }
 
     /**
+     * Set bsb.
+     *
      * @param mixed $bsb
+     *
+     * @return void
      */
-    public function setBsb($bsb): void
+    public function setBsb(?string $bsb): void
     {
         $this->bsb = $bsb;
     }

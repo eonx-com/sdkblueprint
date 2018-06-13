@@ -14,56 +14,76 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 abstract class Endpoint
 {
     /**
+     * The id.
+     *
      * @var null|string $id
      */
     private $id;
 
     /**
+     * Type of endpoint.
+     *
      * @var null|string $type
      */
     private $type;
 
     /**
+     * The pan.
+     *
      * @var null|string $pan
      */
     private $pan;
 
     /**
+     * Get id.
+     *
      * @return mixed
      */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * Get pan.
+     *
+     * @return null|string
      */
-    public function getPan()
+    public function getPan(): ?string
     {
         return $this->pan;
     }
 
     /**
-     * @param mixed $pan
+     * Get type of endpoint.
+     *
+     * @return null|string
      */
-    public function setPan($pan): void
-    {
-        $this->pan = $pan;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getType()
+    public function getType(): ?string
     {
         return $this->type;
     }
 
     /**
-     * @param mixed $type
+     * Set pan.
+     *
+     * @param null|string $pan
+     *
+     * @return void
      */
-    public function setType($type): void
+    public function setPan(?string $pan): void
+    {
+        $this->pan = $pan;
+    }
+
+    /**
+     * Set type.
+     *
+     * @param null|string $type
+     *
+     * @return void
+     */
+    public function setType(?string $type): void
     {
         $this->type = $type;
     }

@@ -8,73 +8,120 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CreditCard
 {
     /**
+     * CVC.
+     *
+     * @var null|string
+     */
+    private $cvc;
+
+    /**
+     * Expiry object.
+     *
      * @Assert\Valid(groups={"create"})
      * @Assert\NotBlank(groups={"create"})
+     *
+     * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry
      */
     private $expiry;
-    private $cvc;
+
+    /**
+     * Card name.
+     *
+     * @var null|string
+     */
     private $name;
+
+    /**
+     * Card number.
+     *
+     * @var null|string
+     */
     private $number;
 
     /**
-     * @return mixed
+     * Get CVC.
+     *
+     * @return null|string
+     */
+    public function getCvc(): ?string
+    {
+        return $this->cvc;
+    }
+
+    /**
+     * Get expiry object.
+     *
+     * @return null|\Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry
      */
     public function getExpiry(): ?Expiry
     {
         return $this->expiry;
     }
 
-    public function setExpiry(Expiry $expiry): self
-    {
-        $this->expiry = $expiry;
-
-        return $this;
-    }
-
     /**
-     * @return mixed
+     * Get name.
+     *
+     * @return null|string
      */
-    public function getCvc()
-    {
-        return $this->cvc;
-    }
-
-    /**
-     * @param mixed $cvc
-     */
-    public function setCvc($cvc): void
-    {
-        $this->cvc = $cvc;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param mixed $name
+     * Get card number.
+     *
+     * @return null|string
      */
-    public function setName($name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNumber()
+    public function getNumber(): ?string
     {
         return $this->number;
     }
 
     /**
-     * @param mixed $number
+     * Set CVC.
+     *
+     * @param null|string $cvc
+     *
+     * @return void
      */
-    public function setNumber($number): void
+    public function setCvc(?string $cvc): void
+    {
+        $this->cvc = $cvc;
+    }
+
+    /**
+     * Set expiry object.
+     *
+     * @param null|\Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry $expiry
+     *
+     * @return void
+     */
+    public function setExpiry(?Expiry $expiry): void
+    {
+        $this->expiry = $expiry;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param null|string $name
+     *
+     * @return void
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Set card number.
+     *
+     * @param null|string $number
+     *
+     * @return void
+     */
+    public function setNumber(?string $number): void
     {
         $this->number = $number;
     }

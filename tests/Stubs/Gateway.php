@@ -3,40 +3,55 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs;
 
-use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Gateway
 {
     /**
+     * Certificate.
+     *
+     * @Assert\NotBlank()
+     *
      * @var null|string
      */
     private $certificate;
 
     /**
+     * Information.
+     *
      * @var null|string
      */
     private $info;
 
     /**
+     * Password.
+     *
      * @var null|string
      */
     private $password;
 
     /**
+     * Service.
+     *
+     * @Assert\NotBlank()
+     *
      * @var null|string
      */
     private $service;
 
     /**
+     * Username.
+     *
      * @var null|string
      */
     private $username;
 
     /**
-     * @return mixed
+     * Get certificate.
+     *
+     * @return null|string
      */
-    public function getCertificate()
+    public function getCertificate(): ?string
     {
         return $this->certificate;
     }
@@ -44,84 +59,98 @@ class Gateway
     /**
      * Set the certificate.
      *
-     * @param $certificate
+     * @param null|string $certificate
      *
-     * @return \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Gateway
+     * @return void
      */
-    public function setCertificate($certificate): self
+    public function setCertificate(?string $certificate): void
     {
         $this->certificate = $certificate;
-
-        return $this;
     }
 
     /**
-     * @return mixed
+     * Get information.
+     *
+     * @return null|string
      */
-    public function getInfo()
+    public function getInfo(): ?string
     {
         return $this->info;
     }
 
     /**
-     * @param mixed $info
+     * Set information.
+     *
+     * @param null|string $info
+     *
+     * @return void
      */
-    public function setInfo($info): void
+    public function setInfo(?string $info): void
     {
         $this->info = $info;
     }
 
     /**
-     * @return mixed
+     * Get password.
+     *
+     * @return null|string
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
     /**
-     * @param mixed $password
+     * Set password.
+     *
+     * @param null|string $password
+     *
+     * @return void
      */
-    public function setPassword($password): void
+    public function setPassword(?string $password): void
     {
         $this->password = $password;
     }
 
     /**
-     * @return mixed
+     * Get service.
+     *
+     * @return null|string
      */
-    public function getService()
+    public function getService(): ?string
     {
         return $this->service;
     }
 
-
-    public function setService($service): self
+    /**
+     * Set service.
+     *
+     * @param null|string $service
+     *
+     * @return void
+     */
+    public function setService(?string $service): void
     {
         $this->service = $service;
-
-        return $this;
     }
 
     /**
-     * @return mixed
+     * Get username.
+     *
+     * @return null|string
      */
-    public function getUsername()
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
     /**
-     * @param mixed $username
+     * Set username.
+     *
+     * @param null|string $username
      */
-    public function setUsername($username): void
+    public function setUsername(?string $username): void
     {
         $this->username = $username;
-    }
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata): void
-    {
-        $metadata->addPropertyConstraint('service', new Assert\NotBlank());
-        $metadata->addPropertyConstraint('certificate', new Assert\NotBlank());
     }
 }
