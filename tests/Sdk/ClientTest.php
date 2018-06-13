@@ -134,7 +134,7 @@ class ClientTest extends HttpRequestTestCase
 
         $client = new Client($guzzleClient);
 
-        $user = $client->create((new User())->setName('test')->setEmail('test@gmail.com'));
+        $user = $client->create(new User(null, 'test', 'test@gmail.com'));
         self::assertInstanceOf(User::class, $user);
         self::assertSame('uuid', $user->getId());
     }
@@ -157,8 +157,7 @@ class ClientTest extends HttpRequestTestCase
 
         $client = new Client($guzzleClient);
 
-
-        $user = $client->delete((new User())->setId('julian'));
+        $user = $client->delete(new User('julian'));
         self::assertInstanceOf(User::class, $user);
         self::assertSame('julian', $user->getId());
     }

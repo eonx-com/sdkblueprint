@@ -8,10 +8,29 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Gateway
 {
+    /**
+     * @var null|string
+     */
     private $certificate;
+
+    /**
+     * @var null|string
+     */
     private $info;
+
+    /**
+     * @var null|string
+     */
     private $password;
+
+    /**
+     * @var null|string
+     */
     private $service;
+
+    /**
+     * @var null|string
+     */
     private $username;
 
     /**
@@ -22,7 +41,13 @@ class Gateway
         return $this->certificate;
     }
 
-
+    /**
+     * Set the certificate.
+     *
+     * @param $certificate
+     *
+     * @return \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Gateway
+     */
     public function setCertificate($certificate): self
     {
         $this->certificate = $certificate;

@@ -24,14 +24,14 @@ class RequestAdapter implements RequestInterface
     private $httpMethod;
 
     /**
-     * Request method.
+     * The Request method.
      *
      * @var string $requestMethod
      */
     private $requestMethod;
 
     /**
-     * Request object instance.
+     * The Request object instance.
      *
      * @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $object
      */
