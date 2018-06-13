@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
-use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
@@ -121,14 +120,14 @@ class RequestAdapter implements RequestInterface
      *
      * @return string
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      */
     public function uri(): string
     {
         $uris = $this->object->uris();
 
         if (isset($uris[$this->requestMethod]) === false) {
-            throw new InvalidRequestUriException(\sprintf('no uri exists for %s method', $this->requestMethod));
+            throw new ValidationException(\sprintf('no uri exists for %s method', $this->requestMethod));
         }
 
         return $uris[$this->requestMethod];

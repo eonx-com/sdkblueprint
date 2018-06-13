@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 
-use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedClassException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\RuntimeException;
 use LoyaltyCorp\SdkBlueprint\Sdk\ObjectFactory;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry;
 use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
@@ -19,7 +19,7 @@ class ObjectFactoryTest extends TestCase
      * @return  void
      *
      * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedClassException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\RuntimeException
      */
     public function testCreateSuccessfully(): void
     {
@@ -39,12 +39,12 @@ class ObjectFactoryTest extends TestCase
      *
      * @return void
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedClassException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\RuntimeException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testCreateWhenClassNotFound(): void
     {
-        $this->expectException(UndefinedClassException::class);
+        $this->expectException(RuntimeException::class);
 
         $data = [
             'month' => '04',

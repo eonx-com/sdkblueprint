@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
-use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedClassException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\RuntimeException;
 
 class ObjectFactory
 {
@@ -30,12 +30,12 @@ class ObjectFactory
      *
      * @return mixed returns object of expected class.
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\UndefinedClassException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\RuntimeException
      */
     public function create(array $data, string $class)
     {
         if (\class_exists($class) === false) {
-            throw new UndefinedClassException(\sprintf('class %s is not defined', $class));
+            throw new RuntimeException(\sprintf('class %s is not defined', $class));
         }
 
         return $this->serializer->denormalize($data, $class);
