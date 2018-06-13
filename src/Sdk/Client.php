@@ -15,7 +15,7 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -30,7 +30,7 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -45,7 +45,7 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -60,7 +60,7 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -75,7 +75,7 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -90,7 +90,7 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */

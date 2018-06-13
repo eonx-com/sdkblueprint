@@ -5,7 +5,7 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 
 use GuzzleHttp\Client as GuzzleClient;
 use LoyaltyCorp\SdkBlueprint\Sdk\Client;
-use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
 use Tests\LoyaltyCorp\SdkBlueprint\HttpRequestTestCase;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\CreditCard;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry;
@@ -43,7 +43,7 @@ class ClientTest extends HttpRequestTestCase
      *
      * @return void
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
@@ -51,7 +51,7 @@ class ClientTest extends HttpRequestTestCase
     public function testCreditCardAuthoriseEmptyAttributeException(): void
     {
         $creditCardAuthorise = new CreditCardAuthorise();
-        $this->expectException(InvalidRequestDataException::class);
+        $this->expectException(ValidationException::class);
         $this->expectExceptionMessage('gateway: This value should not be blank.');
         $this->client->create($creditCardAuthorise);
     }
@@ -61,7 +61,7 @@ class ClientTest extends HttpRequestTestCase
      *
      * @return void
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
@@ -70,7 +70,7 @@ class ClientTest extends HttpRequestTestCase
     {
         $creditCardAuthorise = new CreditCardAuthorise();
         $creditCardAuthorise->setGateway(new Gateway());
-        $this->expectException(InvalidRequestDataException::class);
+        $this->expectException(ValidationException::class);
         $this->expectExceptionMessage('creditCard.expiry: This value should not be blank.');
         $creditCardAuthorise->setCreditCard(new CreditCard());
 
@@ -78,7 +78,7 @@ class ClientTest extends HttpRequestTestCase
         $creditCard->setExpiry(new Expiry('01'));
 
         $creditCardAuthorise->setCreditCard($creditCard);
-        $this->expectException(InvalidRequestDataException::class);
+        $this->expectException(ValidationException::class);
         $this->expectExceptionMessage('creditCard.expiry.year: This value should not be blank.');
 
         $this->client->create($creditCardAuthorise);
@@ -89,7 +89,7 @@ class ClientTest extends HttpRequestTestCase
      *
      * @return void
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
@@ -130,7 +130,7 @@ class ClientTest extends HttpRequestTestCase
      *
      * @return void
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
@@ -155,7 +155,7 @@ class ClientTest extends HttpRequestTestCase
     /**
      * Test successful user deletion request.
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException

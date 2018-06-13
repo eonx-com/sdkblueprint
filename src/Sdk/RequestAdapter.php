@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
-use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestUriException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestOptionAwareInterface;
@@ -137,7 +137,7 @@ class RequestAdapter implements RequestInterface
     /**
      * Validate the request object.
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidRequestDataException;
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
      */
     public function validate(): void
     {
@@ -149,7 +149,7 @@ class RequestAdapter implements RequestInterface
                 $errorMessage .= $error->getPropertyPath(). ': ' .$error->getMessage();
             }
 
-            throw new InvalidRequestDataException($errorMessage);
+            throw new ValidationException($errorMessage);
         }
     }
 
