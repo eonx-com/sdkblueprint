@@ -20,7 +20,7 @@ class CreditCard
      * @Assert\Valid(groups={"create"})
      * @Assert\NotBlank(groups={"create"})
      *
-     * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry
+     * @var null|\Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry
      */
     private $expiry;
 

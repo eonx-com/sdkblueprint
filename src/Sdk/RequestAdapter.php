@@ -40,14 +40,14 @@ class RequestAdapter implements RequestInterface
     /**
      * The Serializer instance.
      *
-     * @var null|\Symfony\Component\Serializer\Serializer $serializer
+     * @var \Symfony\Component\Serializer\Serializer $serializer
      */
     private $serializer;
 
     /**
      * The Validator instance.
      *
-     * @var null|\Symfony\Component\Validator\Validator\ValidatorInterface $validator
+     * @var \Symfony\Component\Validator\Validator\ValidatorInterface $validator
      */
     private $validator;
 

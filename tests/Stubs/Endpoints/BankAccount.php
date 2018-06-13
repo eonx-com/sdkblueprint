@@ -25,7 +25,7 @@ class BankAccount extends Endpoint
     /**
      * Set bsb.
      *
-     * @param mixed $bsb
+     * @param null|string $bsb
      *
      * @return void
      */

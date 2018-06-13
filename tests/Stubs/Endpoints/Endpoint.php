@@ -37,7 +37,7 @@ abstract class Endpoint
     /**
      * Get id.
      *
-     * @return mixed
+     * @return null|string
      */
     public function getId(): ?string
     {

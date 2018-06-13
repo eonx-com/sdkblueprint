@@ -66,7 +66,11 @@ class CreditCardAuthorise implements RequestObjectInterface
     }
 
     /**
-     * @param mixed $creditCard
+     * Set credit card object.
+     *
+     * @param \Tests\LoyaltyCorp\SdkBlueprint\Stubs\CreditCard $creditCard
+     *
+     * @return void
      */
     public function setCreditCard(CreditCard $creditCard): void
     {
@@ -74,7 +78,11 @@ class CreditCardAuthorise implements RequestObjectInterface
     }
 
     /**
-     * @param mixed $gateway
+     * Set gateway object.
+     *
+     * @param \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Gateway $gateway
+     *
+     * @return void
      */
     public function setGateway(Gateway $gateway): void
     {

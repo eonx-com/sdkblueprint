@@ -442,12 +442,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/loyaltycorp/sdkspecification.git",
-                "reference": "30a4dbacfadf93b0173b699acd8389a5769c7b30"
+                "reference": "ceab8da04db931d88cbcae782930073116753b40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loyaltycorp/sdkspecification/zipball/30a4dbacfadf93b0173b699acd8389a5769c7b30",
-                "reference": "30a4dbacfadf93b0173b699acd8389a5769c7b30",
+                "url": "https://api.github.com/repos/loyaltycorp/sdkspecification/zipball/ceab8da04db931d88cbcae782930073116753b40",
+                "reference": "ceab8da04db931d88cbcae782930073116753b40",
                 "shasum": ""
             },
             "require": {
@@ -494,7 +494,7 @@
                 "source": "https://github.com/loyaltycorp/sdkspecification/tree/init",
                 "issues": "https://github.com/loyaltycorp/sdkspecification/issues"
             },
-            "time": "2018-06-12T04:17:29+00:00"
+            "time": "2018-06-13T06:47:42+00:00"
         },
         {
             "name": "psr/http-message",
@@ -3894,16 +3894,16 @@
         },
         {
             "name": "slevomat/coding-standard",
-            "version": "4.6.1",
+            "version": "4.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slevomat/coding-standard.git",
-                "reference": "de4a6fecdd6d00218e9c7d019a4ff47e123692cf"
+                "reference": "d43b9a627cdcb7ce837a1d85a79b52645cdf44bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/de4a6fecdd6d00218e9c7d019a4ff47e123692cf",
-                "reference": "de4a6fecdd6d00218e9c7d019a4ff47e123692cf",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/d43b9a627cdcb7ce837a1d85a79b52645cdf44bc",
+                "reference": "d43b9a627cdcb7ce837a1d85a79b52645cdf44bc",
                 "shasum": ""
             },
             "require": {
@@ -3929,7 +3929,7 @@
                 "MIT"
             ],
             "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
-            "time": "2018-06-11T19:10:45+00:00"
+            "time": "2018-06-12T21:23:15+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

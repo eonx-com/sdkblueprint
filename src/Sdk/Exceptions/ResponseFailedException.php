@@ -18,7 +18,7 @@ class ResponseFailedException extends BaseException
     /**
      * Response error sub code.
      *
-     * @var null|int $subCode
+     * @var int $subCode
      */
     private $subCode;
 
@@ -27,7 +27,7 @@ class ResponseFailedException extends BaseException
      *
      * @param null|string $message
      * @param null|int $code
-     * @param null|int $statusCode
+     * @param int $statusCode
      * @param null|int $subCode
      * @param null|\Throwable $previous
      */
@@ -40,7 +40,7 @@ class ResponseFailedException extends BaseException
     ) {
         parent::__construct($message, $code, $previous);
         $this->statusCode = $statusCode;
-        $this->subCode = $subCode;
+        $this->subCode = $subCode ?? 0;
     }
 
     /**

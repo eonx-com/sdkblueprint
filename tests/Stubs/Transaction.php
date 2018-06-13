@@ -18,7 +18,7 @@ class Transaction
     /**
      * Get the amount.
      *
-     * @return mixed
+     * @return null|string
      */
     public function getAmount(): ?string
     {
@@ -28,7 +28,7 @@ class Transaction
     /**
      * Set amount.
      *
-     * @param mixed $amount
+     * @param null|string $amount
      *
      * @return void
      */
@@ -40,7 +40,7 @@ class Transaction
     /**
      * Get currency.
      *
-     * @return mixed
+     * @return null|string
      */
     public function getCurrency(): ?string
     {
@@ -50,7 +50,7 @@ class Transaction
     /**
      * Set currency.
      *
-     * @param mixed $currency
+     * @param null|string $currency
      *
      * @return void
      */

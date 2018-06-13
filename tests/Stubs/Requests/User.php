@@ -55,7 +55,7 @@ class User implements RequestObjectInterface
      *
      * @Groups({"create", "update"})
      *
-     * @var null|string
+     * @var null|int
      */
     private $postCode;
 
