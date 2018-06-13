@@ -14,6 +14,9 @@ use LoyaltyCorp\SdkSpecification\Interfaces\RequestInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) coupling objects is necessary.
+ */
 class RequestAdapter implements RequestInterface
 {
     /**

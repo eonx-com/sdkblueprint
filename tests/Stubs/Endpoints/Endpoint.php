@@ -10,6 +10,10 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  *    "bank_account"="Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints\BankAccount",
  *    "credit_card"="Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints\CreditCardEndpoint"
  * })
+ *
+ *
+ * @SuppressWarnings(PHPMD.ShortVariable) id is a required attribute name
+ * in order to be used by normalization and de-normalization correctly.
  */
 abstract class Endpoint
 {

@@ -8,6 +8,10 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @SuppressWarnings(PHPMD.ShortVariable) id is a required attribute name
+ * in order to be used by normalization and de-normalization correctly.
+ */
 class User implements RequestObjectInterface
 {
     /**

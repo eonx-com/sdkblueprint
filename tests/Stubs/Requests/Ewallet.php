@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests;
 
+/**
+ * @SuppressWarnings(PHPMD.ShortVariable) id is a required attribute name
+ * in order to be used by normalization and de-normalization correctly.
+ */
 class Ewallet
 {
     /**

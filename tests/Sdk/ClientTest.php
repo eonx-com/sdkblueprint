@@ -16,6 +16,8 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Transaction;
 
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Client
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) coupling objects is necessary for test.
  */
 class ClientTest extends HttpRequestTestCase
 {
@@ -94,11 +96,12 @@ class ClientTest extends HttpRequestTestCase
      */
     public function testSuccessfulCreditCardAuthorise(): void
     {
+        /** @var \GuzzleHttp\Client|\PHPUnit\Framework\MockObject\MockObject $guzzleClient */
         $guzzleClient = $this->getMockBuilder(GuzzleClient::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $guzzleClient
-            ->method('request')
+
+        $guzzleClient->method('request')
             ->willReturn($this->createMockPsrResponse('{"amount":"123","currency":"AUD"}', 200));
 
         $client = new Client($guzzleClient);
@@ -134,12 +137,12 @@ class ClientTest extends HttpRequestTestCase
      */
     public function testCreateUserSuccessful(): void
     {
+        /** @var \GuzzleHttp\Client|\PHPUnit\Framework\MockObject\MockObject $guzzleClient */
         $guzzleClient = $this->getMockBuilder(GuzzleClient::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $guzzleClient
-            ->method('request')
+        $guzzleClient->method('request')
             ->willReturn($this->createMockPsrResponse('{"id":"uuid","name":"julian","email":"test@gmail.com"}', 200));
 
         $client = new Client($guzzleClient);
@@ -159,6 +162,7 @@ class ClientTest extends HttpRequestTestCase
      */
     public function testDeleteUserSuccessful(): void
     {
+        /** @var \GuzzleHttp\Client|\PHPUnit\Framework\MockObject\MockObject $guzzleClient */
         $guzzleClient = $this->getMockBuilder(GuzzleClient::class)
             ->disableOriginalConstructor()
             ->getMock();

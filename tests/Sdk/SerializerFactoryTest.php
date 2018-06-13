@@ -17,6 +17,8 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\SerializerFactory
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) coupling objects is necessary for test.
  */
 class SerializerFactoryTest extends TestCase
 {
@@ -63,12 +65,21 @@ class SerializerFactoryTest extends TestCase
         /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\CreditCardAuthorise $creditCardAuthorise */
         $creditCardAuthorise = $this->serializer->denormalize($data, CreditCardAuthorise::class);
 
-        self::assertInstanceOf(Gateway::class, $creditCardAuthorise->getGateway());
-        self::assertSame('CCNA', $creditCardAuthorise->getGateway()->getCertificate());
-        self::assertInstanceOf(CreditCard::class, $creditCardAuthorise->getCreditCard());
-        self::assertInstanceOf(Expiry::class, $creditCardAuthorise->getCreditCard()->getExpiry());
-        self::assertSame('03', $creditCardAuthorise->getCreditCard()->getExpiry()->getMonth());
-        self::assertSame('2019', $creditCardAuthorise->getCreditCard()->getExpiry()->getYear());
+        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Gateway $gateway */
+        $gateway = $creditCardAuthorise->getGateway();
+
+        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\CreditCard $creditCard */
+        $creditCard = $creditCardAuthorise->getCreditCard();
+
+        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry; $expiry */
+        $expiry = $creditCard->getExpiry();
+
+        self::assertInstanceOf(Gateway::class, $gateway);
+        self::assertSame('CCNA', $gateway->getCertificate());
+        self::assertInstanceOf(CreditCard::class, $creditCard);
+        self::assertInstanceOf(Expiry::class, $expiry);
+        self::assertSame('03', $expiry->getMonth());
+        self::assertSame('2019', $expiry->getYear());
     }
 
     /**
