@@ -6,9 +6,16 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk\Interfaces;
 interface RequestValidationGroupAwareInterface
 {
     /**
-     * Set validation groups if request object needs.
+     * Set validation groups if request object needs. It should be an associative array with
+     * request method as the key, validation groups as the value otherwise, this returned value will be ignored.
      *
-     * @return string[]
+     * For an example,
+     *
+     * return [
+     *    \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface::CREATE => ['registration']
+     * ];
+     *
+     * @return mixed[]
      */
     public function validationGroups(): array;
 }

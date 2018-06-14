@@ -13,9 +13,6 @@ use LoyaltyCorp\SdkSpecification\Interfaces\RequestInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects) coupling objects is necessary.
- */
 class RequestAdapter implements RequestInterface
 {
     /**
@@ -172,11 +169,20 @@ class RequestAdapter implements RequestInterface
      */
     private function validationGroup(): array
     {
-        if ($this->object instanceof RequestValidationGroupAwareInterface) {
-            return $this->object->validationGroups();
+        $object = $this->object;
+
+        if (($object instanceof RequestValidationGroupAwareInterface) === false) {
+            return [$this->requestMethod];
         }
 
-        return [$this->requestMethod];
+        /** @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestValidationGroupAwareInterface  $object*/
+        $groups = $object->validationGroups();
+
+        if (isset($groups[$this->requestMethod]) === false) {
+            return [$this->requestMethod];
+        }
+
+        return $groups[$this->requestMethod];
     }
 
     /**
@@ -186,10 +192,19 @@ class RequestAdapter implements RequestInterface
      */
     private function serializationGroup(): array
     {
-        if ($this->object instanceof RequestSerializationGroupAwareInterface) {
-            return $this->object->serializationGroup();
+        $object = $this->object;
+
+        if (($object instanceof RequestSerializationGroupAwareInterface) === false) {
+            return [$this->requestMethod];
         }
 
-        return [$this->requestMethod];
+        /** @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestSerializationGroupAwareInterface $object */
+        $groups = $object->serializationGroup();
+
+        if (isset($groups[$this->requestMethod]) === false) {
+            return [$this->requestMethod];
+        }
+
+        return $groups[$this->requestMethod];
     }
 }

@@ -5,6 +5,7 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestOptionAwareInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @SuppressWarnings(PHPMD.ShortVariable) id is a required attribute name
  * in order to be used by normalization and de-normalization correctly.
  */
-class User implements RequestObjectInterface
+class User implements RequestObjectInterface, RequestOptionAwareInterface
 {
     /**
      * User id
@@ -211,6 +212,16 @@ class User implements RequestObjectInterface
     public function setPostCode(?int $postCode): void
     {
         $this->postCode = $postCode;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function options(): array
+    {
+        return [
+            'debug' => true
+        ];
     }
 
     /**
