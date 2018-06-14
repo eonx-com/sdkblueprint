@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
+use EoneoPay\Externals\HttpClient\Client as BaseClient;
+use EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
-use LoyaltyCorp\SdkSpecification\Client as BaseClient;
 
 class Client extends BaseClient
 {
@@ -16,7 +17,6 @@ class Client extends BaseClient
      *
      * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function create(RequestObjectInterface $request)
     {
@@ -30,32 +30,10 @@ class Client extends BaseClient
      *
      * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function delete(RequestObjectInterface $request)
     {
         return $this->execute(new RequestAdapter('DELETE', RequestMethodInterface::DELETE, $request));
-    }
-
-    /**
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestAdapter $request
-     *
-     * @return mixed returns the object of the expected class.
-     *
-     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function execute(RequestAdapter $request)
-    {
-        $request->validate();
-
-        $response = $this->request($request);
-
-        if ($response->isSuccessful() === false) {
-            throw (new ExceptionFactory($response->getMessage(), $response->getCode()))->create();
-        }
-
-        return $request->getObject($response->getContents());
     }
 
     /**
@@ -65,7 +43,6 @@ class Client extends BaseClient
      *
      * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(RequestObjectInterface $request)
     {
@@ -79,7 +56,6 @@ class Client extends BaseClient
      *
      * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function list(RequestObjectInterface $request)
     {
@@ -93,10 +69,29 @@ class Client extends BaseClient
      *
      * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function update(RequestObjectInterface $request)
     {
         return $this->execute(new RequestAdapter('PUT', RequestMethodInterface::UPDATE, $request));
+    }
+
+    /**
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestAdapter $request
+     *
+     * @return mixed returns the object of the expected class.
+     *
+     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
+     */
+    public function execute(RequestAdapter $request)
+    {
+        $request->validate();
+
+        try {
+            $response = $this->request($request->method(), $request->uri(), $request->options());
+        } catch (InvalidApiResponseException $exception) {
+            throw (new ExceptionFactory($exception))->create();
+        }
+
+        return $request->getObject($response->getContent());
     }
 }

@@ -9,11 +9,10 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestOptionAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestSerializationGroupAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestValidationGroupAwareInterface;
-use LoyaltyCorp\SdkSpecification\Interfaces\RequestInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class RequestAdapter implements RequestInterface
+class RequestAdapter
 {
     /**
      * HTTP request method.

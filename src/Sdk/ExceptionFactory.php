@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
+use EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\CriticalException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\NotFoundException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\RuntimeException;
@@ -13,27 +14,18 @@ class ExceptionFactory
     /**
      * The error code.
      *
-     * @var int|null
+     * @var \EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException
      */
-    private $code;
+    private $exception;
 
     /**
-     * The error message.
+     * Initialize the attribute.
      *
-     * @var null|string
+     * @param \EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException $exception
      */
-    private $message;
-
-    /**
-     * Initialize attributes.
-     *
-     * @param null|string $message
-     * @param null|int $code
-     */
-    public function __construct(?string $message = null, ?int $code = null)
+    public function __construct(InvalidApiResponseException $exception)
     {
-        $this->message = $message;
-        $this->code = $code;
+        $this->exception = $exception;
     }
 
     /**
@@ -43,18 +35,24 @@ class ExceptionFactory
      */
     public function create(): \Exception
     {
-        if (($this->code >= 1000) && ($this->code <= 1099)) {
-            return new ValidationException($this->message, $this->code);
+        $content = \json_decode($this->exception->getResponse()->getContent(), true);
+
+        $code = $content['code'] ?? $this->exception->getCode();
+
+        $message = $content['message'] ?? $content['exception'] ?? '';
+
+        if (($code >= 1000) && ($code <= 1099)) {
+            return new ValidationException($message, $code);
         }
 
-        if ($this->code >= 1100 && $this->code <= 1199) {
-            return new RuntimeException($this->message, $this->code);
+        if ($code >= 1100 && $code <= 1199) {
+            return new RuntimeException($message, $code);
         }
 
-        if ($this->code >= 1400 && $this->code <= 1499) {
-            return new NotFoundException($this->message, $this->code);
+        if ($code >= 1400 && $code <= 1499) {
+            return new NotFoundException($message, $code);
         }
 
-        return new CriticalException($this->message, $this->code);
+        return new CriticalException($message, $code);
     }
 }

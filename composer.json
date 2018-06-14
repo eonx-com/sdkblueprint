@@ -6,22 +6,16 @@
     "api",
     "sdk"
   ],
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "type": "package",
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git@github.com:loyaltycorp/sdkspecification.git"
-    }
-  ],
   "require": {
     "php": ">=7.1",
+    "eoneopay/externals": "dev-master",
+    "eoneopay/utils": "dev-master",
     "ext-dom": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
     "guzzlehttp/guzzle": "~6.0",
-    "eoneopay/utils": "dev-master",
-    "loyaltycorp/sdkspecification": "dev-init",
     "symfony/validator": "^4.1",
     "symfony/serializer": "^4.1",
     "symfony/property-access": "^4.1",
