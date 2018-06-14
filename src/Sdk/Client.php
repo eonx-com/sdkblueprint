@@ -15,7 +15,7 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-     * @throws \Exception
+     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -30,7 +30,7 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-     * @throws \Exception
+     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -45,7 +45,7 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-     * @throws \Exception
+     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -60,7 +60,7 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-     * @throws \Exception
+     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -75,7 +75,7 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-     * @throws \Exception
+     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
