@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
-use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use LoyaltyCorp\SdkSpecification\Client as BaseClient;
@@ -16,7 +15,7 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
+     * @throws \Exception
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -31,7 +30,7 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
+     * @throws \Exception
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -46,7 +45,7 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
+     * @throws \Exception
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -61,7 +60,7 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
+     * @throws \Exception
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -76,7 +75,7 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
+     * @throws \Exception
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -90,8 +89,8 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
+     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function execute(RequestAdapter $request)
@@ -101,11 +100,7 @@ class Client extends BaseClient
         $response = $this->request($request);
 
         if ($response->isSuccessful() === false) {
-            throw new ResponseFailedException(
-                $response->getMessage(),
-                $response->getCode(),
-                $response->getStatusCode()
-            );
+            throw (new ExceptionFactory($response->getMessage(), $response->getCode()))->create();
         }
 
         return $request->getObject($response->getContents());

@@ -19,7 +19,7 @@ class ValidationException extends BaseValidationException
      * @param null|string $message
      * @param null|int $code
      * @param null|\Throwable $previous
-     * @param null|array $errors
+     * @param null|string[] $errors
      * @param null|int $subCode
      */
     public function __construct(
@@ -29,7 +29,7 @@ class ValidationException extends BaseValidationException
         ?array $errors = null,
         ?int $subCode = null
     ) {
-        parent::__construct($message ?? '', $code ?? 0, $previous);
+        parent::__construct($message ?? '', $code ?? 0, $previous, $errors);
 
         $this->subCode = $subCode ?? 0;
     }

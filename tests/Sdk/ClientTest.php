@@ -46,7 +46,7 @@ class ClientTest extends HttpRequestTestCase
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
+     * @throws \Exception
      */
     public function testCreditCardAuthoriseEmptyAttributeException(): void
     {
@@ -64,7 +64,7 @@ class ClientTest extends HttpRequestTestCase
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
+     * @throws \Exception
      */
     public function testCreditCardAuthoriseInvalidEmbeddedObjectException(): void
     {
@@ -92,7 +92,7 @@ class ClientTest extends HttpRequestTestCase
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
+     * @throws \Exception
      */
     public function testSuccessfulCreditCardAuthorise(): void
     {
@@ -133,7 +133,7 @@ class ClientTest extends HttpRequestTestCase
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
+     * @throws \Exception
      */
     public function testCreateUserSuccessful(): void
     {
@@ -158,7 +158,7 @@ class ClientTest extends HttpRequestTestCase
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ResponseFailedException
+     * @throws \Exception
      */
     public function testDeleteUserSuccessful(): void
     {

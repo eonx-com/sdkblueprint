@@ -19,14 +19,12 @@ class RuntimeException extends BaseRuntimeException
      * @param null|string $message
      * @param null|int $code
      * @param null|\Throwable $previous
-     * @param null|array $errors
      * @param null|int $subCode
      */
     public function __construct(
         ?string $message = null,
         ?int $code = null,
         ?Throwable $previous = null,
-        ?array $errors = null,
         ?int $subCode = null
     ) {
         parent::__construct($message ?? '', $code ?? 0, $previous);
