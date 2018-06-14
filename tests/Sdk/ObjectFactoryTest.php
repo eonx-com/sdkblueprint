@@ -45,6 +45,7 @@ class ObjectFactoryTest extends TestCase
     public function testCreateWhenClassNotFound(): void
     {
         $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('class App\Undefined\Class not found');
 
         $data = [
             'month' => '04',

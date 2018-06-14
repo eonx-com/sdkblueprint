@@ -1,5 +1,4 @@
 <?php
-/** @noinspection UnnecessaryAssertionInspection Factory class will generate different types of exception.*/
 declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
@@ -23,9 +22,13 @@ class ExceptionFactoryTest extends TestCase
      */
     public function testCreate(): void
     {
+        /** @noinspection UnnecessaryAssertionInspection */
         self::assertInstanceOf(CriticalException::class, (new ExceptionFactory('', 1999))->create());
+        /** @noinspection UnnecessaryAssertionInspection */
         self::assertInstanceOf(ValidationException::class, (new ExceptionFactory('', 1000))->create());
+        /** @noinspection UnnecessaryAssertionInspection */
         self::assertInstanceOf(RuntimeException::class, (new ExceptionFactory('', 1100))->create());
+        /** @noinspection UnnecessaryAssertionInspection */
         self::assertInstanceOf(NotFoundException::class, (new ExceptionFactory('', 1499))->create());
     }
 }

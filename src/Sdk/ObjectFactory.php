@@ -35,7 +35,7 @@ class ObjectFactory
     public function create(array $data, string $class)
     {
         if (\class_exists($class) === false) {
-            throw new RuntimeException(\sprintf('class %s is not defined', $class));
+            throw new RuntimeException(\sprintf('class %s not found', $class));
         }
 
         return $this->serializer->denormalize($data, $class);

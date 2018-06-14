@@ -220,7 +220,10 @@ class User implements RequestObjectInterface
     {
         return [
             RequestMethodInterface::CREATE => 'create_uri',
-            RequestMethodInterface::DELETE => 'delete'
+            RequestMethodInterface::DELETE => 'delete_uri',
+            RequestMethodInterface::GET => 'get_uri',
+            RequestMethodInterface::LIST => 'list_uri',
+            RequestMethodInterface::UPDATE => 'update_uri'
         ];
     }
 }
