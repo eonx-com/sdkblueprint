@@ -120,7 +120,7 @@ class SerializerFactoryTest extends TestCase
     {
         $data = [
             [
-                'id' => 1,
+                'id' => '1',
                 'email' => 'test1@gamil.com',
                 'ewallets' => [
                     [
@@ -134,7 +134,7 @@ class SerializerFactoryTest extends TestCase
                 ]
             ],
             [
-                'id' => 2,
+                'id' => '2',
                 'email' => 'test2@gamil.com',
                 'ewallets' => [
                     [
@@ -168,11 +168,18 @@ class SerializerFactoryTest extends TestCase
      */
     public function testNormalization(): void
     {
-        $user = new User('123', 'julian', 'test@test.com');
+        $data = [
+            'id' => '123',
+            'name' => 'julian',
+            'email' => 'test@test.com'
+        ];
+
+        $user = new User($data);
 
         $expect = [
             'name' => 'julian',
             'email' => 'test@test.com',
+            'ewallets' => null,
             'post_code' => null
         ];
 

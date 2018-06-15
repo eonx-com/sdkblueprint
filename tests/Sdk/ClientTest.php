@@ -73,7 +73,7 @@ class ClientTest extends HttpRequestTestCase
         $creditCardAuthorise->setCreditCard(new CreditCard());
 
         $creditCard = new CreditCard();
-        $creditCard->setExpiry(new Expiry('01'));
+        $creditCard->setExpiry(new Expiry(['month' => '01']));
 
         $creditCardAuthorise->setCreditCard($creditCard);
         $this->expectException(ValidationException::class);
@@ -93,7 +93,7 @@ class ClientTest extends HttpRequestTestCase
         $this->expectExceptionMessage('system error');
 
         $client = $this->createSdkClientWithFailedResponse();
-        $client->get(new User('123'));
+        $client->get(new User(['id' => '123']));
     }
 
     /**
@@ -116,7 +116,7 @@ class ClientTest extends HttpRequestTestCase
         $creditCardAuthorise->setGateway($gateway);
 
         $creditCard = new CreditCard();
-        $creditCard->setExpiry(new Expiry('01', '2019'));
+        $creditCard->setExpiry(new Expiry(['month' => '01', 'year' => '2019']));
 
         $creditCardAuthorise->setCreditCard($creditCard);
 
@@ -138,7 +138,10 @@ class ClientTest extends HttpRequestTestCase
     public function testCreateUserSuccessfully(): void
     {
         $client = $this->createSdkClientWithPsrResponse('{"id":"uuid","name":"julian","email":"test@gmail.com"}', 200);
-        $user = $client->create(new User(null, 'test', 'test@gmail.com'));
+        $user = $client->create(new User([
+            'name' => 'test',
+            'email' => 'test@gmail.com'
+        ]));
 
         self::assertInstanceOf(User::class, $user);
         self::assertSame('uuid', $user->getId());
@@ -153,7 +156,7 @@ class ClientTest extends HttpRequestTestCase
     public function testDeleteUserSuccessfully(): void
     {
         $client = $this->createSdkClientWithPsrResponse('{"id":"julian"}', 200);
-        $user = $client->delete(new User('julian'));
+        $user = $client->delete(new User(['id' => 'julian']));
 
         self::assertInstanceOf(User::class, $user);
         self::assertSame('julian', $user->getId());
@@ -169,7 +172,7 @@ class ClientTest extends HttpRequestTestCase
     {
         $client = $this->createSdkClientWithPsrResponse('{"id":"1234", "email":"test@gmail.com"}', 200);
 
-        $user = $client->get(new User('1234'));
+        $user = $client->get(new User(['id' => '1234']));
 
         self::assertInstanceOf(User::class, $user);
         self::assertSame('test@gmail.com', $user->getEmail());
@@ -184,7 +187,7 @@ class ClientTest extends HttpRequestTestCase
     public function testListUserSuccessfully(): void
     {
         $client = $this->createSdkClientWithPsrResponse(
-            '[{"id":1, "email":"test1@gmail.com"},{"id":2, "email":"test2@gmail.com"}]',
+            '[{"id":"1", "email":"test1@gmail.com"},{"id":"2", "email":"test2@gmail.com"}]',
             200
         );
 
@@ -211,7 +214,13 @@ class ClientTest extends HttpRequestTestCase
     {
         $client = $this->createSdkClientWithPsrResponse('{"id":"1234", "name":"julian test"}', 200);
 
-        $user = $client->update(new User('1234', 'julian test', 'test@gmail.com'));
+        $data = [
+            'id' => '1234',
+            'name' => 'julian test',
+            'email' => 'test@gmail.com'
+        ];
+
+        $user = $client->update(new User($data));
 
         self::assertInstanceOf(User::class, $user);
         self::assertSame('julian test', $user->getName());

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests;
 
+use LoyaltyCorp\SdkBlueprint\Sdk\BaseDataTransferObject;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestSerializationGroupAwareInterface;
@@ -12,8 +13,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @SuppressWarnings(PHPMD.ShortVariable) id is a required attribute name
  * in order to be used by normalization and de-normalization correctly.
+ *
+ * @method null|string getAmount()
+ * @method null|string getId()
+ * @method self setAmount(?string $amount)
+ * @method self setId(?string $id)
  */
-class Ewallet implements
+class Ewallet extends BaseDataTransferObject implements
     RequestObjectInterface,
     RequestValidationGroupAwareInterface,
     RequestSerializationGroupAwareInterface
@@ -23,24 +29,12 @@ class Ewallet implements
      *
      * @var null|string
      */
-    private $amount;
+    public $amount;
 
     /**
      * @var null|string
      */
-    private $id;
-
-    /**
-     * Instantiate attributes.
-     *
-     * @param null|string $amount
-     * @param null|string $id
-     */
-    public function __construct(?string $amount = null, ?string $id = null)
-    {
-        $this->amount = $amount;
-        $this->id = $id;
-    }
+    public $id;
 
     /**
      * {@inheritdoc}
@@ -48,50 +42,6 @@ class Ewallet implements
     public function expectObject(): string
     {
         return self::class;
-    }
-
-    /**
-     * Get amount.
-     *
-     * @return mixed
-     */
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    /**
-     * Get id.
-     *
-     * @return null|string
-     */
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set amount.
-     *
-     * @param null|string $amount
-     *
-     * @return void
-     */
-    public function setAmount(?string $amount): void
-    {
-        $this->amount = $amount;
-    }
-
-    /**
-     * Set id.
-     *
-     * @param null|string $id
-     *
-     * @return void
-     */
-    public function setId(?string $id): void
-    {
-        $this->id = $id;
     }
 
     /**

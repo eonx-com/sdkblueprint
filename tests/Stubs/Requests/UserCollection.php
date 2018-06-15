@@ -11,7 +11,7 @@ class UserCollection implements RequestObjectInterface
     /**
      * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User[]
      */
-    private $users = [];
+    public $users = [];
 
     /**
      * Add a user object into the collection.
@@ -31,28 +31,6 @@ class UserCollection implements RequestObjectInterface
     public function expectObject(): string
     {
         return User::class;
-    }
-
-    /**
-     * Get user collection.
-     *
-     * @return \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User[]
-     */
-    public function getUsers(): array
-    {
-        return $this->users;
-    }
-
-    /**
-     * Set user collection.
-     *
-     * @param \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User[] $users
-     *
-     * @return void
-     */
-    public function setUsers(array $users): void
-    {
-        $this->users = $users;
     }
 
     /**

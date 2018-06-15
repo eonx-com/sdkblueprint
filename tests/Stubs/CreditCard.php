@@ -3,16 +3,27 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs;
 
+use LoyaltyCorp\SdkBlueprint\Sdk\BaseDataTransferObject;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CreditCard
+/**
+ * @method null|string getCvc()
+ * @method null|Expiry getExpiry()
+ * @method null|string getName()
+ * @method null|string getNumber()
+ * @method self setCvc(?string $cvc)
+ * @method self setExpiry(?Expiry $cvc)
+ * @method self setName(?string $name)
+ * @method self setNumber(?string $number)
+ */
+class CreditCard extends BaseDataTransferObject
 {
     /**
      * CVC.
      *
      * @var null|string
      */
-    private $cvc;
+    public $cvc;
 
     /**
      * Expiry object.
@@ -22,107 +33,19 @@ class CreditCard
      *
      * @var null|\Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry
      */
-    private $expiry;
+    public $expiry;
 
     /**
      * Card name.
      *
      * @var null|string
      */
-    private $name;
+    public $name;
 
     /**
      * Card number.
      *
      * @var null|string
      */
-    private $number;
-
-    /**
-     * Get CVC.
-     *
-     * @return null|string
-     */
-    public function getCvc(): ?string
-    {
-        return $this->cvc;
-    }
-
-    /**
-     * Get expiry object.
-     *
-     * @return null|\Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry
-     */
-    public function getExpiry(): ?Expiry
-    {
-        return $this->expiry;
-    }
-
-    /**
-     * Get name.
-     *
-     * @return null|string
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * Get card number.
-     *
-     * @return null|string
-     */
-    public function getNumber(): ?string
-    {
-        return $this->number;
-    }
-
-    /**
-     * Set CVC.
-     *
-     * @param null|string $cvc
-     *
-     * @return void
-     */
-    public function setCvc(?string $cvc): void
-    {
-        $this->cvc = $cvc;
-    }
-
-    /**
-     * Set expiry object.
-     *
-     * @param null|\Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry $expiry
-     *
-     * @return void
-     */
-    public function setExpiry(?Expiry $expiry): void
-    {
-        $this->expiry = $expiry;
-    }
-
-    /**
-     * Set name.
-     *
-     * @param null|string $name
-     *
-     * @return void
-     */
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Set card number.
-     *
-     * @param null|string $number
-     *
-     * @return void
-     */
-    public function setNumber(?string $number): void
-    {
-        $this->number = $number;
-    }
+    public $number;
 }

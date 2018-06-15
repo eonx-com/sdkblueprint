@@ -13,21 +13,32 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 class RequestAdapterTest extends TestCase
 {
     /**
-     * Test get returned object.
+     * Test get object.
      *
      * @return void
      *
      * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \EoneoPay\Utils\Exceptions\AnnotationCacheException
+     * @throws \ReflectionException
      */
     public function testGetObject(): void
     {
         $request = new RequestAdapter('GET', RequestMethodInterface::GET, new User());
 
         /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User $user */
-        $user = $request->getObject('{"id": "123"}');
+        $user = $request->getObject('{"id": "123", "name":"julian", "ewallets":[{"id":"1"},{"id":"2"}]}');
 
         self::assertInstanceOf(User::class, $user);
         self::assertSame('123', $user->getId());
+
+        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\Ewallet[] $ewallets */
+        $ewallets = $user->getEwallets();
+
+        $ewalletOne = $ewallets[0];
+        self::assertSame('1', $ewalletOne->getId());
+
+        $ewalletTwo = $ewallets[1];
+        self::assertSame('2', $ewalletTwo->getId());
     }
 
     /**
@@ -53,10 +64,27 @@ class RequestAdapterTest extends TestCase
      */
     public function testOptions(): void
     {
+        $data = [
+            'id' => 2,
+            'name' => 'julian',
+            'email' => 'test@gamil.com',
+            'ewallets' => [
+                [
+                    'id' => 'ewallet3',
+                    'amount' => '500'
+                ],
+                [
+                    'id' => 'ewallet4',
+                    'amount' => '500'
+                ]
+            ],
+            'post_code' => 3333
+        ];
+
         $request = new RequestAdapter(
             'POST',
             RequestMethodInterface::CREATE,
-            new User(null, 'julian', 'test@test.com', 3333)
+            new User($data)
         );
 
         self::assertSame(
@@ -64,7 +92,17 @@ class RequestAdapterTest extends TestCase
                 'debug' => true,
                 'json' => [
                     'name' => 'julian',
-                    'email' => 'test@test.com',
+                    'email' => 'test@gamil.com',
+                    'ewallets' => [
+                        [
+                            'id' => 'ewallet3',
+                            'amount' => '500'
+                        ],
+                        [
+                            'id' => 'ewallet4',
+                            'amount' => '500'
+                        ]
+                    ],
                     'post_code' => 3333
                 ]
             ],
@@ -74,13 +112,13 @@ class RequestAdapterTest extends TestCase
         $request = new RequestAdapter(
             'POST',
             RequestMethodInterface::CREATE,
-            new Ewallet('1000', '1')
+            new Ewallet(['amount' => 1000, 'id' => 1])
         );
 
         self::assertSame(
             [
                 'json' => [
-                    'amount' => '1000'
+                    'amount' => 1000
                 ]
             ],
             $request->options()
@@ -97,10 +135,16 @@ class RequestAdapterTest extends TestCase
      */
     public function testValidUri(): void
     {
+        $data = [
+            'name' => 'julian',
+            'email' => 'test@test.com',
+            'post_code' => 3333
+        ];
+
         $request = new RequestAdapter(
             'POST',
             RequestMethodInterface::CREATE,
-            new User(null, 'julian', 'test@test.com', 3333)
+            new User($data)
         );
 
         self::assertSame('create_uri', $request->uri());
@@ -121,7 +165,7 @@ class RequestAdapterTest extends TestCase
         $request = new RequestAdapter(
             'POST',
             'unknown request method',
-            new Ewallet('123')
+            new Ewallet(['amount' => '100'])
         );
 
         $request->uri();
@@ -142,7 +186,7 @@ class RequestAdapterTest extends TestCase
         $request = new RequestAdapter(
             'POST',
             RequestMethodInterface::CREATE,
-            new User(null, 'julian')
+            new User(['name' => 'julian'])
         );
 
         $request->validate();
@@ -163,7 +207,7 @@ class RequestAdapterTest extends TestCase
         $request = new RequestAdapter(
             'POST',
             RequestMethodInterface::CREATE,
-            new User(null, 'julian', 'test@test.com')
+            new User(['name' => 'julian', 'email' => 'test@test.com'])
         );
 
         $request->validate();
@@ -184,7 +228,7 @@ class RequestAdapterTest extends TestCase
         $request = new RequestAdapter(
             'POST',
             RequestMethodInterface::CREATE,
-            new User(null, 'julian')
+            new User(['name' => 'julian'])
         );
 
         self::assertSame(['create'], $method->invoke($request));
@@ -221,7 +265,7 @@ class RequestAdapterTest extends TestCase
         $request = new RequestAdapter(
             'POST',
             RequestMethodInterface::CREATE,
-            new User(null, 'julian')
+            new User(['name' => 'julian'])
         );
 
         self::assertSame(['create'], $method->invoke($request));

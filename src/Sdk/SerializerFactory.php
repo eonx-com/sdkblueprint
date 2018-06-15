@@ -5,7 +5,9 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Mapping\ClassDiscriminatorFromClassMetadata;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
@@ -17,6 +19,8 @@ use Symfony\Component\Serializer\Serializer;
 
 /**
  * @SuppressWarnings("PMD.StaticAccess") static access is required for annotation loader.
+ * @SuppressWarnings("PMD.CouplingBetweenObjects") we need those object to achieve the functionality we want.
+ * @SuppressWarnings("PMD.LongVariable") variable names need to be descriptive.
  */
 class SerializerFactory
 {
@@ -36,11 +40,19 @@ class SerializerFactory
 
         $discriminator = new ClassDiscriminatorFromClassMetadata($classMetadataFactory);
 
+        $refectionExtractor = new ReflectionExtractor();
+        $phpDocExtractor = new PhpDocExtractor();
+
+        $propertyInfoExtractor = new PropertyInfoExtractor(
+            [$refectionExtractor],
+            [$refectionExtractor, $phpDocExtractor]
+        );
+
         $normalizer = new ObjectNormalizer(
             $classMetadataFactory,
             new CamelCaseToSnakeCaseNameConverter(),
             null,
-            new ReflectionExtractor(),
+            $propertyInfoExtractor,
             $discriminator
         );
 
