@@ -30,7 +30,7 @@ class CreditCardAuthorise extends BaseDataTransferObject implements RequestObjec
      *
      * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Gateway
      */
-    public $gateway;
+    protected $gateway;
 
     /**
      * The credit card object.
@@ -42,7 +42,7 @@ class CreditCardAuthorise extends BaseDataTransferObject implements RequestObjec
      *
      * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\CreditCard
      */
-    public $creditCard;
+    protected $creditCard;
 
     /**
      * {@inheritdoc}

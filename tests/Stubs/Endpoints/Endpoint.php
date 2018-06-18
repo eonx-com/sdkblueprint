@@ -23,19 +23,19 @@ abstract class Endpoint extends BaseDataTransferObject
      *
      * @var null|string $id
      */
-    public $id;
+    protected $id;
 
     /**
      * Type of endpoint.
      *
      * @var null|string $type
      */
-    public $type;
+    protected $type;
 
     /**
      * The pan.
      *
      * @var null|string $pan
      */
-    public $pan;
+    protected $pan;
 }

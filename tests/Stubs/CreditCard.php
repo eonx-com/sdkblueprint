@@ -23,7 +23,7 @@ class CreditCard extends BaseDataTransferObject
      *
      * @var null|string
      */
-    public $cvc;
+    protected $cvc;
 
     /**
      * Expiry object.
@@ -33,19 +33,19 @@ class CreditCard extends BaseDataTransferObject
      *
      * @var null|\Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry
      */
-    public $expiry;
+    protected $expiry;
 
     /**
      * Card name.
      *
      * @var null|string
      */
-    public $name;
+    protected $name;
 
     /**
      * Card number.
      *
      * @var null|string
      */
-    public $number;
+    protected $number;
 }

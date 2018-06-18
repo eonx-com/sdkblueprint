@@ -29,12 +29,12 @@ class Ewallet extends BaseDataTransferObject implements
      *
      * @var null|string
      */
-    public $amount;
+    protected $amount;
 
     /**
      * @var null|string
      */
-    public $id;
+    protected $id;
 
     /**
      * {@inheritdoc}

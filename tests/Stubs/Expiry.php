@@ -21,7 +21,7 @@ class Expiry extends BaseDataTransferObject
      *
      * @var null|string
      */
-    public $month;
+    protected $month;
 
     /**
      * Expiry year.
@@ -30,5 +30,5 @@ class Expiry extends BaseDataTransferObject
      *
      * @var null|string
      */
-    public $year;
+    protected $year;
 }

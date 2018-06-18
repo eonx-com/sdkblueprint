@@ -27,21 +27,21 @@ class Gateway extends BaseDataTransferObject
      *
      * @var null|string
      */
-    public $certificate;
+    protected $certificate;
 
     /**
      * Information.
      *
      * @var null|string
      */
-    public $info;
+    protected $info;
 
     /**
      * Password.
      *
      * @var null|string
      */
-    public $password;
+    protected $password;
 
     /**
      * Service.
@@ -50,12 +50,12 @@ class Gateway extends BaseDataTransferObject
      *
      * @var null|string
      */
-    public $service;
+    protected $service;
 
     /**
      * Username.
      *
      * @var null|string
      */
-    public $username;
+    protected $username;
 }

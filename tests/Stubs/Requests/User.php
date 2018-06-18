@@ -31,7 +31,7 @@ class User extends BaseDataTransferObject implements RequestObjectInterface, Req
      *
      * @var null|string
      */
-    public $id;
+    protected $id;
 
     /**
      * Name.
@@ -42,7 +42,7 @@ class User extends BaseDataTransferObject implements RequestObjectInterface, Req
      *
      * @var null|string
      */
-    public $name;
+    protected $name;
 
     /**
      * Email.
@@ -53,7 +53,7 @@ class User extends BaseDataTransferObject implements RequestObjectInterface, Req
      *
      * @var null|string
      */
-    public $email;
+    protected $email;
 
     /**
      * Ewallets.
@@ -62,7 +62,7 @@ class User extends BaseDataTransferObject implements RequestObjectInterface, Req
      *
      * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\Ewallet[]
      */
-    public $ewallets;
+    protected $ewallets;
 
     /**
      * Post code.
@@ -71,7 +71,7 @@ class User extends BaseDataTransferObject implements RequestObjectInterface, Req
      *
      * @var null|int
      */
-    public $postCode;
+    protected $postCode;
 
     /**
      * Add ewallet object into the collection.

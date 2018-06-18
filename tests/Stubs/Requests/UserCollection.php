@@ -11,7 +11,7 @@ class UserCollection implements RequestObjectInterface
     /**
      * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User[]
      */
-    public $users = [];
+    protected $users = [];
 
     /**
      * Add a user object into the collection.

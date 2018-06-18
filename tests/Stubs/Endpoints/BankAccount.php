@@ -10,5 +10,5 @@ class BankAccount extends Endpoint
      *
      * @var null|string
      */
-    public $bsb;
+    protected $bsb;
 }

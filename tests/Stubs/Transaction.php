@@ -10,10 +10,10 @@ class Transaction extends BaseDataTransferObject
     /**
      * @var null|string
      */
-    public $amount;
+    protected $amount;
 
     /**
      * @var null|string
      */
-    public $currency;
+    protected $currency;
 }
