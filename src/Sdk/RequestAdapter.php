@@ -181,7 +181,7 @@ class RequestAdapter
             return [$this->requestMethod];
         }
 
-        return $groups[$this->requestMethod];
+        return [$groups[$this->requestMethod]];
     }
 
     /**
@@ -204,6 +204,6 @@ class RequestAdapter
             return [$this->requestMethod];
         }
 
-        return $groups[$this->requestMethod];
+        return [$groups[$this->requestMethod]];
     }
 }
