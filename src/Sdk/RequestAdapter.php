@@ -108,7 +108,8 @@ class RequestAdapter
             return \array_merge($this->object->options(), $body);
         }
 
-        return $body;
+        // Remove all key, value pairs if value is empty.
+        return \array_map('array_filter', $body);
     }
 
     /**
