@@ -22,7 +22,8 @@
     "symfony/property-info": "^4.1",
     "doctrine/annotations": "^1.6",
     "doctrine/cache": "^1.7",
-    "symfony/intl": "^4.1"
+    "symfony/intl": "^4.1",
+    "symfony/expression-language": "^4.1"
   },
   "require-dev": {
     "eoneopay/standards": "dev-master",
