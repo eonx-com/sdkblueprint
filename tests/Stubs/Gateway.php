@@ -46,7 +46,9 @@ class Gateway extends BaseDataTransferObject
     /**
      * Service.
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"create"})
+     * @Assert\Length(max="10", groups={"create"})
+     * @Assert\Type(type="string", groups={"create"})
      *
      * @var null|string
      */

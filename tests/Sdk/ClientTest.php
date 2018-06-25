@@ -52,7 +52,7 @@ class ClientTest extends HttpRequestTestCase
     {
         $creditCardAuthorise = new CreditCardAuthorise();
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('gateway: This value should not be blank.');
+        $this->expectExceptionMessage('Bad request data.');
         $this->client->create($creditCardAuthorise);
     }
 
@@ -69,7 +69,6 @@ class ClientTest extends HttpRequestTestCase
         $creditCardAuthorise = new CreditCardAuthorise();
         $creditCardAuthorise->setGateway(new Gateway());
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('creditCard.expiry: This value should not be blank.');
         $creditCardAuthorise->setCreditCard(new CreditCard());
 
         $creditCard = new CreditCard();
@@ -77,7 +76,6 @@ class ClientTest extends HttpRequestTestCase
 
         $creditCardAuthorise->setCreditCard($creditCard);
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('creditCard.expiry.year: This value should not be blank.');
 
         $this->client->create($creditCardAuthorise);
     }
@@ -115,13 +113,15 @@ class ClientTest extends HttpRequestTestCase
 
         $creditCardAuthorise->setGateway($gateway);
 
-        $creditCard = new CreditCard();
-        $creditCard->setExpiry(new Expiry(['month' => '01', 'year' => '2019']));
+        $creditCard = new CreditCard([
+            'number' => 510000000,
+            'expiry' => new Expiry(['month' => '01', 'year' => '2019'])
+        ]);
 
         $creditCardAuthorise->setCreditCard($creditCard);
 
-
         $transaction = $client->create($creditCardAuthorise);
+
         self::assertInstanceOf(Transaction::class, $transaction);
         self::assertSame('123', $transaction->getAmount());
         self::assertSame('AUD', $transaction->getCurrency());

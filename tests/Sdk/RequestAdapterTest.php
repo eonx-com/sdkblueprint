@@ -6,6 +6,10 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\RequestAdapter;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\CreditCard;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Gateway;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\CreditCardAuthorise;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\Ewallet;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User;
 use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
@@ -18,8 +22,6 @@ class RequestAdapterTest extends TestCase
      * @return void
      *
      * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \EoneoPay\Utils\Exceptions\AnnotationCacheException
-     * @throws \ReflectionException
      */
     public function testGetObject(): void
     {
@@ -176,20 +178,43 @@ class RequestAdapterTest extends TestCase
      *
      * @return void
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testValidationFailed(): void
     {
-        $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('email: This value should not be blank.');
+        $expectedViolations = [
+            'violations' => [
+                'gateway.service' => [
+                    'This value is too long. It should have 10 characters or less.',
+                    'This value should be of type string.'
+                ],
+                'credit_card.expiry.month' => [
+                    'This value should not be blank.'
+                ],
+                'credit_card.expiry.year' => [
+                    'This value should not be blank.'
+                ],
+                'credit_card.number' => [
+                    'This value should not be blank.'
+                ]
+            ]
+        ];
+
         $request = new RequestAdapter(
             'POST',
             RequestMethodInterface::CREATE,
-            new User(['name' => 'julian'])
+            new CreditCardAuthorise([
+                'gateway' => new Gateway(['service' => 1234567891011]),
+                'credit_card' => new CreditCard(['expiry' => new Expiry()])
+            ])
         );
 
-        $request->validate();
+        try {
+            $request->validate();
+        } catch (ValidationException $exception) {
+            self::assertSame('Bad request data.', $exception->getMessage());
+            self::assertSame($expectedViolations, $exception->getErrors());
+        }
     }
 
     /**

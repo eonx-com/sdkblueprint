@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
+use EoneoPay\Utils\Str;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
@@ -139,12 +140,14 @@ class RequestAdapter
         $errors = $this->validator->validate($this->object, null, $this->validationGroup());
 
         if (\count($errors) > 0) {
-            $errorMessage = null;
+            $errorMessage = 'Bad request data.';
+            $violations = [];
             foreach ($errors as $error) {
-                $errorMessage .= $error->getPropertyPath(). ': ' .$error->getMessage();
+                $property = (new Str())->snake($error->getPropertyPath());
+                $violations['violations'][$property][] = $error->getMessage();
             }
 
-            throw new ValidationException($errorMessage);
+            throw new ValidationException($errorMessage, null, null, $violations);
         }
     }
 

@@ -45,6 +45,8 @@ class CreditCard extends BaseDataTransferObject
     /**
      * Card number.
      *
+     * @Assert\NotBlank(groups={"create"})
+     *
      * @var null|string
      */
     protected $number;
