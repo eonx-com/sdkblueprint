@@ -14,11 +14,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @SuppressWarnings(PHPMD.ShortVariable) id is a required attribute name
  * in order to be used by normalization and de-normalization correctly.
  *
+ * @method bool hasName(string $name)
+ * @method bool isName(string $name)
  * @method null|string getId()
  * @method null|string getName()
  * @method null|string getEmail()
  * @method mixed[] getEwallets()
  * @method self setEwallets(array $ewallets)
+ * @method self setName(string $name)
  */
 class User extends BaseDataTransferObject implements RequestObjectInterface, RequestOptionAwareInterface
 {
