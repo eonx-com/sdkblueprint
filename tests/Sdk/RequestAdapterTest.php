@@ -14,8 +14,40 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\Ewallet;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User;
 use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 
+/**
+ * @covers \LoyaltyCorp\SdkBlueprint\Sdk\RequestAdapter
+ */
 class RequestAdapterTest extends TestCase
 {
+    public function testFilterOptions(): void
+    {
+        $data = [
+            'name' => 'julian',
+            'email' => 'test@gmail.com'
+        ];
+
+        $request = new RequestAdapter('POST', RequestMethodInterface::CREATE, new User($data));
+
+        self::assertSame(['debug' => true,'json' => $data], $request->options());
+
+        $data = [
+            'name' => 'julian',
+            'email' => null
+        ];
+
+        $request = new RequestAdapter('POST', RequestMethodInterface::CREATE, new User($data));
+
+        self::assertSame(
+            [
+                'debug' => true,
+                'json' => [
+                    'name' => 'julian'
+                ]
+            ],
+            $request->options()
+        );
+    }
+
     /**
      * Test get object.
      *
@@ -70,6 +102,7 @@ class RequestAdapterTest extends TestCase
             'id' => 2,
             'name' => 'julian',
             'email' => 'test@gamil.com',
+            'password' => null,
             'ewallets' => [
                 [
                     'id' => 'ewallet3',

@@ -101,8 +101,10 @@ class RequestAdapter
      */
     public function options(): array
     {
+        $options = $this->serializer->normalize($this->object, null, ['groups' => $this->serializationGroup()]);
+
         $body = [
-            'json' => $this->serializer->normalize($this->object, null, ['groups' => $this->serializationGroup()])
+            'json' => $this->filterOptions($options)
         ];
 
         if ($this->object instanceof RequestOptionAwareInterface) {
@@ -162,6 +164,27 @@ class RequestAdapter
 
         return $this->requestMethod === RequestMethodInterface::LIST ?
             \sprintf('%s[]', $expectObjectClass) : $expectObjectClass;
+    }
+
+    /**
+     * Recursively filter options array, remove key value pairs is value is null.
+     *
+     * @param array $options
+     *
+     * @return array
+     */
+    private function filterOptions(array $options): array
+    {
+        $original = $options;
+
+        $data = \array_filter($options);
+
+        $data = array_map(function ($e) {
+            return \is_array($e) ? $this->filterOptions($e) : $e;
+        }, $data);
+
+
+        return $original === $data ? $data : $this->filterOptions($data);
     }
 
     /**
