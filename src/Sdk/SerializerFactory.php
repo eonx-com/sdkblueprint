@@ -25,17 +25,19 @@ use Symfony\Component\Serializer\Serializer;
 class SerializerFactory
 {
     /**
-     * Create the serializer.
+     * Factory method to create serializer.
+     *
+     * @noinspection PhpDocMissingThrowsInspection
+     * We don't add throw Annotation Exception in order to not catch it everywhere
      *
      * @return \Symfony\Component\Serializer\Serializer
-     *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function create(): Serializer
     {
         /** @noinspection PhpDeprecationInspection currently this is the best way to register annotation loader*/
         AnnotationRegistry::registerUniqueLoader('class_exists');
 
+        /** @noinspection PhpUnhandledExceptionInspection we don't want to catch Annotation Exception everywhere.*/
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 
         $discriminator = new ClassDiscriminatorFromClassMetadata($classMetadataFactory);

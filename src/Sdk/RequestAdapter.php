@@ -169,9 +169,9 @@ class RequestAdapter
     /**
      * Recursively filter options array, remove key value pairs is value is null.
      *
-     * @param array $options
+     * @param mixed[] $options
      *
-     * @return array
+     * @return mixed[]
      */
     private function filterOptions(array $options): array
     {
@@ -179,8 +179,8 @@ class RequestAdapter
 
         $data = \array_filter($options);
 
-        $data = array_map(function ($e) {
-            return \is_array($e) ? $this->filterOptions($e) : $e;
+        $data = \array_map(function ($element) {
+            return \is_array($element) ? $this->filterOptions($element) : $element;
         }, $data);
 
 
