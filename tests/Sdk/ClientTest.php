@@ -45,7 +45,6 @@ class ClientTest extends HttpRequestTestCase
      *
      * @return void
      *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \Exception
      */
     public function testCreditCardAuthoriseEmptyAttributeException(): void
@@ -61,7 +60,6 @@ class ClientTest extends HttpRequestTestCase
      *
      * @return void
      *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \Exception
      */
     public function testCreditCardAuthoriseInvalidEmbeddedObjectException(): void
@@ -82,8 +80,6 @@ class ClientTest extends HttpRequestTestCase
 
     /**
      * Test when request failed.
-     *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testFailedResponse(): void
     {
@@ -99,7 +95,6 @@ class ClientTest extends HttpRequestTestCase
      *
      * @return void
      *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \Exception
      */
     public function testSuccessfulCreditCardAuthorise(): void
@@ -133,7 +128,6 @@ class ClientTest extends HttpRequestTestCase
      * @return void
      *
      * @throws \Exception
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testCreateUserSuccessfully(): void
     {
@@ -151,7 +145,6 @@ class ClientTest extends HttpRequestTestCase
      * Test successful user deletion request.
      *
      * @throws \Exception
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testDeleteUserSuccessfully(): void
     {
@@ -166,7 +159,6 @@ class ClientTest extends HttpRequestTestCase
      * Test a successful get user request.
      *
      * @throws \Exception
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testGetUserSuccessfully(): void
     {
@@ -182,7 +174,6 @@ class ClientTest extends HttpRequestTestCase
      * Test a successful list user request.
      *
      * @throws \Exception
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testListUserSuccessfully(): void
     {
@@ -208,7 +199,6 @@ class ClientTest extends HttpRequestTestCase
      * Test a successful update user request.
      *
      * @throws \Exception
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testUpdateUserSuccessfully(): void
     {

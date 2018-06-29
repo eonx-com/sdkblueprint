@@ -16,7 +16,6 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function create(RequestObjectInterface $request)
     {
@@ -29,7 +28,6 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function delete(RequestObjectInterface $request)
     {
@@ -42,7 +40,6 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function get(RequestObjectInterface $request)
     {
@@ -55,7 +52,6 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function list(RequestObjectInterface $request)
     {
@@ -68,7 +64,6 @@ class Client extends BaseClient
      * @return mixed returns the object of the expected class.
      *
      * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function update(RequestObjectInterface $request)
     {

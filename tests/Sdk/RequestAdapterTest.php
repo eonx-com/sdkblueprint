@@ -52,8 +52,6 @@ class RequestAdapterTest extends TestCase
      * Test get object.
      *
      * @return void
-     *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testGetObject(): void
     {
@@ -79,8 +77,6 @@ class RequestAdapterTest extends TestCase
      * Test request method.
      *
      * @return void
-     *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testMethod(): void
     {
@@ -93,8 +89,6 @@ class RequestAdapterTest extends TestCase
      * Test request options.
      *
      * @return void
-     *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testOptions(): void
     {
@@ -166,7 +160,6 @@ class RequestAdapterTest extends TestCase
      * @return void
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testValidUri(): void
     {
@@ -191,7 +184,6 @@ class RequestAdapterTest extends TestCase
      * @return void
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testInvalidUri(): void
     {
@@ -210,8 +202,6 @@ class RequestAdapterTest extends TestCase
      * Test validate method.
      *
      * @return void
-     *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testValidationFailed(): void
     {
@@ -256,7 +246,6 @@ class RequestAdapterTest extends TestCase
      * @return void
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testValidationPassed(): void
     {
@@ -276,7 +265,6 @@ class RequestAdapterTest extends TestCase
      *
      * @return void
      *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \ReflectionException
      */
     public function testValidationGroup(): void
@@ -313,7 +301,6 @@ class RequestAdapterTest extends TestCase
      *
      * @return void
      *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \ReflectionException
      */
     public function testSerializationGroup(): void

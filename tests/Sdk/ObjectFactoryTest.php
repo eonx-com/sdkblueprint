@@ -18,7 +18,6 @@ class ObjectFactoryTest extends TestCase
      *
      * @return  void
      *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\RuntimeException
      */
     public function testCreateSuccessfully(): void
@@ -40,7 +39,6 @@ class ObjectFactoryTest extends TestCase
      * @return void
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\RuntimeException
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function testCreateWhenClassNotFound(): void
     {

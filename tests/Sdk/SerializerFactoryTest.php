@@ -31,8 +31,6 @@ class SerializerFactoryTest extends TestCase
      * Instantiate attribute.
      *
      * @return void
-     *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function setUp(): void
     {

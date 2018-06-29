@@ -58,8 +58,6 @@ class RequestAdapter
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $requestObject
      * @param null|\Symfony\Component\Serializer\Serializer $serializer
      * @param null|\Symfony\Component\Validator\Validator\ValidatorInterface $validator
-     *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      */
     public function __construct(
         string $httpMethod,
