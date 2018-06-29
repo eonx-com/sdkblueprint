@@ -144,7 +144,7 @@ class SerializerFactoryTest extends TestCase
                         'amount' => '500'
                     ]
                 ]
-            ],
+            ]
         ];
 
         $users = $this->serializer->denormalize($data, \sprintf('%s[]', User::class));

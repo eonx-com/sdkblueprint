@@ -12,9 +12,7 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
  *    "credit_card"="Tests\LoyaltyCorp\SdkBlueprint\Stubs\Endpoints\CreditCardEndpoint"
  * })
  *
- *
- * @SuppressWarnings(PHPMD.ShortVariable) id is a required attribute name
- * in order to be used by normalization and de-normalization correctly.
+ * @SuppressWarnings(PHPMD.ShortVariable) id is a required attribute name in order to be used by serializer properly
  */
 abstract class Endpoint extends BaseDataTransferObject
 {
