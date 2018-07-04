@@ -16,7 +16,7 @@ class InvalidMethodCallExceptionTest extends TestCase
     public function testGetErrorCode(): void
     {
         self::assertSame(
-            InvalidMethodCallException::DEFAULT_ERROR_CODE_VALIDATION,
+            InvalidMethodCallException::DEFAULT_ERROR_CODE_RUNTIME,
             (new InvalidMethodCallException())->getErrorCode()
         );
     }

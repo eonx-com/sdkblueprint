@@ -77,13 +77,13 @@ class RequestAdapter
      * Get the expect object based on the response contents.
      *
      * @param null|string $responseContents
-     * @param string $format
+     * @param null|string $format
      *
      * @return mixed returns the object of the expected class.
      */
-    public function getObject(?string $responseContents, string $format = 'json')
+    public function getObject(?string $responseContents = null, ?string $format = null)
     {
-        return $this->serializer->deserialize($responseContents, $this->deserializeType(), $format);
+        return $this->serializer->deserialize($responseContents, $this->deserializeType(), $format ?? 'json');
     }
 
     /**
@@ -91,7 +91,7 @@ class RequestAdapter
      *
      * @return string
      */
-    public function method(): string
+    public function getMethod(): string
     {
         return $this->httpMethod;
     }
@@ -128,7 +128,7 @@ class RequestAdapter
         $uris = $this->object->uris();
 
         if (isset($uris[$this->requestMethod]) === false) {
-            throw new ValidationException(\sprintf('no uri exists for %s method', $this->requestMethod));
+            throw new ValidationException(\sprintf('There is no uri specified for %s request', $this->requestMethod));
         }
 
         return $uris[$this->requestMethod];
@@ -137,22 +137,26 @@ class RequestAdapter
     /**
      * Validate the request object.
      *
+     * @return void
+     *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
      */
     public function validate(): void
     {
         $errors = $this->validator->validate($this->object, null, $this->validationGroup());
 
-        if (\count($errors) > 0) {
-            $errorMessage = 'Bad request data.';
-            $violations = [];
-            foreach ($errors as $error) {
-                $property = (new Str())->snake($error->getPropertyPath());
-                $violations['violations'][$property][] = $error->getMessage();
-            }
-
-            throw new ValidationException($errorMessage, null, null, $violations);
+        if (\count($errors) === 0) {
+            return;
         }
+
+        $errorMessage = 'Bad request data.';
+        $violations = [];
+        foreach ($errors as $error) {
+            $property = (new Str())->snake($error->getPropertyPath());
+            $violations['violations'][$property][] = $error->getMessage();
+        }
+
+        throw new ValidationException($errorMessage, null, null, $violations);
     }
 
     /**

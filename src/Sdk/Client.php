@@ -17,7 +17,8 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
+     * @throws \EoneoPay\Utils\Exceptions\BaseException
+     * one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      */
     public function create(RequestObjectInterface $request)
     {
@@ -31,7 +32,8 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
+     * @throws \EoneoPay\Utils\Exceptions\BaseException
+     * one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      */
     public function delete(RequestObjectInterface $request)
     {
@@ -45,7 +47,8 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
+     * @throws \EoneoPay\Utils\Exceptions\BaseException
+     * one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      */
     public function get(RequestObjectInterface $request)
     {
@@ -59,7 +62,8 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
+     * @throws \EoneoPay\Utils\Exceptions\BaseException
+     * one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      */
     public function list(RequestObjectInterface $request)
     {
@@ -73,7 +77,8 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
+     * @throws \EoneoPay\Utils\Exceptions\BaseException
+     * one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      */
     public function update(RequestObjectInterface $request)
     {
@@ -87,14 +92,15 @@ class Client extends BaseClient
      *
      * @return mixed returns the object of the expected class.
      *
-     * @throws \Exception - one of CriticalException, NotFoundException, RuntimeException and ValidationException.
+     * @throws \EoneoPay\Utils\Exceptions\BaseException
+     * one of CriticalException, NotFoundException, RuntimeException and ValidationException.
      */
     public function execute(RequestAdapter $request)
     {
         $request->validate();
 
         try {
-            $response = $this->request($request->method(), $request->uri(), $request->options());
+            $response = $this->request($request->getMethod(), $request->uri(), $request->options());
         } catch (InvalidApiResponseException $exception) {
             throw (new ExceptionFactory($exception))->create();
         }

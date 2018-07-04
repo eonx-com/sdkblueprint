@@ -21,7 +21,7 @@ class ValidatorFactory
     {
         $builder = Validation::createValidatorBuilder();
 
-        /** @noinspection PhpDeprecationInspection currently this is the best way to register annotation loader*/
+        /** @noinspection PhpDeprecationInspection currently this is the best way to register annotation loader */
         AnnotationRegistry::registerUniqueLoader('class_exists');
 
         $builder->enableAnnotationMapping();

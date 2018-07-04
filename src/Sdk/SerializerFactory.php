@@ -34,10 +34,10 @@ class SerializerFactory
      */
     public function create(): Serializer
     {
-        /** @noinspection PhpDeprecationInspection currently this is the best way to register annotation loader*/
+        /** @noinspection PhpDeprecationInspection currently this is the best way to register annotation loader */
         AnnotationRegistry::registerUniqueLoader('class_exists');
 
-        /** @noinspection PhpUnhandledExceptionInspection we don't want to catch Annotation Exception everywhere.*/
+        /** @noinspection PhpUnhandledExceptionInspection we don't want to catch Annotation Exception everywhere. */
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 
         $discriminator = new ClassDiscriminatorFromClassMetadata($classMetadataFactory);

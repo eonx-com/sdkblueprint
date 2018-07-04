@@ -31,7 +31,7 @@ class ExceptionFactory
     /**
      * Create exception object based on error code range.
      *
-     * @return \Exception
+     * @return \EoneoPay\Utils\Exceptions\BaseException
      */
     public function create(): \Exception
     {

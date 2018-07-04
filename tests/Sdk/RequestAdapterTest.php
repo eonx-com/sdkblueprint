@@ -88,7 +88,7 @@ class RequestAdapterTest extends TestCase
     public function testInvalidUri(): void
     {
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('no uri exists for unknown request method method');
+        $this->expectExceptionMessage('There is no uri specified for unknown request method request');
         $request = new RequestAdapter(
             'POST',
             'unknown request method',
@@ -107,7 +107,7 @@ class RequestAdapterTest extends TestCase
     {
         $request = new RequestAdapter('GET', RequestMethodInterface::GET, new User());
 
-        self::assertSame('GET', $request->method());
+        self::assertSame('GET', $request->getMethod());
     }
 
     /**

@@ -14,7 +14,7 @@ class InvalidMethodCallException extends RuntimeException
      */
     public function getErrorCode(): int
     {
-        return self::DEFAULT_ERROR_CODE_VALIDATION;
+        return self::DEFAULT_ERROR_CODE_RUNTIME;
     }
 
     /**
