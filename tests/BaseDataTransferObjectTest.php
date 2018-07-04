@@ -17,6 +17,11 @@ class BaseDataTransferObjectTest extends TestCase
      */
     private $dto;
 
+    /**
+     * Instantiate attribute.
+     *
+     * @return void
+     */
     public function setUp(): void
     {
         parent::setUp();

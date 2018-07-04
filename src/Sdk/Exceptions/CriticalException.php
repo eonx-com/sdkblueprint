@@ -9,6 +9,8 @@ use Throwable;
 class CriticalException extends BaseCriticalException
 {
     /**
+     * The error sub code.
+     *
      * @var int
      */
     protected $subCode;

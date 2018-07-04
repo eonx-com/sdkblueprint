@@ -11,6 +11,8 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 class Client extends BaseClient
 {
     /**
+     * Execute the create request.
+     *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return mixed returns the object of the expected class.
@@ -23,6 +25,8 @@ class Client extends BaseClient
     }
 
     /**
+     * Execute the delete request.
+     *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return mixed returns the object of the expected class.
@@ -35,6 +39,8 @@ class Client extends BaseClient
     }
 
     /**
+     * Execute the get request.
+     *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return mixed returns the object of the expected class.
@@ -47,6 +53,8 @@ class Client extends BaseClient
     }
 
     /**
+     * Execute the list request.
+     *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return mixed returns the object of the expected class.
@@ -59,6 +67,8 @@ class Client extends BaseClient
     }
 
     /**
+     * Execute the update request.
+     *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $request
      *
      * @return mixed returns the object of the expected class.
@@ -71,6 +81,8 @@ class Client extends BaseClient
     }
 
     /**
+     * Execute a request.
+     *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\RequestAdapter $request
      *
      * @return mixed returns the object of the expected class.

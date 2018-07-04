@@ -24,7 +24,9 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Transaction;
 class ClientTest extends HttpRequestTestCase
 {
     /**
-     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Client; $client
+     * The client.
+     *
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Client $client
      */
     private $client;
 
@@ -38,6 +40,25 @@ class ClientTest extends HttpRequestTestCase
         parent::setUp();
 
         $this->client = new Client(new GuzzleClient());
+    }
+
+    /**
+     * Test successful user creation request.
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function testCreateUserSuccessfully(): void
+    {
+        $client = $this->createSdkClientWithPsrResponse('{"id":"uuid","name":"julian","email":"test@gmail.com"}', 200);
+        $user = $client->create(new User([
+            'name' => 'test',
+            'email' => 'test@gmail.com'
+        ]));
+
+        self::assertInstanceOf(User::class, $user);
+        self::assertSame('uuid', $user->getId());
     }
 
     /**
@@ -79,7 +100,28 @@ class ClientTest extends HttpRequestTestCase
     }
 
     /**
+     * Test successful user deletion request.
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function testDeleteUserSuccessfully(): void
+    {
+        $client = $this->createSdkClientWithPsrResponse('{"id":"julian"}', 200);
+        $user = $client->delete(new User(['id' => 'julian']));
+
+        self::assertInstanceOf(User::class, $user);
+        self::assertSame('julian', $user->getId());
+    }
+
+
+    /**
      * Test when request failed.
+     *
+     * @return void
+     *
+     * @throws \Exception
      */
     public function testFailedResponse(): void
     {
@@ -88,6 +130,50 @@ class ClientTest extends HttpRequestTestCase
 
         $client = $this->createSdkClientWithFailedResponse();
         $client->get(new User(['id' => '123']));
+    }
+
+    /**
+     * Test a successful get user request.
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function testGetUserSuccessfully(): void
+    {
+        $client = $this->createSdkClientWithPsrResponse('{"id":"1234", "email":"test@gmail.com"}', 200);
+
+        $user = $client->get(new User(['id' => '1234']));
+
+        self::assertInstanceOf(User::class, $user);
+        self::assertSame('test@gmail.com', $user->getEmail());
+    }
+
+    /**
+     * Test a successful list user request.
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function testListUserSuccessfully(): void
+    {
+        $client = $this->createSdkClientWithPsrResponse(
+            '[{"id":"1", "email":"test1@gmail.com"},{"id":"2", "email":"test2@gmail.com"}]',
+            200
+        );
+
+        $users = $client->list(new UserCollection());
+
+        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User $userOne */
+        $userOne = $users[0];
+        self::assertSame('1', $userOne->getId());
+        self::assertSame('test1@gmail.com', $userOne->getEmail());
+
+        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User $userTwo */
+        $userTwo = $users[1];
+        self::assertSame('2', $userTwo->getId());
+        self::assertSame('test2@gmail.com', $userTwo->getEmail());
     }
 
     /**
@@ -123,80 +209,9 @@ class ClientTest extends HttpRequestTestCase
     }
 
     /**
-     * Test successful user creation request.
+     * Test a successful update user request.
      *
      * @return void
-     *
-     * @throws \Exception
-     */
-    public function testCreateUserSuccessfully(): void
-    {
-        $client = $this->createSdkClientWithPsrResponse('{"id":"uuid","name":"julian","email":"test@gmail.com"}', 200);
-        $user = $client->create(new User([
-            'name' => 'test',
-            'email' => 'test@gmail.com'
-        ]));
-
-        self::assertInstanceOf(User::class, $user);
-        self::assertSame('uuid', $user->getId());
-    }
-
-    /**
-     * Test successful user deletion request.
-     *
-     * @throws \Exception
-     */
-    public function testDeleteUserSuccessfully(): void
-    {
-        $client = $this->createSdkClientWithPsrResponse('{"id":"julian"}', 200);
-        $user = $client->delete(new User(['id' => 'julian']));
-
-        self::assertInstanceOf(User::class, $user);
-        self::assertSame('julian', $user->getId());
-    }
-
-    /**
-     * Test a successful get user request.
-     *
-     * @throws \Exception
-     */
-    public function testGetUserSuccessfully(): void
-    {
-        $client = $this->createSdkClientWithPsrResponse('{"id":"1234", "email":"test@gmail.com"}', 200);
-
-        $user = $client->get(new User(['id' => '1234']));
-
-        self::assertInstanceOf(User::class, $user);
-        self::assertSame('test@gmail.com', $user->getEmail());
-    }
-
-    /**
-     * Test a successful list user request.
-     *
-     * @throws \Exception
-     */
-    public function testListUserSuccessfully(): void
-    {
-        $client = $this->createSdkClientWithPsrResponse(
-            '[{"id":"1", "email":"test1@gmail.com"},{"id":"2", "email":"test2@gmail.com"}]',
-            200
-        );
-
-        $users = $client->list(new UserCollection());
-
-        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User $userOne */
-        $userOne = $users[0];
-        self::assertSame('1', $userOne->getId());
-        self::assertSame('test1@gmail.com', $userOne->getEmail());
-
-        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User $userTwo */
-        $userTwo = $users[1];
-        self::assertSame('2', $userTwo->getId());
-        self::assertSame('test2@gmail.com', $userTwo->getEmail());
-    }
-
-    /**
-     * Test a successful update user request.
      *
      * @throws \Exception
      */

@@ -9,6 +9,8 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 class UserCollection implements RequestObjectInterface
 {
     /**
+     * The users collection.
+     *
      * @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User[]
      */
     protected $users = [];

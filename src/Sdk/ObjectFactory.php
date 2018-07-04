@@ -8,6 +8,8 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\RuntimeException;
 class ObjectFactory
 {
     /**
+     * The serializer.
+     *
      * @var \Symfony\Component\Serializer\Serializer $serializer
      */
     private $serializer;
@@ -26,7 +28,7 @@ class ObjectFactory
      * @param mixed[] $data
      * @param string $class
      *
-     * @return mixed returns object of expected class.
+     * @return mixed returns the expected object.
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\RuntimeException
      */

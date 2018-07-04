@@ -18,35 +18,35 @@ class RequestAdapter
     /**
      * HTTP request method.
      *
-     * @var string $httpMethod
+     * @var string
      */
     private $httpMethod;
 
     /**
      * The Request method.
      *
-     * @var string $requestMethod
+     * @var string
      */
     private $requestMethod;
 
     /**
      * The Request object instance.
      *
-     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface $object
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface
      */
     private $object;
 
     /**
      * The Serializer instance.
      *
-     * @var \Symfony\Component\Serializer\Serializer $serializer
+     * @var \Symfony\Component\Serializer\Serializer
      */
     private $serializer;
 
     /**
      * The Validator instance.
      *
-     * @var \Symfony\Component\Validator\Validator\ValidatorInterface $validator
+     * @var \Symfony\Component\Validator\Validator\ValidatorInterface
      */
     private $validator;
 
@@ -87,7 +87,9 @@ class RequestAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * Get the http method of the request.
+     *
+     * @return string
      */
     public function method(): string
     {
@@ -95,7 +97,9 @@ class RequestAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * Generate the http options.
+     *
+     * @return mixed[]
      */
     public function options(): array
     {
@@ -165,7 +169,7 @@ class RequestAdapter
     }
 
     /**
-     * Recursively filter options array, remove key value pairs is value is null.
+     * Recursively filter options array, remove key value pairs when value is null.
      *
      * @param mixed[] $options
      *
@@ -180,7 +184,6 @@ class RequestAdapter
         $data = \array_map(function ($element) {
             return \is_array($element) ? $this->filterOptions($element) : $element;
         }, $data);
-
 
         return $original === $data ? $data : $this->filterOptions($data);
     }

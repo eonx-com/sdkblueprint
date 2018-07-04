@@ -9,6 +9,8 @@ use Throwable;
 class RuntimeException extends BaseRuntimeException
 {
     /**
+     * The sub error code.
+     *
      * @var int
      */
     protected $subCode;

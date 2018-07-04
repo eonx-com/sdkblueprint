@@ -9,6 +9,8 @@ use Throwable;
 class ValidationException extends BaseValidationException
 {
     /**
+     * The sub error code.
+     *
      * @var int
      */
     protected $subCode;

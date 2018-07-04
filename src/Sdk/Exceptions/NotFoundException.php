@@ -9,6 +9,8 @@ use Throwable;
 class NotFoundException extends BaseNotFoundException
 {
     /**
+     * The sub error code.
+     *
      * @var int
      */
     protected $subCode;

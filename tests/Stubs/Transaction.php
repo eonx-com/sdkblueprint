@@ -8,11 +8,15 @@ use LoyaltyCorp\SdkBlueprint\Sdk\BaseDataTransferObject;
 class Transaction extends BaseDataTransferObject
 {
     /**
+     * The Amount.
+     *
      * @var null|string
      */
     protected $amount;
 
     /**
+     * The currency.
+     *
      * @var null|string
      */
     protected $currency;

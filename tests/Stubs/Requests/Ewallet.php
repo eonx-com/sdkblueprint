@@ -25,6 +25,8 @@ class Ewallet extends BaseDataTransferObject implements
     RequestSerializationGroupAwareInterface
 {
     /**
+     * Amount.
+     *
      * @Groups({"create", "ewallet_create"})
      *
      * @var null|string
@@ -32,6 +34,8 @@ class Ewallet extends BaseDataTransferObject implements
     protected $amount;
 
     /**
+     * The id.
+     *
      * @var null|string
      */
     protected $id;

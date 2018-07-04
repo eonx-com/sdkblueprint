@@ -19,6 +19,11 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
  */
 class RequestAdapterTest extends TestCase
 {
+    /**
+     * Make sure we filter array properly.
+     *
+     * @return void
+     */
     public function testFilterOptions(): void
     {
         $data = [
@@ -71,6 +76,26 @@ class RequestAdapterTest extends TestCase
 
         $ewalletTwo = $ewallets[1];
         self::assertSame('2', $ewalletTwo->getId());
+    }
+
+    /**
+     * Test an invalid uri.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
+     */
+    public function testInvalidUri(): void
+    {
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('no uri exists for unknown request method method');
+        $request = new RequestAdapter(
+            'POST',
+            'unknown request method',
+            new Ewallet(['amount' => '100'])
+        );
+
+        $request->uri();
     }
 
     /**
@@ -155,47 +180,39 @@ class RequestAdapterTest extends TestCase
     }
 
     /**
-     * Test a valid uri.
+     * Test serialization group.
      *
      * @return void
      *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
+     * @throws \ReflectionException
      */
-    public function testValidUri(): void
+    public function testSerializationGroup(): void
     {
-        $data = [
-            'name' => 'julian',
-            'email' => 'test@test.com',
-            'post_code' => 3333
-        ];
+        $method = $this->getMethodAsPublic(RequestAdapter::class, 'serializationGroup');
 
         $request = new RequestAdapter(
             'POST',
             RequestMethodInterface::CREATE,
-            new User($data)
+            new User(['name' => 'julian'])
         );
 
-        self::assertSame('create_uri', $request->uri());
-    }
+        self::assertSame(['create'], $method->invoke($request));
 
-    /**
-     * Test an invalid uri.
-     *
-     * @return void
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
-     */
-    public function testInvalidUri(): void
-    {
-        $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('no uri exists for unknown request method method');
         $request = new RequestAdapter(
             'POST',
-            'unknown request method',
-            new Ewallet(['amount' => '100'])
+            RequestMethodInterface::CREATE,
+            new Ewallet()
         );
 
-        $request->uri();
+        self::assertSame(['ewallet_create'], $method->invoke($request));
+
+        $request = new RequestAdapter(
+            'POST',
+            RequestMethodInterface::UPDATE,
+            new Ewallet()
+        );
+
+        self::assertSame(['update'], $method->invoke($request));
     }
 
     /**
@@ -241,26 +258,6 @@ class RequestAdapterTest extends TestCase
     }
 
     /**
-     * Test validation passed.
-     *
-     * @return void
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
-     */
-    public function testValidationPassed(): void
-    {
-        $this->expectNotToPerformAssertions();
-
-        $request = new RequestAdapter(
-            'POST',
-            RequestMethodInterface::CREATE,
-            new User(['name' => 'julian', 'email' => 'test@test.com'])
-        );
-
-        $request->validate();
-    }
-
-    /**
      * Test validation group.
      *
      * @return void
@@ -297,38 +294,46 @@ class RequestAdapterTest extends TestCase
     }
 
     /**
-     * Test serialization group.
+     * Test validation passed.
      *
      * @return void
      *
-     * @throws \ReflectionException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      */
-    public function testSerializationGroup(): void
+    public function testValidationPassed(): void
     {
-        $method = $this->getMethodAsPublic(RequestAdapter::class, 'serializationGroup');
+        $this->expectNotToPerformAssertions();
 
         $request = new RequestAdapter(
             'POST',
             RequestMethodInterface::CREATE,
-            new User(['name' => 'julian'])
+            new User(['name' => 'julian', 'email' => 'test@test.com'])
         );
 
-        self::assertSame(['create'], $method->invoke($request));
+        $request->validate();
+    }
+
+    /**
+     * Test a valid uri.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
+     */
+    public function testValidUri(): void
+    {
+        $data = [
+            'name' => 'julian',
+            'email' => 'test@test.com',
+            'post_code' => 3333
+        ];
 
         $request = new RequestAdapter(
             'POST',
             RequestMethodInterface::CREATE,
-            new Ewallet()
+            new User($data)
         );
 
-        self::assertSame(['ewallet_create'], $method->invoke($request));
-
-        $request = new RequestAdapter(
-            'POST',
-            RequestMethodInterface::UPDATE,
-            new Ewallet()
-        );
-
-        self::assertSame(['update'], $method->invoke($request));
+        self::assertSame('create_uri', $request->uri());
     }
 }

@@ -23,6 +23,8 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 class SerializerFactoryTest extends TestCase
 {
     /**
+     * The serializer.
+     *
      * @var \Symfony\Component\Serializer\Serializer $serializer
      */
     private $serializer;
@@ -85,7 +87,7 @@ class SerializerFactoryTest extends TestCase
      *
      * @return void
      */
-    public function testDescriminatorDenormalization(): void
+    public function testDiscriminatorDenormalization(): void
     {
         $data = [
             'id' => '4',
