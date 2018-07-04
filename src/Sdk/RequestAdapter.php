@@ -101,12 +101,12 @@ class RequestAdapter
      *
      * @return mixed[]
      */
-    public function options(): array
+    public function getOptions(): array
     {
-        $options = $this->serializer->normalize($this->object, null, ['groups' => $this->serializationGroup()]);
+        $options = $this->serializer->normalize($this->object, null, ['groups' => $this->getSerializationGroups()]);
 
         $body = [
-            'json' => $this->filterOptions($options)
+            'json' => $this->getFilterOptions($options)
         ];
 
         if ($this->object instanceof RequestOptionAwareInterface) {
@@ -123,7 +123,7 @@ class RequestAdapter
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException
      */
-    public function uri(): string
+    public function getUri(): string
     {
         $uris = $this->object->uris();
 
@@ -143,7 +143,7 @@ class RequestAdapter
      */
     public function validate(): void
     {
-        $errors = $this->validator->validate($this->object, null, $this->validationGroup());
+        $errors = $this->validator->validate($this->object, null, $this->getValidationGroups());
 
         if (\count($errors) === 0) {
             return;
@@ -179,17 +179,17 @@ class RequestAdapter
      *
      * @return mixed[]
      */
-    private function filterOptions(array $options): array
+    private function getFilterOptions(array $options): array
     {
         $original = $options;
 
         $data = \array_filter($options);
 
         $data = \array_map(function ($element) {
-            return \is_array($element) ? $this->filterOptions($element) : $element;
+            return \is_array($element) ? $this->getFilterOptions($element) : $element;
         }, $data);
 
-        return $original === $data ? $data : $this->filterOptions($data);
+        return $original === $data ? $data : $this->getFilterOptions($data);
     }
 
     /**
@@ -197,7 +197,7 @@ class RequestAdapter
      *
      * @return string[]
      */
-    private function validationGroup(): array
+    private function getValidationGroups(): array
     {
         $object = $this->object;
 
@@ -220,7 +220,7 @@ class RequestAdapter
      *
      * @return string[]
      */
-    private function serializationGroup(): array
+    private function getSerializationGroups(): array
     {
         $object = $this->object;
 

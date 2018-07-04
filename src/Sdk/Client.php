@@ -100,7 +100,7 @@ class Client extends BaseClient
         $request->validate();
 
         try {
-            $response = $this->request($request->getMethod(), $request->uri(), $request->options());
+            $response = $this->request($request->getMethod(), $request->getUri(), $request->getOptions());
         } catch (InvalidApiResponseException $exception) {
             throw (new ExceptionFactory($exception))->create();
         }

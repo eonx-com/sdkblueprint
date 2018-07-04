@@ -33,7 +33,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter('POST', RequestMethodInterface::CREATE, new User($data));
 
-        self::assertSame(['debug' => true,'json' => $data], $request->options());
+        self::assertSame(['debug' => true,'json' => $data], $request->getOptions());
 
         $data = [
             'name' => 'julian',
@@ -49,7 +49,7 @@ class RequestAdapterTest extends TestCase
                     'name' => 'julian'
                 ]
             ],
-            $request->options()
+            $request->getOptions()
         );
     }
 
@@ -95,7 +95,7 @@ class RequestAdapterTest extends TestCase
             new Ewallet(['amount' => '100'])
         );
 
-        $request->uri();
+        $request->getUri();
     }
 
     /**
@@ -160,7 +160,7 @@ class RequestAdapterTest extends TestCase
                     'post_code' => 3333
                 ]
             ],
-            $request->options()
+            $request->getOptions()
         );
 
         $request = new RequestAdapter(
@@ -175,7 +175,7 @@ class RequestAdapterTest extends TestCase
                     'amount' => 1000
                 ]
             ],
-            $request->options()
+            $request->getOptions()
         );
     }
 
@@ -188,7 +188,7 @@ class RequestAdapterTest extends TestCase
      */
     public function testSerializationGroup(): void
     {
-        $method = $this->getMethodAsPublic(RequestAdapter::class, 'serializationGroup');
+        $method = $this->getMethodAsPublic(RequestAdapter::class, 'getSerializationGroups');
 
         $request = new RequestAdapter(
             'POST',
@@ -266,7 +266,7 @@ class RequestAdapterTest extends TestCase
      */
     public function testValidationGroup(): void
     {
-        $method = $this->getMethodAsPublic(RequestAdapter::class, 'validationGroup');
+        $method = $this->getMethodAsPublic(RequestAdapter::class, 'getValidationGroups');
 
         $request = new RequestAdapter(
             'POST',
@@ -334,6 +334,6 @@ class RequestAdapterTest extends TestCase
             new User($data)
         );
 
-        self::assertSame('create_uri', $request->uri());
+        self::assertSame('create_uri', $request->getUri());
     }
 }
