@@ -24,13 +24,17 @@ class ExceptionFactoryTest extends TestCase
      */
     public function testCreate(): void
     {
-        $data = '{message":"internal system error", "code":1999}';
+        $data = '{"message":"internal system error", "code":1999}';
         /** @noinspection UnnecessaryAssertionInspection */
         self::assertInstanceOf(CriticalException::class, $this->createExceptionMock($data));
 
-        $data = '{message":"internal system error", "code":0}';
+        $data = '{"message":"internal system error", "code":1}';
+        $exception = $this->createExceptionMock($data);
         /** @noinspection UnnecessaryAssertionInspection */
-        self::assertInstanceOf(CriticalException::class, $this->createExceptionMock($data));
+        self::assertInstanceOf(CriticalException::class, $exception);
+        $exception = $this->createExceptionMock($data);
+        self::assertSame(1, $exception->getCode());
+        self::assertSame('internal system error', $exception->getMessage());
 
         $data = '{"message":"validation error", "code":1000}';
         /** @noinspection UnnecessaryAssertionInspection */
