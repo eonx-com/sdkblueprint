@@ -1,5 +1,5 @@
 {
-  "name": "loyaltycorp/sdkblueprintv2",
+  "name": "loyaltycorp/sdkblueprint",
   "description": "A library for quickly building an SDK for a RESTful API",
   "keywords": [
     "loyaltycorp",

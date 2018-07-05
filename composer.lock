@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "215c43bb606b4c4cec8408f49212723f",
+    "content-hash": "ae83d29fe8d2450eed02738917af80d7",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -208,12 +208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/loyaltycorp/externals.git",
-                "reference": "9a2e5ecd27032c47cf496a01293155055a3c65d4"
+                "reference": "899e8a0e8b92e0264d827b0f059d35f702387299"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loyaltycorp/externals/zipball/9a2e5ecd27032c47cf496a01293155055a3c65d4",
-                "reference": "9a2e5ecd27032c47cf496a01293155055a3c65d4",
+                "url": "https://api.github.com/repos/loyaltycorp/externals/zipball/899e8a0e8b92e0264d827b0f059d35f702387299",
+                "reference": "899e8a0e8b92e0264d827b0f059d35f702387299",
                 "shasum": ""
             },
             "require": {
@@ -266,7 +266,7 @@
             "keywords": [
                 "external"
             ],
-            "time": "2018-06-29T00:58:23+00:00"
+            "time": "2018-07-05T00:34:18+00:00"
         },
         {
             "name": "eoneopay/utils",
@@ -3358,12 +3358,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "5c802c6300dca269edde06c6ae8c7eb561de3176"
+                "reference": "0253937ef2720f45fbe421e3ba486587b3080c35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/5c802c6300dca269edde06c6ae8c7eb561de3176",
-                "reference": "5c802c6300dca269edde06c6ae8c7eb561de3176",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/0253937ef2720f45fbe421e3ba486587b3080c35",
+                "reference": "0253937ef2720f45fbe421e3ba486587b3080c35",
                 "shasum": ""
             },
             "conflict": {
@@ -3414,7 +3414,7 @@
                 "laravel/socialite": ">=1,<1.0.99|>=2,<2.0.10",
                 "magento/magento1ce": ">=1.5.0.1,<1.9.3.2",
                 "magento/magento1ee": ">=1.9,<1.14.3.2",
-                "magento/magento2ce": ">=2,<2.3",
+                "magento/product-community-edition": ">=2,<2.2.5",
                 "monolog/monolog": ">=1.8,<1.12",
                 "namshi/jose": "<2.2",
                 "onelogin/php-saml": "<2.10.4",
@@ -3517,7 +3517,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2018-07-03T10:42:36+00:00"
+            "time": "2018-07-04T05:48:21+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
