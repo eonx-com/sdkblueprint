@@ -13,7 +13,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestValidationGroupAwareInterface
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class RequestAdapter
+class RequestAdapter implements RequestMethodAwareInterface
 {
     /**
      * HTTP request method.
@@ -168,7 +168,7 @@ class RequestAdapter
     {
         $expectObjectClass = $this->object->expectObject();
 
-        return $this->requestMethod === RequestMethodAwareInterface::LIST ?
+        return $this->requestMethod === self::LIST ?
             \sprintf('%s[]', $expectObjectClass) : $expectObjectClass;
     }
 

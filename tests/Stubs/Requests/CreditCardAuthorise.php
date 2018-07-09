@@ -18,7 +18,9 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Transaction;
  * @method self setGateway(?Gateway $gateway)
  * @method self setCreditCard(?CreditCard $creditCard)
  */
-class CreditCardAuthorise extends BaseDataTransferObject implements RequestObjectInterface
+class CreditCardAuthorise extends BaseDataTransferObject implements
+    RequestMethodAwareInterface,
+    RequestObjectInterface
 {
     /**
      * The gateway object.
@@ -57,6 +59,6 @@ class CreditCardAuthorise extends BaseDataTransferObject implements RequestObjec
      */
     public function uris(): array
     {
-        return [RequestMethodAwareInterface::CREATE => 'create_uri'];
+        return [self::CREATE => 'create_uri'];
     }
 }

@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @method self setId(?string $id)
  */
 class Ewallet extends BaseDataTransferObject implements
+    RequestMethodAwareInterface,
     RequestObjectInterface,
     RequestValidationGroupAwareInterface,
     RequestSerializationGroupAwareInterface
@@ -54,7 +55,7 @@ class Ewallet extends BaseDataTransferObject implements
     public function serializationGroup(): array
     {
         return [
-            RequestMethodAwareInterface::CREATE => ['ewallet_create']
+            self::CREATE => ['ewallet_create']
         ];
     }
 
@@ -72,7 +73,7 @@ class Ewallet extends BaseDataTransferObject implements
     public function validationGroups(): array
     {
         return [
-            RequestMethodAwareInterface::CREATE => ['ewallet_create']
+            self::CREATE => ['ewallet_create']
         ];
     }
 }

@@ -23,7 +23,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @method self setEwallets(array $ewallets)
  * @method self setName(string $name)
  */
-class User extends BaseDataTransferObject implements RequestObjectInterface, RequestOptionAwareInterface
+class User extends BaseDataTransferObject implements
+    RequestMethodAwareInterface,
+    RequestObjectInterface,
+    RequestOptionAwareInterface
 {
     /**
      * User id
@@ -112,11 +115,11 @@ class User extends BaseDataTransferObject implements RequestObjectInterface, Req
     public function uris(): array
     {
         return [
-            RequestMethodAwareInterface::CREATE => 'create_uri',
-            RequestMethodAwareInterface::DELETE => 'delete_uri',
-            RequestMethodAwareInterface::GET => 'get_uri',
-            RequestMethodAwareInterface::LIST => 'list_uri',
-            RequestMethodAwareInterface::UPDATE => 'update_uri'
+            self::CREATE => 'create_uri',
+            self::DELETE => 'delete_uri',
+            self::GET => 'get_uri',
+            self::LIST => 'list_uri',
+            self::UPDATE => 'update_uri'
         ];
     }
 }
