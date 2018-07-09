@@ -5,7 +5,7 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use EoneoPay\Utils\Str;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestOptionAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestSerializationGroupAwareInterface;
@@ -13,7 +13,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestValidationGroupAwareInterface
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class RequestAdapter
+class RequestAdapter implements RequestMethodAwareInterface
 {
     /**
      * HTTP request method.
@@ -168,7 +168,7 @@ class RequestAdapter
     {
         $expectObjectClass = $this->object->expectObject();
 
-        return $this->requestMethod === RequestMethodInterface::LIST ?
+        return $this->requestMethod === self::LIST ?
             \sprintf('%s[]', $expectObjectClass) : $expectObjectClass;
     }
 

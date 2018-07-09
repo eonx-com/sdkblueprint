@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\BaseDataTransferObject;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestSerializationGroupAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestValidationGroupAwareInterface;
@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @method self setId(?string $id)
  */
 class Ewallet extends BaseDataTransferObject implements
+    RequestMethodAwareInterface,
     RequestObjectInterface,
     RequestValidationGroupAwareInterface,
     RequestSerializationGroupAwareInterface
@@ -54,7 +55,7 @@ class Ewallet extends BaseDataTransferObject implements
     public function serializationGroup(): array
     {
         return [
-            RequestMethodInterface::CREATE => ['ewallet_create']
+            self::CREATE => ['ewallet_create']
         ];
     }
 
@@ -72,7 +73,7 @@ class Ewallet extends BaseDataTransferObject implements
     public function validationGroups(): array
     {
         return [
-            RequestMethodInterface::CREATE => ['ewallet_create']
+            self::CREATE => ['ewallet_create']
         ];
     }
 }
