@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\BaseDataTransferObject;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestOptionAwareInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -23,7 +23,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @method self setEwallets(array $ewallets)
  * @method self setName(string $name)
  */
-class User extends BaseDataTransferObject implements RequestObjectInterface, RequestOptionAwareInterface
+class User extends BaseDataTransferObject implements
+    RequestMethodAwareInterface,
+    RequestObjectInterface,
+    RequestOptionAwareInterface
 {
     /**
      * User id
@@ -112,11 +115,11 @@ class User extends BaseDataTransferObject implements RequestObjectInterface, Req
     public function uris(): array
     {
         return [
-            RequestMethodInterface::CREATE => 'create_uri',
-            RequestMethodInterface::DELETE => 'delete_uri',
-            RequestMethodInterface::GET => 'get_uri',
-            RequestMethodInterface::LIST => 'list_uri',
-            RequestMethodInterface::UPDATE => 'update_uri'
+            self::CREATE => 'create_uri',
+            self::DELETE => 'delete_uri',
+            self::GET => 'get_uri',
+            self::LIST => 'list_uri',
+            self::UPDATE => 'update_uri'
         ];
     }
 }
