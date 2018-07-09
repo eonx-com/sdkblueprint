@@ -5,7 +5,7 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use EoneoPay\Externals\HttpClient\Client as BaseClient;
 use EoneoPay\Externals\HttpClient\Exceptions\InvalidApiResponseException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 
 class Client extends BaseClient
@@ -22,7 +22,7 @@ class Client extends BaseClient
      */
     public function create(RequestObjectInterface $request)
     {
-        return $this->execute(new RequestAdapter('POST', RequestMethodInterface::CREATE, $request));
+        return $this->execute(new RequestAdapter('POST', RequestMethodAwareInterface::CREATE, $request));
     }
 
     /**
@@ -37,7 +37,7 @@ class Client extends BaseClient
      */
     public function delete(RequestObjectInterface $request)
     {
-        return $this->execute(new RequestAdapter('DELETE', RequestMethodInterface::DELETE, $request));
+        return $this->execute(new RequestAdapter('DELETE', RequestMethodAwareInterface::DELETE, $request));
     }
 
     /**
@@ -52,7 +52,7 @@ class Client extends BaseClient
      */
     public function get(RequestObjectInterface $request)
     {
-        return $this->execute(new RequestAdapter('GET', RequestMethodInterface::GET, $request));
+        return $this->execute(new RequestAdapter('GET', RequestMethodAwareInterface::GET, $request));
     }
 
     /**
@@ -67,7 +67,7 @@ class Client extends BaseClient
      */
     public function list(RequestObjectInterface $request)
     {
-        return $this->execute(new RequestAdapter('GET', RequestMethodInterface::LIST, $request));
+        return $this->execute(new RequestAdapter('GET', RequestMethodAwareInterface::LIST, $request));
     }
 
     /**
@@ -82,7 +82,7 @@ class Client extends BaseClient
      */
     public function update(RequestObjectInterface $request)
     {
-        return $this->execute(new RequestAdapter('PUT', RequestMethodInterface::UPDATE, $request));
+        return $this->execute(new RequestAdapter('PUT', RequestMethodAwareInterface::UPDATE, $request));
     }
 
     /**

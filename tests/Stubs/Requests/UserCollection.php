@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests;
 
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 
 class UserCollection implements RequestObjectInterface
@@ -41,7 +41,7 @@ class UserCollection implements RequestObjectInterface
     public function uris(): array
     {
         return [
-            RequestMethodInterface::LIST => '/users/'
+            RequestMethodAwareInterface::LIST => '/users/'
         ];
     }
 }

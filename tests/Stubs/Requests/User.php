@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\BaseDataTransferObject;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestOptionAwareInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -112,11 +112,11 @@ class User extends BaseDataTransferObject implements RequestObjectInterface, Req
     public function uris(): array
     {
         return [
-            RequestMethodInterface::CREATE => 'create_uri',
-            RequestMethodInterface::DELETE => 'delete_uri',
-            RequestMethodInterface::GET => 'get_uri',
-            RequestMethodInterface::LIST => 'list_uri',
-            RequestMethodInterface::UPDATE => 'update_uri'
+            RequestMethodAwareInterface::CREATE => 'create_uri',
+            RequestMethodAwareInterface::DELETE => 'delete_uri',
+            RequestMethodAwareInterface::GET => 'get_uri',
+            RequestMethodAwareInterface::LIST => 'list_uri',
+            RequestMethodAwareInterface::UPDATE => 'update_uri'
         ];
     }
 }

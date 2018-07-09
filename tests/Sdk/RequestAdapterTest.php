@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\RequestAdapter;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\CreditCard;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry;
@@ -31,7 +31,7 @@ class RequestAdapterTest extends TestCase
             'email' => 'test@gmail.com'
         ];
 
-        $request = new RequestAdapter('POST', RequestMethodInterface::CREATE, new User($data));
+        $request = new RequestAdapter('POST', RequestMethodAwareInterface::CREATE, new User($data));
 
         self::assertSame(['debug' => true,'json' => $data], $request->getOptions());
 
@@ -40,7 +40,7 @@ class RequestAdapterTest extends TestCase
             'email' => null
         ];
 
-        $request = new RequestAdapter('POST', RequestMethodInterface::CREATE, new User($data));
+        $request = new RequestAdapter('POST', RequestMethodAwareInterface::CREATE, new User($data));
 
         self::assertSame(
             [
@@ -60,7 +60,7 @@ class RequestAdapterTest extends TestCase
      */
     public function testGetObject(): void
     {
-        $request = new RequestAdapter('GET', RequestMethodInterface::GET, new User());
+        $request = new RequestAdapter('GET', RequestMethodAwareInterface::GET, new User());
 
         /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User $user */
         $user = $request->getObject('{"id": "123", "name":"julian", "ewallets":[{"id":"1"},{"id":"2"}]}');
@@ -105,7 +105,7 @@ class RequestAdapterTest extends TestCase
      */
     public function testMethod(): void
     {
-        $request = new RequestAdapter('GET', RequestMethodInterface::GET, new User());
+        $request = new RequestAdapter('GET', RequestMethodAwareInterface::GET, new User());
 
         self::assertSame('GET', $request->getMethod());
     }
@@ -137,7 +137,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter(
             'POST',
-            RequestMethodInterface::CREATE,
+            RequestMethodAwareInterface::CREATE,
             new User($data)
         );
 
@@ -165,7 +165,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter(
             'POST',
-            RequestMethodInterface::CREATE,
+            RequestMethodAwareInterface::CREATE,
             new Ewallet(['amount' => 1000, 'id' => 1])
         );
 
@@ -192,7 +192,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter(
             'POST',
-            RequestMethodInterface::CREATE,
+            RequestMethodAwareInterface::CREATE,
             new User(['name' => 'julian'])
         );
 
@@ -200,7 +200,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter(
             'POST',
-            RequestMethodInterface::CREATE,
+            RequestMethodAwareInterface::CREATE,
             new Ewallet()
         );
 
@@ -208,7 +208,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter(
             'POST',
-            RequestMethodInterface::UPDATE,
+            RequestMethodAwareInterface::UPDATE,
             new Ewallet()
         );
 
@@ -242,7 +242,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter(
             'POST',
-            RequestMethodInterface::CREATE,
+            RequestMethodAwareInterface::CREATE,
             new CreditCardAuthorise([
                 'gateway' => new Gateway(['service' => 1234567891011]),
                 'credit_card' => new CreditCard(['expiry' => new Expiry()])
@@ -270,7 +270,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter(
             'POST',
-            RequestMethodInterface::CREATE,
+            RequestMethodAwareInterface::CREATE,
             new User(['name' => 'julian'])
         );
 
@@ -278,7 +278,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter(
             'POST',
-            RequestMethodInterface::CREATE,
+            RequestMethodAwareInterface::CREATE,
             new Ewallet()
         );
 
@@ -286,7 +286,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter(
             'POST',
-            RequestMethodInterface::UPDATE,
+            RequestMethodAwareInterface::UPDATE,
             new Ewallet()
         );
 
@@ -306,7 +306,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter(
             'POST',
-            RequestMethodInterface::CREATE,
+            RequestMethodAwareInterface::CREATE,
             new User(['name' => 'julian', 'email' => 'test@test.com'])
         );
 
@@ -330,7 +330,7 @@ class RequestAdapterTest extends TestCase
 
         $request = new RequestAdapter(
             'POST',
-            RequestMethodInterface::CREATE,
+            RequestMethodAwareInterface::CREATE,
             new User($data)
         );
 

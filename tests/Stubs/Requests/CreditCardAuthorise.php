@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\BaseDataTransferObject;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -57,6 +57,6 @@ class CreditCardAuthorise extends BaseDataTransferObject implements RequestObjec
      */
     public function uris(): array
     {
-        return [RequestMethodInterface::CREATE => 'create_uri'];
+        return [RequestMethodAwareInterface::CREATE => 'create_uri'];
     }
 }

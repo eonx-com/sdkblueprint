@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk\Interfaces;
 
-interface RequestMethodInterface
+interface RequestMethodAwareInterface
 {
     /**
      * The create method.

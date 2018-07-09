@@ -5,7 +5,7 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use EoneoPay\Utils\Str;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\ValidationException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestMethodAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestObjectInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestOptionAwareInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestSerializationGroupAwareInterface;
@@ -168,7 +168,7 @@ class RequestAdapter
     {
         $expectObjectClass = $this->object->expectObject();
 
-        return $this->requestMethod === RequestMethodInterface::LIST ?
+        return $this->requestMethod === RequestMethodAwareInterface::LIST ?
             \sprintf('%s[]', $expectObjectClass) : $expectObjectClass;
     }
 
