@@ -30,7 +30,7 @@ class UserCollection implements RequestMethodAwareInterface, RequestObjectInterf
     /**
      * {@inheritdoc}
      */
-    public function expectObject(): string
+    public function expectObject(): ?string
     {
         return User::class;
     }
