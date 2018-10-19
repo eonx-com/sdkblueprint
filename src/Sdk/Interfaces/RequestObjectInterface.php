@@ -8,9 +8,9 @@ interface RequestObjectInterface
     /**
      * Specify the expected returned object.
      *
-     * @return string
+     * @return null|string
      */
-    public function expectObject(): string;
+    public function expectObject(): ?string;
 
     /**
      * Don't prefix method with get or set as serializer will output the method name as attributes.

@@ -49,7 +49,7 @@ class CreditCardAuthorise extends BaseDataTransferObject implements
     /**
      * {@inheritdoc}
      */
-    public function expectObject(): string
+    public function expectObject(): ?string
     {
         return Transaction::class;
     }

@@ -94,7 +94,7 @@ class User extends BaseDataTransferObject implements
     /**
      * {@inheritdoc}
      */
-    public function expectObject(): string
+    public function expectObject(): ?string
     {
         return self::class;
     }
