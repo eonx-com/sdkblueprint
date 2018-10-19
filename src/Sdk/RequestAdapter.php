@@ -83,6 +83,10 @@ class RequestAdapter implements RequestMethodAwareInterface
      */
     public function getObject(?string $responseContents = null, ?string $format = null)
     {
+        if ($this->object->expectObject() === null) {
+            return null;
+        }
+
         return $this->serializer->deserialize($responseContents, $this->deserializeType(), $format ?? 'json');
     }
 

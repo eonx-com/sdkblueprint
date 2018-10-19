@@ -12,6 +12,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\CreditCard;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Expiry;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Gateway;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\CreditCardAuthorise;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\RemoveRequest;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\User;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Requests\UserCollection;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Transaction;
@@ -174,6 +175,20 @@ class ClientTest extends HttpRequestTestCase
         $userTwo = $users[1];
         self::assertSame('2', $userTwo->getId());
         self::assertSame('test2@gmail.com', $userTwo->getEmail());
+    }
+
+    /**
+     * Test a successful remove request.
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function testRemoveRequestSuccessfully(): void
+    {
+        $client = $this->createSdkClientWithPsrResponse('', 204);
+
+        self::assertNull($client->delete(new RemoveRequest()));
     }
 
     /**
