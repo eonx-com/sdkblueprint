@@ -5,8 +5,9 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use EoneoPay\Utils\Arr;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidMethodCallException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 
-class BaseDataTransferObject
+abstract class Entity implements EntityInterface
 {
     /**
      * Create a new object

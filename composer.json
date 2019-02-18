@@ -15,8 +15,7 @@
     "ext-dom": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "guzzlehttp/guzzle": "~6.0",
-    "symfony/validator": "^4.1",
+    "guzzlehttp/guzzle": "^6.0",
     "symfony/serializer": "^4.1",
     "symfony/property-access": "^4.1",
     "symfony/property-info": "^4.1",
@@ -27,6 +26,7 @@
   },
   "require-dev": {
     "eoneopay/standards": "dev-master",
+    "laravel/lumen-framework": "^5.5",
     "php-http/guzzle6-adapter": "^1.1",
     "phpmd/phpmd": "^2.6",
     "phpstan/phpstan": "^0.9",
@@ -35,6 +35,16 @@
     "sebastian/phpcpd": "^4.0",
     "squizlabs/php_codesniffer": "3.*",
     "woohoolabs/yang": "^1.2"
+  },
+  "suggest": {
+    "laravel/framework": "^5.5",
+    "laravel/lumen-framework": "^5.5",
+    "phpmd/phpmd": "Check coding best practices",
+    "phpstan/phpstan": "Static analysis of code to detect potential errors",
+    "phpunit/phpunit": "Run unit tests",
+    "sebastian/phpcpd": "Detect code duplication",
+    "sensiolabs/security-checker": "Check project's dependencies for known vulnerabilities",
+    "squizlabs/php_codesniffer": "Check code style"
   },
   "autoload": {
     "psr-4": {

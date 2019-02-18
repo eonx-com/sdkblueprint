@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace LoyaltyCorp\SdkBlueprint\Sdk;
+namespace LoyaltyCorp\SdkBlueprint\Sdk\Factories;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\SerializerFactoryInterface;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
@@ -22,15 +23,13 @@ use Symfony\Component\Serializer\Serializer;
  * @SuppressWarnings("PMD.CouplingBetweenObjects") we need those object to achieve the functionality we want.
  * @SuppressWarnings("PMD.LongVariable") variable names need to be descriptive.
  */
-class SerializerFactory
+final class SerializerFactory implements SerializerFactoryInterface
 {
     /**
-     * Factory method to create serializer.
+     * @inheritdoc
      *
      * @noinspection PhpDocMissingThrowsInspection
      * We don't add throw Annotation Exception in order to not catch it everywhere
-     *
-     * @return \Symfony\Component\Serializer\Serializer
      */
     public function create(): Serializer
     {

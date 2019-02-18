@@ -5,7 +5,6 @@ namespace Tests\LoyaltyCorp\SdkBlueprint;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
-use LoyaltyCorp\SdkBlueprint\Sdk\Client;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -18,6 +17,8 @@ class HttpRequestTestCase extends TestCase
      * @param \Psr\Http\Message\ResponseInterface|\GuzzleHttp\Exception\RequestException $response
      *
      * @return \GuzzleHttp\Client|\PHPUnit\Framework\MockObject\MockObject
+     *
+     * @throws \ReflectionException
      */
     protected function createGuzzleClientMock($response)
     {
@@ -41,6 +42,8 @@ class HttpRequestTestCase extends TestCase
      * Mock the psr request.
      *
      * @return \Psr\Http\Message\RequestInterface|\PHPUnit\Framework\MockObject\MockObject
+     *
+     * @throws \ReflectionException
      */
     protected function createMockPsrRequest()
     {
@@ -59,9 +62,13 @@ class HttpRequestTestCase extends TestCase
      * @param int $statusCode
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\Psr\Http\Message\ResponseInterface
+     *
+     * @throws \ReflectionException
      */
-    protected function createMockPsrResponse(?string $content = null, int $statusCode)
+    protected function createMockPsrResponse(?string $content = null, ?int $statusCode = null)
     {
+        $statusCode = $statusCode ?? 200;
+
         //test response is not valid json
         $streamInterface = $this->getMockBuilder(StreamInterface::class)->getMock();
         $streamInterface->method('getContents')->willReturn($content);
@@ -73,30 +80,5 @@ class HttpRequestTestCase extends TestCase
 
 
         return $psrResponse;
-    }
-
-    /**
-     * Crete Sdk client.
-     *
-     * @param null|string $content
-     * @param int $statusCode
-     *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Client
-     */
-    protected function createSdkClientWithPsrResponse(?string $content = null, int $statusCode): Client
-    {
-        return new Client($this->createGuzzleClientMock($this->createMockPsrResponse($content, $statusCode)));
-    }
-
-    /**
-     * Crete Sdk client with failed response.
-     *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Client
-     */
-    protected function createSdkClientWithFailedResponse(): Client
-    {
-        $response = new RequestException('system error', $this->createMockPsrRequest());
-
-        return new Client($this->createGuzzleClientMock($response));
     }
 }
