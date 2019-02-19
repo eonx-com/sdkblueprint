@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace LoyaltyCorp\SdkBlueprint\Sdk;
+namespace LoyaltyCorp\SdkBlueprint\Sdk\Managers;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use LoyaltyCorp\SdkBlueprint\Sdk\Annotations\Repository as RepositoryAnnotation;
@@ -9,6 +9,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ApiManagerInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RepositoryInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Repository;
 
 final class ApiManager implements ApiManagerInterface
 {
