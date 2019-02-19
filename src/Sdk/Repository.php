@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ApiManagerInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RepositoryInterface;
 
-abstract class Repository implements RepositoryInterface
+class Repository implements RepositoryInterface
 {
     /**
      * Sdk api manager.
@@ -16,13 +17,38 @@ abstract class Repository implements RepositoryInterface
     private $apiManager;
 
     /**
-     * Construct api repository.
+     * Entity class name.
+     *
+     * @var string
+     */
+    private $entityClass;
+
+    /**
+     * Construct default repository
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ApiManagerInterface $apiManager
+     * @param string $entityClass
      */
-    public function __construct(ApiManagerInterface $apiManager)
+    public function __construct(ApiManagerInterface $apiManager, string $entityClass)
     {
         $this->apiManager = $apiManager;
+        $this->entityClass = $entityClass;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function findAll(): array
+    {
+        return $this->getApiManager()->findAll($this->entityClass);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function findById(string $id): EntityInterface
+    {
+        return $this->getApiManager()->find($this->entityClass, $id);
     }
 
     /**

@@ -3,9 +3,12 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use LoyaltyCorp\SdkBlueprint\Sdk\Annotations\Repository as RepositoryAnnotation;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ApiManagerInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RepositoryInterface;
 
 final class ApiManager implements ApiManagerInterface
 {
@@ -28,49 +31,63 @@ final class ApiManager implements ApiManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @throws \EoneoPay\Utils\Exceptions\BaseException
      */
     public function create(EntityInterface $entity): EntityInterface
     {
-        return $this->requestHandler->post($entity, 'http://localhost/', [
-            'auth' => 'api-key'
-        ]);
+        return $this->requestHandler->post($entity, 'api-key');
     }
 
     /**
      * @inheritdoc
-     *
-     * @throws \EoneoPay\Utils\Exceptions\BaseException
      */
     public function delete(EntityInterface $entity): void
     {
-        $this->requestHandler->delete($entity, 'http://localhost/', [
-            'auth' => 'api-key'
-        ]);
+        $this->requestHandler->delete($entity, 'api-key');
     }
 
     /**
      * @inheritdoc
-     *
-     * @throws \EoneoPay\Utils\Exceptions\BaseException
      */
-    public function find(EntityInterface $entity): EntityInterface
+    public function find(string $entityName, string $id): EntityInterface
     {
-        return $this->requestHandler->get($entity, 'http://localhost/', [
-            'auth' => 'api-key'
-        ]);
+        $class = new $entityName(['id' => $id]);
+
+        return $this->requestHandler->get($class, 'api-key');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function findAll(string $entityName): array
+    {
+        return $this->requestHandler->list(new $entityName(), 'api-key');
     }
 
     /**
      * @inheritdoc
      *
-     * @throws \EoneoPay\Utils\Exceptions\BaseException
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \ReflectionException
+     */
+    public function getRepository(string $entityClass): RepositoryInterface
+    {
+        $reflectionClass = new \ReflectionClass($entityClass);
+        $classAnnotations = (new AnnotationReader())->getClassAnnotations($reflectionClass);
+
+        foreach ($classAnnotations as $annotation) {
+            if (($annotation instanceof RepositoryAnnotation) === true) {
+                return new $annotation->repositoryClass($this, $entityClass);
+            }
+        }
+
+        return new Repository($this, $entityClass);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function update(EntityInterface $entity): EntityInterface
     {
-        return $this->requestHandler->put($entity, 'http://localhost/', [
-            'auth' => 'api-key'
-        ]);
+        return $this->requestHandler->put($entity, 'api-key');
     }
 }

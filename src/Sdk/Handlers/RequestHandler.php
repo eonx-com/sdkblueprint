@@ -40,88 +40,58 @@ final class RequestHandler implements RequestHandlerInterface
     }
 
     /**
-     * Make a DELETE request.
-     *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     * @param string $uri
-     * @param array|null $options
-     *
-     * @return void
+     * @inheritdoc
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function delete(EntityInterface $entity, string $uri, ?array $options = null): void
+    public function delete(EntityInterface $entity, ?string $apikey = null): void
     {
-        $this->executeAndRespond($entity, self::DELETE, $uri, $options);
+        $this->executeAndRespond($entity, self::DELETE, $apikey);
     }
 
     /**
-     * Make a GET request.
-     *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     * @param string $uri
-     * @param array|null $options
-     *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
+     * @inheritdoc
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function get(EntityInterface $entity, string $uri, ?array $options = null): EntityInterface
+    public function get(EntityInterface $entity, ?string $apikey = null): EntityInterface
     {
-        return $this->executeAndRespond($entity, self::GET, $uri, $options);
+        return $this->executeAndRespond($entity, self::GET, $apikey);
     }
 
     /**
-     * Make a GET (LIST) request.
-     *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     * @param string $uri
-     * @param array|null $options
-     *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface[]
+     * @inheritdoc
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function list(EntityInterface $entity, string $uri, ?array $options = null): array
+    public function list(EntityInterface $entity, ?string $apikey = null): array
     {
-        return $this->executeAndRespond($entity, self::LIST, $uri, $options);
+        return $this->executeAndRespond($entity, self::LIST, $apikey);
     }
 
     /**
-     * Make a POST request.
-     *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     * @param string $uri
-     * @param array|null $options
-     *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
+     * @inheritdoc
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function post(EntityInterface $entity, string $uri, ?array $options = null): EntityInterface
+    public function post(EntityInterface $entity, ?string $apikey = null): EntityInterface
     {
-        return $this->executeAndRespond($entity, self::POST, $uri, $options);
+        return $this->executeAndRespond($entity, self::CREATE, $apikey);
     }
 
     /**
-     * Make a PUT request.
-     *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     * @param string $uri
-     * @param array|null $options
-     *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
+     * @inheritdoc
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function put(EntityInterface $entity, string $uri, ?array $options = null): EntityInterface
+    public function put(EntityInterface $entity, ?string $apikey = null): EntityInterface
     {
-        return $this->executeAndRespond($entity, self::PUT, $uri, $options);
+        return $this->executeAndRespond($entity, self::UPDATE, $apikey);
     }
 
     /**
@@ -148,21 +118,27 @@ final class RequestHandler implements RequestHandlerInterface
      * Execute request and respond.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     * @param string $method
-     * @param string $uri
-     * @param array|null $options
+     * @param string $method Request method
+     * @param string|null $apikey Api key
      *
      * @return mixed
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    private function executeAndRespond(
-        EntityInterface $entity,
-        string $method,
-        string $uri,
-        ?array $options = null
-    ) {
+    private function executeAndRespond(EntityInterface $entity, string $method, ?string $apikey = null)
+    {
+        $options = [];
+
+        if ($apikey !== null) {
+            $options = array_merge($options, [
+                'auth' => ['RE2UFJXYE949K2NG', null]
+            ]);
+        }
+
+        // get endpoint uri based on request method
+        $uri = $entity->getUris()[$method] ?? '';
+
         $response = $this->execute($method, $uri, $this->getBody($entity, $method, $options));
 
         if (\mb_strtolower($method) === self::DELETE) {

@@ -26,11 +26,30 @@ interface ApiManagerInterface
     /**
      * Request to find an entity.
      *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
+     * @param string $entityName Entity class name
+     * @param string $id Entity id
      *
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
      */
-    public function find(EntityInterface $entity): EntityInterface;
+    public function find(string $entityName, string $id): EntityInterface;
+
+    /**
+     * Request to find all entity of a type.
+     *
+     * @param string $entityName Entity class name
+     *
+     * @return mixed[]
+     */
+    public function findAll(string $entityName): array;
+
+    /**
+     * Get entity repository.
+     *
+     * @param string $entityClass
+     *
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RepositoryInterface
+     */
+    public function getRepository(string $entityClass): RepositoryInterface;
 
     /**
      * Request to update an entity.
