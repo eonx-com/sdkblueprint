@@ -14,7 +14,7 @@ final class RequestHandler implements RequestHandlerInterface
     /**
      * Guzzle http client.
      *
-     * @var \GuzzleHttp\ClientInterface|null
+     * @var \GuzzleHttp\ClientInterface
      */
     private $httpClient;
 
@@ -28,8 +28,8 @@ final class RequestHandler implements RequestHandlerInterface
     /**
      * Construct request handler.
      *
+     * @param \GuzzleHttp\ClientInterface $client Guzzle client
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\SerializerFactoryInterface $serializerFactory
-     * @param \GuzzleHttp\ClientInterface|null $client
      */
     public function __construct(
         GuzzleClientInterface $client,
@@ -98,8 +98,8 @@ final class RequestHandler implements RequestHandlerInterface
      * Execute request.
      *
      * @param string $method Request method
-     * @param string $uri Uri
-     * @param array|null $body Request body
+     * @param string $uri URI
+     * @param mixed[]|null $body Request body
      *
      * @return \Psr\Http\Message\ResponseInterface
      *
@@ -107,7 +107,7 @@ final class RequestHandler implements RequestHandlerInterface
      */
     private function execute(string $method, string $uri, ?array $body = null): ResponseInterface
     {
-        if (in_array(\mb_strtolower($method), [self::GET, self::LIST], true) === true) {
+        if (\in_array(\mb_strtolower($method), [self::GET, self::LIST], true) === true) {
             return $this->httpClient->request(self::GET, $uri, $body ?? []);
         }
 
@@ -131,7 +131,7 @@ final class RequestHandler implements RequestHandlerInterface
         $options = [];
 
         if ($apikey !== null) {
-            $options = array_merge($options, [
+            $options = \array_merge($options, [
                 'auth' => ['RE2UFJXYE949K2NG', null]
             ]);
         }

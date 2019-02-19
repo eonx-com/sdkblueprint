@@ -46,9 +46,9 @@ class Repository implements RepositoryInterface
     /**
      * @inheritdoc
      */
-    public function findById(string $id): EntityInterface
+    public function findById(string $entityId): EntityInterface
     {
-        return $this->getApiManager()->find($this->entityClass, $id);
+        return $this->getApiManager()->find($this->entityClass, $entityId);
     }
 
     /**

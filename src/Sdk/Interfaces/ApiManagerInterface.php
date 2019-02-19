@@ -27,11 +27,11 @@ interface ApiManagerInterface
      * Request to find an entity.
      *
      * @param string $entityName Entity class name
-     * @param string $id Entity id
+     * @param string $entityId Entity id
      *
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
      */
-    public function find(string $entityName, string $id): EntityInterface;
+    public function find(string $entityName, string $entityId): EntityInterface;
 
     /**
      * Request to find all entity of a type.

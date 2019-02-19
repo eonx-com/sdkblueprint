@@ -48,9 +48,9 @@ final class ApiManager implements ApiManagerInterface
     /**
      * @inheritdoc
      */
-    public function find(string $entityName, string $id): EntityInterface
+    public function find(string $entityName, string $entityId): EntityInterface
     {
-        $class = new $entityName(['id' => $id]);
+        $class = new $entityName(['id' => $entityId]);
 
         return $this->requestHandler->get($class, 'api-key');
     }

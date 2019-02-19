@@ -29,9 +29,9 @@ interface UriInterface
     /**
      * Retrieve the port component of the URI.
      *
-     * @return null|int The URI port.
+     * @return null|string The URI port.
      */
-    public function getPort(): ?int;
+    public function getPort(): ?string;
 
     /**
      * Retrieve the scheme component of the URI.

@@ -15,9 +15,9 @@ interface RepositoryInterface
     /**
      * Find entity by id.
      *
-     * @param string $id Entity id
+     * @param string $entityId Entity id
      *
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
      */
-    public function findById(string $id): EntityInterface;
+    public function findById(string $entityId): EntityInterface;
 }

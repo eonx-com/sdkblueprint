@@ -24,7 +24,7 @@ class Uri implements UriInterface
     /**
      * Uri port.
      *
-     * @var int|null
+     * @var string|null
      */
     private $port;
 
@@ -41,9 +41,9 @@ class Uri implements UriInterface
      * @param string $host
      * @param string $path
      * @param string $scheme
-     * @param int|null $port
+     * @param string|null $port
      */
-    public function __construct(string $host, string $path, string $scheme, ?int $port =null)
+    public function __construct(string $host, string $path, string $scheme, ?string $port = null)
     {
         $this->host = $host;
         $this->path = $path;
@@ -65,12 +65,10 @@ class Uri implements UriInterface
 
         // if port is provided, then append port
         if ($this->getPort() !== null) {
-            $uri .= \sprintf(':%d', $this->getPort());
+            $uri .= \sprintf(':%s', $this->getPort());
         }
 
-        if ($this->getPath() !== null) {
-            $uri .= $this->getPath();
-        }
+        $uri .= $this->getPath();
 
         return $uri;
     }
@@ -94,7 +92,7 @@ class Uri implements UriInterface
     /**
      * @inheritdoc
      */
-    public function getPort(): int
+    public function getPort(): ?string
     {
         return $this->port;
     }
