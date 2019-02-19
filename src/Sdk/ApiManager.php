@@ -21,9 +21,8 @@ final class ApiManager implements ApiManagerInterface
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface $requestHandler
      */
-    public function __construct(
-        RequestHandlerInterface $requestHandler
-    ) {
+    public function __construct(RequestHandlerInterface $requestHandler)
+    {
         $this->requestHandler = $requestHandler;
     }
 
@@ -44,9 +43,9 @@ final class ApiManager implements ApiManagerInterface
      *
      * @throws \EoneoPay\Utils\Exceptions\BaseException
      */
-    public function delete(EntityInterface $entity): EntityInterface
+    public function delete(EntityInterface $entity): void
     {
-        return $this->requestHandler->delete($entity, 'http://localhost/', [
+        $this->requestHandler->delete($entity, 'http://localhost/', [
             'auth' => 'api-key'
         ]);
     }

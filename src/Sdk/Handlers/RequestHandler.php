@@ -46,14 +46,14 @@ final class RequestHandler implements RequestHandlerInterface
      * @param string $uri
      * @param array|null $options
      *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
+     * @return void
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function delete(EntityInterface $entity, string $uri, ?array $options = null): EntityInterface
+    public function delete(EntityInterface $entity, string $uri, ?array $options = null): void
     {
-        return $this->executeAndRespond($entity, 'DELETE', $uri, $options);
+        $this->executeAndRespond($entity, self::DELETE, $uri, $options);
     }
 
     /**
@@ -70,7 +70,24 @@ final class RequestHandler implements RequestHandlerInterface
      */
     public function get(EntityInterface $entity, string $uri, ?array $options = null): EntityInterface
     {
-        return $this->executeAndRespond($entity, 'GET', $uri, $options);
+        return $this->executeAndRespond($entity, self::GET, $uri, $options);
+    }
+
+    /**
+     * Make a GET (LIST) request.
+     *
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
+     * @param string $uri
+     * @param array|null $options
+     *
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface[]
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function list(EntityInterface $entity, string $uri, ?array $options = null): array
+    {
+        return $this->executeAndRespond($entity, self::LIST, $uri, $options);
     }
 
     /**
@@ -87,7 +104,7 @@ final class RequestHandler implements RequestHandlerInterface
      */
     public function post(EntityInterface $entity, string $uri, ?array $options = null): EntityInterface
     {
-        return $this->executeAndRespond($entity, 'POST', $uri, $options);
+        return $this->executeAndRespond($entity, self::POST, $uri, $options);
     }
 
     /**
@@ -104,7 +121,7 @@ final class RequestHandler implements RequestHandlerInterface
      */
     public function put(EntityInterface $entity, string $uri, ?array $options = null): EntityInterface
     {
-        return $this->executeAndRespond($entity, 'PUT', $uri, $options);
+        return $this->executeAndRespond($entity, self::PUT, $uri, $options);
     }
 
     /**
@@ -120,6 +137,10 @@ final class RequestHandler implements RequestHandlerInterface
      */
     private function execute(string $method, string $uri, ?array $body = null): ResponseInterface
     {
+        if (in_array(\mb_strtolower($method), [self::GET, self::LIST], true) === true) {
+            return $this->httpClient->request(self::GET, $uri, $body ?? []);
+        }
+
         return $this->httpClient->request($method, $uri, $body ?? []);
     }
 
@@ -131,7 +152,7 @@ final class RequestHandler implements RequestHandlerInterface
      * @param string $uri
      * @param array|null $options
      *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
+     * @return mixed
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
@@ -141,13 +162,15 @@ final class RequestHandler implements RequestHandlerInterface
         string $method,
         string $uri,
         ?array $options = null
-    ): EntityInterface {
+    ) {
         $response = $this->execute($method, $uri, $this->getBody($entity, $method, $options));
 
-        $expectObjectClass = \get_class($entity);
+        if (\mb_strtolower($method) === self::DELETE) {
+            return null;
+        }
 
-        $type = \mb_strtolower($method) === 'get' ?
-            \sprintf('%s[]', $expectObjectClass) : $expectObjectClass;
+        $type = \mb_strtolower($method) === self::LIST ?
+            \sprintf('%s[]', \get_class($entity)) : \get_class($entity);
 
         return $this->serializer->deserialize($response->getBody()->getContents(), $type, 'json');
     }

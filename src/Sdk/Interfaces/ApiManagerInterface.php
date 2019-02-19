@@ -19,9 +19,9 @@ interface ApiManagerInterface
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
      *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
+     * @return void
      */
-    public function delete(EntityInterface $entity): EntityInterface;
+    public function delete(EntityInterface $entity): void;
 
     /**
      * Request to find an entity.
