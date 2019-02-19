@@ -21,8 +21,9 @@ final class ApiManager implements ApiManagerInterface
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface $requestHandler
      */
-    public function __construct(RequestHandlerInterface $requestHandler)
-    {
+    public function __construct(
+        RequestHandlerInterface $requestHandler
+    ) {
         $this->requestHandler = $requestHandler;
     }
 
@@ -33,7 +34,9 @@ final class ApiManager implements ApiManagerInterface
      */
     public function create(EntityInterface $entity): EntityInterface
     {
-        return $this->requestHandler->post($entity, '', []);
+        return $this->requestHandler->post($entity, 'http://localhost/', [
+            'auth' => 'api-key'
+        ]);
     }
 
     /**
@@ -43,7 +46,9 @@ final class ApiManager implements ApiManagerInterface
      */
     public function delete(EntityInterface $entity): EntityInterface
     {
-        return $this->requestHandler->delete($entity, '', []);
+        return $this->requestHandler->delete($entity, 'http://localhost/', [
+            'auth' => 'api-key'
+        ]);
     }
 
     /**
@@ -53,7 +58,9 @@ final class ApiManager implements ApiManagerInterface
      */
     public function find(EntityInterface $entity): EntityInterface
     {
-        return $this->requestHandler->get($entity, '', []);
+        return $this->requestHandler->get($entity, 'http://localhost/', [
+            'auth' => 'api-key'
+        ]);
     }
 
     /**
@@ -63,6 +70,8 @@ final class ApiManager implements ApiManagerInterface
      */
     public function update(EntityInterface $entity): EntityInterface
     {
-        return $this->requestHandler->put($entity, '', []);
+        return $this->requestHandler->put($entity, 'http://localhost/', [
+            'auth' => 'api-key'
+        ]);
     }
 }
