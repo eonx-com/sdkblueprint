@@ -6,6 +6,7 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk\Handlers;
 use GuzzleHttp\ClientInterface as GuzzleClientInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\SerializerFactoryInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\UrnFactoryInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -26,17 +27,27 @@ final class RequestHandler implements RequestHandlerInterface
     private $serializer;
 
     /**
+     * Urn factory instance.
+     *
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\UrnFactoryInterface
+     */
+    private $urnFactory;
+
+    /**
      * Construct request handler.
      *
      * @param \GuzzleHttp\ClientInterface $client Guzzle client
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\SerializerFactoryInterface $serializerFactory
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\UrnFactoryInterface $urnFactory
      */
     public function __construct(
         GuzzleClientInterface $client,
-        SerializerFactoryInterface $serializerFactory
+        SerializerFactoryInterface $serializerFactory,
+        UrnFactoryInterface $urnFactory
     ) {
         $this->httpClient = $client;
         $this->serializer = $serializerFactory->create();
+        $this->urnFactory = $urnFactory;
     }
 
     /**
@@ -132,14 +143,15 @@ final class RequestHandler implements RequestHandlerInterface
 
         if ($apikey !== null) {
             $options = \array_merge($options, [
-                'auth' => ['RE2UFJXYE949K2NG', null]
+                'auth' => [$apikey, null]
             ]);
         }
 
         // get endpoint uri based on request method
-        $uri = $entity->getUris()[$method] ?? '';
+        // @todo: urn factory needs to reviewed and improvised
+        $urn = $this->urnFactory->create($entity->getUris()[$method] ?? '');
 
-        $response = $this->execute($method, $uri, $this->getBody($entity, $method, $options));
+        $response = $this->execute($method, $urn, $this->getBody($entity, $method, $options));
 
         if (\mb_strtolower($method) === self::DELETE) {
             return null;
