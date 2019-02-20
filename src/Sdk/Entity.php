@@ -52,17 +52,17 @@ abstract class Entity implements EntityInterface
 
         // Perform action
         switch ($type) {
-            case 'get':
+            case 'get': //@codeCoverageIgnore
                 return $this->__get($property);
 
-            case 'has':
+            case 'has': //@codeCoverageIgnore
                 return $this->has($property);
 
-            case 'is':
+            case 'is': //@codeCoverageIgnore
                 // Always return a boolean
                 return (bool)$this->__get($property);
 
-            case 'set':
+            case 'set': //@codeCoverageIgnore
                 // Return original instance for fluency
                 $this->__set($property, \reset($parameters));
                 break;

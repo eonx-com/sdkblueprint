@@ -8,22 +8,27 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Entity;
 
 /**
  * @Repository(repositoryClass="Tests\LoyaltyCorp\SdkBlueprint\Stubs\Repositories\UserRepositoryStub")
+ *
+ * @method string|null getType()
+ * @method string|null getUserId()
  */
 class UserStub extends Entity
 {
     /**
-     * @var string
+     * @var string|null
      */
-    protected $token;
+    protected $type;
+
+    /**
+     * @var string|null
+     */
+    protected $userId;
 
     /**
      * @inheritdoc
      */
     public function getUris(): array
     {
-        return [
-            self::GET => 'http://payments.eoneopay.box/tokens/' . $this->__get('id'),
-            self::LIST => 'http://payments.eoneopay.box/tokens'
-        ];
+        return [];
     }
 }

@@ -5,8 +5,17 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Entity;
 
-class EwalletStub extends Entity
+/**
+ * @method string|null getEntityId()
+ * @method self setEntityId(string $entityId)
+ */
+class EntityStub extends Entity
 {
+    /**
+     * @var string|null
+     */
+    protected $entityId;
+
     /**
      * @inheritdoc
      */

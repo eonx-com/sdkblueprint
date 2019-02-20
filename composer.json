@@ -25,6 +25,7 @@
     "symfony/expression-language": "^4.1"
   },
   "require-dev": {
+    "indigophp/doctrine-annotation-autoload": "^0.1.0",
     "eoneopay/standards": "dev-master",
     "laravel/lumen-framework": "^5.5",
     "php-http/guzzle6-adapter": "^1.1",
@@ -37,6 +38,7 @@
     "woohoolabs/yang": "^1.2"
   },
   "suggest": {
+    "indigophp/doctrine-annotation-autoload": "Recommended to autoload custom doctrine annotations",
     "laravel/framework": "^5.5",
     "laravel/lumen-framework": "^5.5",
     "phpmd/phpmd": "Check coding best practices",

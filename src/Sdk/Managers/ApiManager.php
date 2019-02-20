@@ -41,9 +41,9 @@ final class ApiManager implements ApiManagerInterface
     /**
      * @inheritdoc
      */
-    public function delete(EntityInterface $entity): void
+    public function delete(EntityInterface $entity): bool
     {
-        $this->requestHandler->delete($entity, 'api-key');
+        return $this->requestHandler->delete($entity, 'api-key');
     }
 
     /**

@@ -14,9 +14,9 @@ interface RequestHandlerInterface extends RequestAwareInterface
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
      * @param string|null $apikey Api key
      *
-     * @return void
+     * @return bool
      */
-    public function delete(EntityInterface $entity, ?string $apikey = null): void;
+    public function delete(EntityInterface $entity, ?string $apikey = null): bool;
 
     /**
      * Make a GET request.

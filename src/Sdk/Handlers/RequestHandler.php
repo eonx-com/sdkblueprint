@@ -56,9 +56,11 @@ final class RequestHandler implements RequestHandlerInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function delete(EntityInterface $entity, ?string $apikey = null): void
+    public function delete(EntityInterface $entity, ?string $apikey = null): bool
     {
         $this->executeAndRespond($entity, self::DELETE, $apikey);
+
+        return true;
     }
 
     /**
