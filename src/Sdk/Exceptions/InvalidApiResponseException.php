@@ -10,7 +10,7 @@ use Throwable;
 class InvalidApiResponseException extends RuntimeException
 {
     /**
-     * @var \EoneoPay\Externals\HttpClient\Interfaces\ResponseInterface
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface
      */
     private $response;
 

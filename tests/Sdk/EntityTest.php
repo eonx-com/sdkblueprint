@@ -47,8 +47,10 @@ class EntityTest extends TestCase
      */
     public function testIssetMagicMethod(): void
     {
+        $entity = new EntityStub();
+
         /** @noinspection PhpUndefinedFieldInspection test itself is for undefined field*/
-        self::assertFalse(isset((new EntityStub())->unknownProperty));
+        self::assertFalse(isset($entity->unknownProperty));
     }
 
     /**

@@ -24,7 +24,7 @@ class ResponseHandlerTest extends TestCase
     public function testHandleJsonResponse(): void
     {
         $response = (new ResponseHandler())->handle(
-            new Response(200, [], \json_encode(['key' => 'value']))
+            new Response(200, [], \json_encode(['key' => 'value']) ?: '')
         );
 
         self::assertSame('value', $response->get('key'));

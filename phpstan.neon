@@ -1,7 +1,7 @@
 parameters:
     ignoreErrors:
         -
-            message: '#Call to method bind\(\) on an unknown class Illuminate\\Foundation\\Application.#'
+            message: '#Call to method singleton\(\) on an unknown class Illuminate\\Foundation\\Application.#'
             path: src/External/Libraries/Bridge/Laravel/Providers
         -
             message: '#Call to an undefined method Tests\\LoyaltyCorp\\SdkBlueprint\\Stubs\\Entities\\EntityStub::[a-zA-Z]+\(\).#'
