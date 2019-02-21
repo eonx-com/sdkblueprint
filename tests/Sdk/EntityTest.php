@@ -24,6 +24,7 @@ class EntityTest extends TestCase
 
         $entity = new EntityStub(['entityId' => 'entity-id']);
 
+        self::assertCount(5, $entity->uris());
         self::assertSame('entity-id', $entity->getEntityId());
 
         $entity->setEntityId('updated-id');

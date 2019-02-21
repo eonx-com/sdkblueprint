@@ -180,7 +180,7 @@ final class RequestHandler implements RequestHandlerInterface
 
         // get endpoint uri based on request method
         // @todo: urn factory needs to reviewed and improvised
-        $urn = $this->urnFactory->create($entity->getUris()[$method] ?? '');
+        $urn = $this->urnFactory->create($entity->uris()[$method] ?? '');
 
         $response = $this->execute($method, $urn, $this->getBody($entity, $method, $options));
 

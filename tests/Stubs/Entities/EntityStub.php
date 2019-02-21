@@ -22,7 +22,7 @@ class EntityStub extends Entity
     /**
      * @inheritdoc
      */
-    public function getUris(): array
+    public function uris(): array
     {
         return [
             self::CREATE => 'http://localhost/test',
