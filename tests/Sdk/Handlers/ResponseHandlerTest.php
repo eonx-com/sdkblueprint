@@ -28,6 +28,7 @@ class ResponseHandlerTest extends TestCase
         );
 
         self::assertSame('value', $response->get('key'));
+        self::assertSame(200, $response->getStatusCode());
     }
 
     /**
@@ -39,7 +40,7 @@ class ResponseHandlerTest extends TestCase
      */
     public function testHandleRequestException(): void
     {
-        $response = (new ResponseHandler())->handleRequestException(
+        $response = (new ResponseHandler())->handleException(
             new RequestException(
                 'Test request exception',
                 new Request('GET', 'test'),
@@ -48,6 +49,27 @@ class ResponseHandlerTest extends TestCase
         );
 
         self::assertSame('Test request exception message', $response->get('message'));
+        self::assertSame(400, $response->getStatusCode());
+    }
+
+    /**
+     * Test handle request exception with no response returns expected response.
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
+     */
+    public function testHandleRequestExceptionWithNoResponse(): void
+    {
+        $response = (new ResponseHandler())->handleException(
+            new RequestException(
+                'Test request exception',
+                new Request('GET', 'test')
+            )
+        );
+
+        self::assertSame('Test request exception', $response->get('exception'));
+        self::assertSame(400, $response->getStatusCode());
     }
 
     /**
@@ -64,22 +86,7 @@ class ResponseHandlerTest extends TestCase
         );
 
         self::assertSame('Test text', $response->getContent());
-    }
-
-    /**
-     * Test handle request exception returns expected response.
-     *
-     * @return void
-     *
-     * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
-     */
-    public function testHandleUnknownException(): void
-    {
-        $response = (new ResponseHandler())->handleRequestException(
-            new \Exception('Test unknown exception')
-        );
-
-        self::assertSame('Test unknown exception', $response->get('exception'));
+        self::assertSame(200, $response->getStatusCode());
     }
 
     /**
@@ -98,5 +105,6 @@ class ResponseHandlerTest extends TestCase
         );
 
         self::assertSame($content, $response->getContent());
+        self::assertSame(200, $response->getStatusCode());
     }
 }

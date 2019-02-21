@@ -6,6 +6,3 @@ parameters:
         -
             message: '#Call to an undefined method Tests\\LoyaltyCorp\\SdkBlueprint\\Stubs\\Entities\\EntityStub::[a-zA-Z]+\(\).#'
             path: tests/Sdk
-        -
-            message: '#Access to an undefined property Tests\\LoyaltyCorp\\SdkBlueprint\\Stubs\\Entities\\EntityStub::\$[a-zA-Z]+.#'
-            path: tests/Sdk

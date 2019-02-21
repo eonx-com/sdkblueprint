@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers;
 
-use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 
@@ -19,11 +19,11 @@ interface ResponseHandlerInterface
     public function handle(PsrResponseInterface $psrResponse): ResponseInterface;
 
     /**
-     * Handle request exception.
+     * Handle exception.
      *
-     * @param \Exception $exception
+     * @param \GuzzleHttp\Exception\GuzzleException $exception
      *
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface
      */
-    public function handleRequestException(Exception $exception): ResponseInterface;
+    public function handleException(GuzzleException $exception): ResponseInterface;
 }

@@ -20,7 +20,11 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Handlers\ResponseHandlerStub;
 use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 
 /**
+ * @noinspection EfferentObjectCouplingInspection High coupling for testing only
+ *
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Handlers\RequestHandler
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Test case only, high coupling required to fully test request handler
  */
 class RequestHandlerTest extends TestCase
 {

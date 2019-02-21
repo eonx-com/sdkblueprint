@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace LoyaltyCorp\SdkBlueprint\Sdk\Handlers;
 
 use EoneoPay\Utils\XmlConverter;
-use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\ResponseHandlerInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
@@ -37,13 +37,35 @@ final class ResponseHandler implements ResponseHandlerInterface
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
      */
-    public function handleRequestException(Exception $exception): ResponseInterface
+    public function handleException(GuzzleException $exception): ResponseInterface
     {
-        if (($exception instanceof RequestException) === true &&
-            $exception->hasResponse() &&
-            $exception->getResponse() !== null) {
-            // exception content
-            $content = $exception->getResponse()->getBody()->getContents();
+        if (($exception instanceof RequestException) === true) {
+            /**
+             * @var \GuzzleHttp\Exception\RequestException $exception
+             *
+             * @see https://youtrack.jetbrains.com/issue/WI-37859 typehint required until PhpStorm recognises === check
+             */
+            return $this->handleRequestException($exception);
+        }
+
+        // Covers any other guzzle exception, only here for safety so intentionally ignored
+        /** @noinspection BadExceptionsProcessingInspection */
+        return new Response(null, 500); // @codeCoverageIgnore
+    }
+
+    /**
+     * Handle request exception.
+     *
+     * @param \GuzzleHttp\Exception\RequestException $exception
+     *
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
+     */
+    private function handleRequestException(RequestException $exception): ResponseInterface
+    {
+        if ($exception->hasResponse() && $exception->getResponse() !== null) {
+            $content = $this->getBodyContents($exception->getResponse()->getBody());
 
             return new Response(
                 $this->processResponseContent($content),
@@ -55,7 +77,7 @@ final class ResponseHandler implements ResponseHandlerInterface
 
         $content = \json_encode(['exception' => $exception->getMessage()]) ?: '';
 
-        return new Response($this->processResponseContent($content) ?? [], 400, null, $content);
+        return new Response($this->processResponseContent($content), 400, null, $content);
     }
 
     /**

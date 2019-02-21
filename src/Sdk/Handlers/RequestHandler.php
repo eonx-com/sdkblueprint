@@ -5,7 +5,6 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk\Handlers;
 
 use GuzzleHttp\ClientInterface as GuzzleClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\RequestException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\SerializerFactoryInterface;
@@ -13,8 +12,6 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\UrnFactoryInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\ResponseHandlerInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
-use LoyaltyCorp\SdkBlueprint\Sdk\Response;
-use RuntimeException;
 
 final class RequestHandler implements RequestHandlerInterface
 {
@@ -147,12 +144,8 @@ final class RequestHandler implements RequestHandlerInterface
             // handle response
             $response = $this->responseHandler->handle($request);
             // @codeCoverageIgnoreStart
-        } catch (RuntimeException | RequestException $exception) {
-            $response = $this->responseHandler->handleRequestException($exception);
-        } /** @noinspection BadExceptionsProcessingInspection */ catch (GuzzleException $exception) {
-            // Covers any other guzzle exception, only here for safety so intentionally ignored
-            $response = new Response(null, 500);
-            // @codeCoverageIgnoreEnd
+        } catch (GuzzleException $exception) {
+            $response = $this->responseHandler->handleException($exception);
         }
 
         // If response is unsuccessful, throw exception

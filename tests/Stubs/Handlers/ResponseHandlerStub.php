@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Handlers;
 
-use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\ResponseHandlerInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Response;
@@ -29,13 +29,8 @@ class ResponseHandlerStub implements ResponseHandlerInterface
     /**
      * @inheritdoc
      */
-    public function handleRequestException(Exception $exception): ResponseInterface
+    public function handleException(GuzzleException $exception): ResponseInterface
     {
-        return new Response(
-            [],
-            $exception->getCode(),
-            [],
-            $exception->getMessage()
-        );
+        return new Response([], $exception->getCode(), [], $exception->getMessage());
     }
 }
