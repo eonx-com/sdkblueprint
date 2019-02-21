@@ -33,35 +33,35 @@ final class ApiManager implements ApiManagerInterface
     /**
      * @inheritdoc
      */
-    public function create(EntityInterface $entity): EntityInterface
+    public function create(string $apikey, EntityInterface $entity): EntityInterface
     {
-        return $this->requestHandler->post($entity, 'api-key');
+        return $this->requestHandler->post($entity, $apikey);
     }
 
     /**
      * @inheritdoc
      */
-    public function delete(EntityInterface $entity): bool
+    public function delete(string $apikey, EntityInterface $entity): bool
     {
-        return $this->requestHandler->delete($entity, 'api-key');
+        return $this->requestHandler->delete($entity, $apikey);
     }
 
     /**
      * @inheritdoc
      */
-    public function find(string $entityName, string $entityId): EntityInterface
+    public function find(string $entityName, string $entityId, string $apikey): EntityInterface
     {
         $class = new $entityName(['id' => $entityId]);
 
-        return $this->requestHandler->get($class, 'api-key');
+        return $this->requestHandler->get($class, $apikey);
     }
 
     /**
      * @inheritdoc
      */
-    public function findAll(string $entityName): array
+    public function findAll(string $entityName, string $apikey): array
     {
-        return $this->requestHandler->list(new $entityName(), 'api-key');
+        return $this->requestHandler->list(new $entityName(), $apikey);
     }
 
     /**
@@ -87,8 +87,8 @@ final class ApiManager implements ApiManagerInterface
     /**
      * @inheritdoc
      */
-    public function update(EntityInterface $entity): EntityInterface
+    public function update(string $apikey, EntityInterface $entity): EntityInterface
     {
-        return $this->requestHandler->put($entity, 'api-key');
+        return $this->requestHandler->put($entity, $apikey);
     }
 }

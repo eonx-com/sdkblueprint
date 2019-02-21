@@ -4,11 +4,17 @@ declare(strict_types=1);
 namespace LoyaltyCorp\SdkBlueprint\Sdk\Handlers;
 
 use GuzzleHttp\ClientInterface as GuzzleClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\SerializerFactoryInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\UrnFactoryInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface;
-use Psr\Http\Message\ResponseInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\ResponseHandlerInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Response;
+use RuntimeException;
 
 final class RequestHandler implements RequestHandlerInterface
 {
@@ -18,6 +24,13 @@ final class RequestHandler implements RequestHandlerInterface
      * @var \GuzzleHttp\ClientInterface
      */
     private $httpClient;
+
+    /**
+     * Response handler.
+     *
+     * @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\ResponseHandlerInterface
+     */
+    private $responseHandler;
 
     /**
      * Symfony serializer.
@@ -36,15 +49,18 @@ final class RequestHandler implements RequestHandlerInterface
     /**
      * Construct request handler.
      *
-     * @param \GuzzleHttp\ClientInterface $client Guzzle client
+     * @param \GuzzleHttp\ClientInterface $client
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\ResponseHandlerInterface $responseHandler
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\SerializerFactoryInterface $serializerFactory
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\UrnFactoryInterface $urnFactory
      */
     public function __construct(
         GuzzleClientInterface $client,
+        ResponseHandlerInterface $responseHandler,
         SerializerFactoryInterface $serializerFactory,
         UrnFactoryInterface $urnFactory
     ) {
+        $this->responseHandler = $responseHandler;
         $this->httpClient = $client;
         $this->serializer = $serializerFactory->create();
         $this->urnFactory = $urnFactory;
@@ -53,7 +69,7 @@ final class RequestHandler implements RequestHandlerInterface
     /**
      * @inheritdoc
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function delete(EntityInterface $entity, ?string $apikey = null): bool
@@ -66,7 +82,7 @@ final class RequestHandler implements RequestHandlerInterface
     /**
      * @inheritdoc
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function get(EntityInterface $entity, ?string $apikey = null): EntityInterface
@@ -77,7 +93,7 @@ final class RequestHandler implements RequestHandlerInterface
     /**
      * @inheritdoc
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function list(EntityInterface $entity, ?string $apikey = null): array
@@ -88,7 +104,7 @@ final class RequestHandler implements RequestHandlerInterface
     /**
      * @inheritdoc
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function post(EntityInterface $entity, ?string $apikey = null): EntityInterface
@@ -99,7 +115,7 @@ final class RequestHandler implements RequestHandlerInterface
     /**
      * @inheritdoc
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function put(EntityInterface $entity, ?string $apikey = null): EntityInterface
@@ -108,23 +124,43 @@ final class RequestHandler implements RequestHandlerInterface
     }
 
     /**
-     * Execute request.
+     * Execute a request.
      *
      * @param string $method Request method
-     * @param string $uri URI
+     * @param string $uri Request uri path
      * @param mixed[]|null $body Request body
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      */
     private function execute(string $method, string $uri, ?array $body = null): ResponseInterface
     {
+        $requestMethod = $method;
+
         if (\in_array(\mb_strtolower($method), [self::GET, self::LIST], true) === true) {
-            return $this->httpClient->request(self::GET, $uri, $body ?? []);
+            $requestMethod = self::GET;
         }
 
-        return $this->httpClient->request($method, $uri, $body ?? []);
+        try {
+            $request = $this->httpClient->request($requestMethod, $uri, $body ?? []);
+            // handle response
+            $response = $this->responseHandler->handle($request);
+            // @codeCoverageIgnoreStart
+        } catch (RuntimeException | RequestException $exception) {
+            $response = $this->responseHandler->handleRequestException($exception);
+        } /** @noinspection BadExceptionsProcessingInspection */ catch (GuzzleException $exception) {
+            // Covers any other guzzle exception, only here for safety so intentionally ignored
+            $response = new Response(null, 500);
+            // @codeCoverageIgnoreEnd
+        }
+
+        // If response is unsuccessful, throw exception
+        if ($response->isSuccessful() === false) {
+            throw new InvalidApiResponseException($response, $exception ?? null);
+        }
+
+        return $response;
     }
 
     /**
@@ -136,7 +172,7 @@ final class RequestHandler implements RequestHandlerInterface
      *
      * @return mixed
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     private function executeAndRespond(EntityInterface $entity, string $method, ?string $apikey = null)
@@ -162,7 +198,7 @@ final class RequestHandler implements RequestHandlerInterface
         $type = \mb_strtolower($method) === self::LIST ?
             \sprintf('%s[]', \get_class($entity)) : \get_class($entity);
 
-        return $this->serializer->deserialize($response->getBody()->getContents(), $type, 'json');
+        return $this->serializer->deserialize($response->getContent(), $type, 'json');
     }
 
     /**
@@ -181,7 +217,7 @@ final class RequestHandler implements RequestHandlerInterface
         $normalize = $this->serializer->normalize($entity, null, ['groups' => [$group]]);
 
         return \array_merge([
-            'json' => $this->getFilterOptions($normalize)
+            'json' => \is_array($normalize) === true ? $this->getFilterOptions($normalize) : [$normalize]
         ], $options ?? []);
     }
 

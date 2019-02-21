@@ -34,15 +34,23 @@ class ApiManagerStub implements ApiManagerInterface
     /**
      * @inheritdoc
      */
-    public function findAll(string $entityName): array
+    public function create(string $apikey, EntityInterface $entity): EntityInterface
     {
-        return [$this->entity];
+        return $entity;
     }
 
     /**
      * @inheritdoc
      */
-    public function find(string $entityName, string $entityId): EntityInterface
+    public function delete(string $apikey, EntityInterface $entity): bool
+    {
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function find(string $entityName, string $entityId, string $apikey): EntityInterface
     {
         return $this->entity;
     }
@@ -50,25 +58,9 @@ class ApiManagerStub implements ApiManagerInterface
     /**
      * @inheritdoc
      */
-    public function create(EntityInterface $entity): EntityInterface
+    public function findAll(string $entityName, string $apikey): array
     {
-        return $entity;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function update(EntityInterface $entity): EntityInterface
-    {
-        return $entity;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function delete(EntityInterface $entity): bool
-    {
-        return true;
+        return [$this->entity];
     }
 
     /**
@@ -77,5 +69,13 @@ class ApiManagerStub implements ApiManagerInterface
     public function getRepository(string $entityClass): RepositoryInterface
     {
         return new RepositoryStub($this->entity);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function update(string $apikey, EntityInterface $entity): EntityInterface
+    {
+        return $entity;
     }
 }

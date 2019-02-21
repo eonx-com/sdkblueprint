@@ -29,7 +29,7 @@ class RepositoryStub implements RepositoryInterface
     /**
      * @inheritdoc
      */
-    public function findAll(): array
+    public function findAll(string $apikey): array
     {
         return [$this->entity];
     }
@@ -37,7 +37,7 @@ class RepositoryStub implements RepositoryInterface
     /**
      * @inheritdoc
      */
-    public function findById(string $entityId): EntityInterface
+    public function findById(string $entityId, string $apikey): EntityInterface
     {
         return $this->entity;
     }

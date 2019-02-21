@@ -38,17 +38,17 @@ class Repository implements RepositoryInterface
     /**
      * @inheritdoc
      */
-    public function findAll(): array
+    public function findAll(string $apikey): array
     {
-        return $this->getApiManager()->findAll($this->entityClass);
+        return $this->getApiManager()->findAll($this->entityClass, $apikey);
     }
 
     /**
      * @inheritdoc
      */
-    public function findById(string $entityId): EntityInterface
+    public function findById(string $entityId, string $apikey): EntityInterface
     {
-        return $this->getApiManager()->find($this->entityClass, $entityId);
+        return $this->getApiManager()->find($this->entityClass, $entityId, $apikey);
     }
 
     /**

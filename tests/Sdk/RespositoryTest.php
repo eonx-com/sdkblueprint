@@ -21,7 +21,7 @@ class RespositoryTest extends TestCase
      */
     public function testFindById(): void
     {
-        $entity = $this->getRepository()->findById('entity-id');
+        $entity = $this->getRepository()->findById('entity-id', 'api-key');
 
         self::assertInstanceOf(EntityStub::class, $entity);
     }
@@ -33,7 +33,7 @@ class RespositoryTest extends TestCase
      */
     public function testFindAll(): void
     {
-        $entities = $this->getRepository()->findAll();
+        $entities = $this->getRepository()->findAll('api-key');
 
         self::assertCount(1, $entities);
         self::assertInstanceOf(EntityStub::class, $entities[0]);

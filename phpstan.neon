@@ -1,2 +1,11 @@
 parameters:
-	ignoreErrors:
+    ignoreErrors:
+        -
+            message: '#Call to method bind\(\) on an unknown class Illuminate\\Foundation\\Application.#'
+            path: src/External/Libraries/Bridge/Laravel/Providers
+        -
+            message: '#Call to an undefined method Tests\\LoyaltyCorp\\SdkBlueprint\\Stubs\\Entities\\EntityStub::[a-zA-Z]+\(\).#'
+            path: tests/Sdk
+        -
+            message: '#Access to an undefined property Tests\\LoyaltyCorp\\SdkBlueprint\\Stubs\\Entities\\EntityStub::\$[a-zA-Z]+.#'
+            path: tests/Sdk

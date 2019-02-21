@@ -27,10 +27,17 @@ class ApiManagerTest extends TestCase
     {
         $entity = new EntityStub(['entityId' => \uniqid('id', false)]);
 
-        $found = $this->getManager($entity)->find(EntityStub::class, $entity->getEntityId());
+        $found = $this->getManager($entity)->find(
+            EntityStub::class,
+            $entity->getEntityId() ?? '',
+            'api-key'
+        );
 
         self::assertInstanceOf(EntityStub::class, $found);
-        self::assertSame($entity->getEntityId(), $found->getEntityId());
+        self::assertSame(
+            $entity->getEntityId(),
+            ($found instanceof EntityStub) === true ? $found->getEntityId() : null
+        );
     }
 
     /**
@@ -40,7 +47,7 @@ class ApiManagerTest extends TestCase
      */
     public function testFindAll(): void
     {
-        $entities = $this->getManager()->findAll(EntityStub::class);
+        $entities = $this->getManager()->findAll(EntityStub::class, 'api-key');
 
         self::assertCount(1, $entities);
         self::assertInstanceOf(EntityStub::class, $entities[0]);
@@ -55,10 +62,13 @@ class ApiManagerTest extends TestCase
     {
         $entity = new EntityStub(['entityId' => \uniqid('id', false)]);
 
-        $created = $this->getManager($entity)->create($entity);
+        $created = $this->getManager($entity)->create('api-key', $entity);
 
         self::assertInstanceOf(EntityStub::class, $created);
-        self::assertSame($entity->getEntityId(), $created->getEntityId());
+        self::assertSame(
+            $entity->getEntityId(),
+            ($created instanceof EntityStub) === true ? $created->getEntityId() : null
+        );
     }
 
     /**
@@ -68,7 +78,9 @@ class ApiManagerTest extends TestCase
      */
     public function testDelete(): void
     {
-        $success = $this->getManager()->delete(new EntityStub(['entityId' => \uniqid('id', false)]));
+        $success = $this->getManager()->delete('api-key', new EntityStub([
+            'entityId' => \uniqid('id', false)
+        ]));
 
         self::assertTrue($success);
     }
@@ -82,7 +94,7 @@ class ApiManagerTest extends TestCase
     {
         $entity = new EntityStub(['entityId' => \uniqid('id', false)]);
 
-        $updated = $this->getManager()->update($entity);
+        $updated = $this->getManager()->update('api-key', $entity);
 
         self::assertSame($entity, $updated);
     }
