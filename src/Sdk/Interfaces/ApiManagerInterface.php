@@ -29,12 +29,12 @@ interface ApiManagerInterface
      * Request to find an entity.
      *
      * @param string $entityName Entity class name
-     * @param string $entityId Entity id
      * @param string $apikey Api key
+     * @param string $entityId Entity id
      *
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
      */
-    public function find(string $entityName, string $entityId, string $apikey): EntityInterface;
+    public function find(string $entityName, string $apikey, string $entityId): EntityInterface;
 
     /**
      * Request to find all entity of a type.
@@ -50,23 +50,23 @@ interface ApiManagerInterface
      * Request to find by entity criteria.
      *
      * @param string $entityName Entity class name
-     * @param mixed[] $criteria Entity properties as key value
      * @param string $apikey Api key
+     * @param mixed[] $criteria Entity properties as key value
      *
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface[]
      */
-    public function findBy(string $entityName, array $criteria, string $apikey): array;
+    public function findBy(string $entityName, string $apikey, array $criteria): array;
 
     /**
      * Request to find by entity criteria.
      *
      * @param string $entityName Entity class name
-     * @param mixed[] $criteria Entity properties as key value
      * @param string $apikey Api key
+     * @param mixed[] $criteria Entity properties as key value
      *
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
      */
-    public function findOneBy(string $entityName, array $criteria, string $apikey): EntityInterface;
+    public function findOneBy(string $entityName, string $apikey, array $criteria): EntityInterface;
 
     /**
      * Get entity repository.

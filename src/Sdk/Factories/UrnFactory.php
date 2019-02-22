@@ -16,13 +16,13 @@ final class UrnFactory implements UrnFactoryInterface
     public function create(string $uri): string
     {
         // validate url
-        $validUrl = \filter_var($uri, \FILTER_VALIDATE_URL);
+        $validUrl = \filter_var(\sprintf('http://localhost%s', $uri), \FILTER_VALIDATE_URL);
 
         if ($validUrl === false) {
             // throw invalid uri exception
             throw new InvalidUriException(\sprintf('Provided URI (%s) in entity is invalid.', $uri));
         }
 
-        return \parse_url($validUrl, \PHP_URL_PATH) ?? '/';
+        return $uri;
     }
 }

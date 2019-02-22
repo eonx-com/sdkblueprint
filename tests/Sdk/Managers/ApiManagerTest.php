@@ -29,8 +29,8 @@ class ApiManagerTest extends TestCase
 
         $found = $this->getManager($entity)->find(
             EntityStub::class,
-            $entity->getEntityId() ?? '',
-            'api-key'
+            'api-key',
+            $entity->getEntityId() ?? ''
         );
 
         self::assertInstanceOf(EntityStub::class, $found);
@@ -51,8 +51,8 @@ class ApiManagerTest extends TestCase
 
         $found = $this->getManager($entity)->findOneBy(
             EntityStub::class,
-            ['id' => $entity->getEntityId()],
-            'api-key'
+            'api-key',
+            ['id' => $entity->getEntityId()]
         );
 
         self::assertInstanceOf(EntityStub::class, $found);
@@ -73,8 +73,8 @@ class ApiManagerTest extends TestCase
 
         $entities = $this->getManager($entity)->findBy(
             EntityStub::class,
-            ['id' => $entity->getEntityId()],
-            'api-key'
+            'api-key',
+            ['id' => $entity->getEntityId()]
         );
 
         self::assertCount(1, $entities);

@@ -16,7 +16,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Managers\ApiManager;
 class SdkServiceProvider extends ServiceProvider
 {
     /**
-     * Register gateway drivers
+     * Register services
      *
      * @return void
      */

@@ -49,7 +49,7 @@ final class ApiManager implements ApiManagerInterface
     /**
      * @inheritdoc
      */
-    public function find(string $entityName, string $entityId, string $apikey): EntityInterface
+    public function find(string $entityName, string $apikey, string $entityId): EntityInterface
     {
         $class = new $entityName(['id' => $entityId]);
 
@@ -67,7 +67,7 @@ final class ApiManager implements ApiManagerInterface
     /**
      * @inheritdoc
      */
-    public function findBy(string $entityName, array $criteria, string $apikey): array
+    public function findBy(string $entityName, string $apikey, array $criteria): array
     {
         $class = new $entityName($criteria);
 
@@ -77,7 +77,7 @@ final class ApiManager implements ApiManagerInterface
     /**
      * @inheritdoc
      */
-    public function findOneBy(string $entityName, array $criteria, string $apikey): EntityInterface
+    public function findOneBy(string $entityName, string $apikey, array $criteria): EntityInterface
     {
         $class = new $entityName($criteria);
 

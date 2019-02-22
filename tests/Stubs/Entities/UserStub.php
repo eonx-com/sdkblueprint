@@ -54,11 +54,11 @@ class UserStub extends Entity
     public function uris(): array
     {
         return [
-            self::CREATE => 'http://localhost/users',
-            self::DELETE => 'http://localhost/users',
-            self::GET => 'http://localhost/users',
-            self::LIST => 'http://localhost/users',
-            self::UPDATE => 'http://localhost/users'
+            self::CREATE => '/users',
+            self::DELETE => '/users',
+            self::GET => '/users',
+            self::LIST => '/users',
+            self::UPDATE => '/users'
         ];
     }
 }

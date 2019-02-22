@@ -25,11 +25,11 @@ class EntityStub extends Entity
     public function uris(): array
     {
         return [
-            self::CREATE => 'http://localhost/test',
-            self::DELETE => 'http://localhost/test',
-            self::GET => 'http://localhost/test',
-            self::LIST => 'http://localhost/test',
-            self::UPDATE => 'http://localhost/test'
+            self::CREATE => '/test',
+            self::DELETE => '/test',
+            self::GET => '/test',
+            self::LIST => '/test',
+            self::UPDATE => '/test'
         ];
     }
 }

@@ -21,7 +21,7 @@ class UrnFactoryTest extends TestCase
      */
     public function testCreate(): void
     {
-        $path = (new UrnFactory())->create('http://localhost/api/users');
+        $path = (new UrnFactory())->create('/api/users');
 
         self::assertSame('/api/users', $path);
     }
@@ -35,7 +35,7 @@ class UrnFactoryTest extends TestCase
      */
     public function testCreateThrowsInvalidUriException(): void
     {
-        $uri = '/orders/order-id/transactions/txn-id';
+        $uri = 'https:::::/orders/order-id/transactions/txn-id';
 
         $this->expectException(InvalidUriException::class);
         $this->expectExceptionMessage(\sprintf('Provided URI (%s) in entity is invalid.', $uri));
