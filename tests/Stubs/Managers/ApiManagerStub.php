@@ -66,6 +66,22 @@ class ApiManagerStub implements ApiManagerInterface
     /**
      * @inheritdoc
      */
+    public function findBy(string $entityName, array $criteria, string $apikey): array
+    {
+        return [$this->entity];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function findOneBy(string $entityName, array $criteria, string $apikey): EntityInterface
+    {
+        return $this->entity;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getRepository(string $entityClass): RepositoryInterface
     {
         return new RepositoryStub($this->entity);

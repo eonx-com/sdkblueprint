@@ -41,6 +41,51 @@ class ApiManagerTest extends TestCase
     }
 
     /**
+     * Test that api manager find one by will return the expected entity.
+     *
+     * @return void
+     */
+    public function testFindOneBy(): void
+    {
+        $entity = new EntityStub(['entityId' => \uniqid('id', false)]);
+
+        $found = $this->getManager($entity)->findOneBy(
+            EntityStub::class,
+            ['id' => $entity->getEntityId()],
+            'api-key'
+        );
+
+        self::assertInstanceOf(EntityStub::class, $found);
+        self::assertSame(
+            $entity->getEntityId(),
+            ($found instanceof EntityStub) === true ? $found->getEntityId() : null
+        );
+    }
+
+    /**
+     * Test that api manager find by will return array of expected entities
+     *
+     * @return void
+     */
+    public function testFindBy(): void
+    {
+        $entity = new EntityStub(['entityId' => \uniqid('id', false)]);
+
+        $entities = $this->getManager($entity)->findBy(
+            EntityStub::class,
+            ['id' => $entity->getEntityId()],
+            'api-key'
+        );
+
+        self::assertCount(1, $entities);
+        self::assertInstanceOf(EntityStub::class, $entities[0]);
+        self::assertSame(
+            $entity->getEntityId(),
+            ($entities[0] instanceof EntityStub) === true ? $entities[0]->getEntityId() : null
+        );
+    }
+
+    /**
      * Test that api manager finds and returns array of entities with excepted number of items in it.
      *
      * @return void

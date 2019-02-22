@@ -66,6 +66,26 @@ final class ApiManager implements ApiManagerInterface
 
     /**
      * @inheritdoc
+     */
+    public function findBy(string $entityName, array $criteria, string $apikey): array
+    {
+        $class = new $entityName($criteria);
+
+        return $this->requestHandler->list($class, $apikey);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function findOneBy(string $entityName, array $criteria, string $apikey): EntityInterface
+    {
+        $class = new $entityName($criteria);
+
+        return $this->requestHandler->get($class, $apikey);
+    }
+
+    /**
+     * @inheritdoc
      *
      * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \ReflectionException

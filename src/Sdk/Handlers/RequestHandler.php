@@ -143,7 +143,6 @@ final class RequestHandler implements RequestHandlerInterface
             $request = $this->httpClient->request($requestMethod, $uri, $body ?? []);
             // handle response
             $response = $this->responseHandler->handle($request);
-            // @codeCoverageIgnoreStart
         } catch (GuzzleException $exception) {
             $response = $this->responseHandler->handleException($exception);
         }

@@ -47,6 +47,28 @@ interface ApiManagerInterface
     public function findAll(string $entityName, string $apikey): array;
 
     /**
+     * Request to find by entity criteria.
+     *
+     * @param string $entityName Entity class name
+     * @param mixed[] $criteria Entity properties as key value
+     * @param string $apikey Api key
+     *
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface[]
+     */
+    public function findBy(string $entityName, array $criteria, string $apikey): array;
+
+    /**
+     * Request to find by entity criteria.
+     *
+     * @param string $entityName Entity class name
+     * @param mixed[] $criteria Entity properties as key value
+     * @param string $apikey Api key
+     *
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
+     */
+    public function findOneBy(string $entityName, array $criteria, string $apikey): EntityInterface;
+
+    /**
      * Get entity repository.
      *
      * @param string $entityClass
