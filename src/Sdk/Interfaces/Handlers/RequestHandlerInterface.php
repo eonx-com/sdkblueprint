@@ -9,7 +9,17 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestAwareInterface;
 interface RequestHandlerInterface extends RequestAwareInterface
 {
     /**
-     * Make a DELETE request.
+     * Make a request to create an entity.
+     *
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
+     * @param string|null $apikey Api key
+     *
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
+     */
+    public function create(EntityInterface $entity, ?string $apikey = null): EntityInterface;
+
+    /**
+     * Make a request to delete an entity.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
      * @param string|null $apikey Api key
@@ -19,7 +29,7 @@ interface RequestHandlerInterface extends RequestAwareInterface
     public function delete(EntityInterface $entity, ?string $apikey = null): bool;
 
     /**
-     * Make a GET request.
+     * Make a request to fetch an entity.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
      * @param string|null $apikey Api key
@@ -29,7 +39,7 @@ interface RequestHandlerInterface extends RequestAwareInterface
     public function get(EntityInterface $entity, ?string $apikey = null): EntityInterface;
 
     /**
-     * Make a GET (LIST) request.
+     * Make a request to list entities.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
      * @param string|null $apikey Api key
@@ -39,22 +49,12 @@ interface RequestHandlerInterface extends RequestAwareInterface
     public function list(EntityInterface $entity, ?string $apikey = null): array;
 
     /**
-     * Make a POST request.
+     * Make a request to update an entity.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
      * @param string|null $apikey Api key
      *
      * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
      */
-    public function post(EntityInterface $entity, ?string $apikey = null): EntityInterface;
-
-    /**
-     * Make a PUT request.
-     *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     * @param string|null $apikey Api key
-     *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
-     */
-    public function put(EntityInterface $entity, ?string $apikey = null): EntityInterface;
+    public function update(EntityInterface $entity, ?string $apikey = null): EntityInterface;
 }

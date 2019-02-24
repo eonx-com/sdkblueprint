@@ -10,7 +10,7 @@ interface RequestAwareInterface
      *
      * @var string
      */
-    public const CREATE = 'post';
+    public const CREATE = 'create';
 
     /**
      * The delete method.
@@ -38,5 +38,5 @@ interface RequestAwareInterface
      *
      * @var string
      */
-    public const UPDATE = 'put';
+    public const UPDATE = 'update';
 }

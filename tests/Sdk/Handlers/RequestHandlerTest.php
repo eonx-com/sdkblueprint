@@ -29,6 +29,26 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 class RequestHandlerTest extends TestCase
 {
     /**
+     * Test that post method of request handler will create an entity successfully.
+     *
+     * @return void
+     */
+    public function testCreate(): void
+    {
+        $data = ['entityId' => 'entity-id'];
+
+        $response = $this->getHandler([
+            new Response(201, [], \json_encode($data) ?: '')
+        ])->create(new EntityStub($data), 'api-key');
+
+        self::assertInstanceOf(EntityStub::class, $response);
+        self::assertSame(
+            $data['entityId'],
+            ($response instanceof EntityStub) === true ? $response->getEntityId() : null
+        );
+    }
+
+    /**
      * Test that delete an entity will return true.
      *
      * @return void
@@ -88,48 +108,6 @@ class RequestHandlerTest extends TestCase
     }
 
     /**
-     * Test that post method of request handler will create an entity successfully.
-     *
-     * @return void
-     */
-    public function testPost(): void
-    {
-        $data = ['entityId' => 'entity-id'];
-
-        $response = $this->getHandler([
-            new Response(201, [], \json_encode($data) ?: '')
-        ])->post(new EntityStub($data), 'api-key');
-
-        self::assertInstanceOf(EntityStub::class, $response);
-        self::assertSame(
-            $data['entityId'],
-            ($response instanceof EntityStub) === true ? $response->getEntityId() : null
-        );
-    }
-
-    /**
-     * Test that put method of request handler will update an entity.
-     *
-     * @return void
-     */
-    public function testPut(): void
-    {
-        $data = [
-            'userId' => 'user-id',
-            'type' => 'customer',
-            'email' => 'updated@email.test'
-        ];
-
-        $entity = $this->getHandler([
-            new Response(200, [], \json_encode($data) ?: '')
-        ])->put(new UserStub(\array_merge($data, [
-            'email' => 'customer@email.test'
-        ])), 'api-key');
-
-        $this->performAssertion($data, $entity);
-    }
-
-    /**
      * Test that request will throw InvalidApiResponseException
      *
      * @return void
@@ -141,6 +119,28 @@ class RequestHandlerTest extends TestCase
         $this->getHandler([
             new ClientException('Internal server error', new Request('GET', 'test'))
         ])->get(new UserStub(['userId' => 'user-id']), 'api-key');
+    }
+
+    /**
+     * Test that put method of request handler will update an entity.
+     *
+     * @return void
+     */
+    public function testUpdate(): void
+    {
+        $data = [
+            'userId' => 'user-id',
+            'type' => 'customer',
+            'email' => 'updated@email.test'
+        ];
+
+        $entity = $this->getHandler([
+            new Response(200, [], \json_encode($data) ?: '')
+        ])->update(new UserStub(\array_merge($data, [
+            'email' => 'customer@email.test'
+        ])), 'api-key');
+
+        $this->performAssertion($data, $entity);
     }
 
     /**

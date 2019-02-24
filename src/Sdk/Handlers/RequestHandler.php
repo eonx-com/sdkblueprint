@@ -69,6 +69,17 @@ final class RequestHandler implements RequestHandlerInterface
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+    public function create(EntityInterface $entity, ?string $apikey = null): EntityInterface
+    {
+        return $this->executeAndRespond($entity, self::CREATE, $apikey);
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
     public function delete(EntityInterface $entity, ?string $apikey = null): bool
     {
         $this->executeAndRespond($entity, self::DELETE, $apikey);
@@ -104,18 +115,7 @@ final class RequestHandler implements RequestHandlerInterface
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function post(EntityInterface $entity, ?string $apikey = null): EntityInterface
-    {
-        return $this->executeAndRespond($entity, self::CREATE, $apikey);
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    public function put(EntityInterface $entity, ?string $apikey = null): EntityInterface
+    public function update(EntityInterface $entity, ?string $apikey = null): EntityInterface
     {
         return $this->executeAndRespond($entity, self::UPDATE, $apikey);
     }
@@ -123,7 +123,7 @@ final class RequestHandler implements RequestHandlerInterface
     /**
      * Execute a request.
      *
-     * @param string $method Request method
+     * @param string $action Request action
      * @param string $uri Request uri path
      * @param mixed[]|null $body Request body
      *
@@ -131,16 +131,10 @@ final class RequestHandler implements RequestHandlerInterface
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      */
-    private function execute(string $method, string $uri, ?array $body = null): ResponseInterface
+    private function execute(string $action, string $uri, ?array $body = null): ResponseInterface
     {
-        $requestMethod = $method;
-
-        if (\in_array(\mb_strtolower($method), [self::GET, self::LIST], true) === true) {
-            $requestMethod = self::GET;
-        }
-
         try {
-            $request = $this->httpClient->request($requestMethod, $uri, $body ?? []);
+            $request = $this->httpClient->request($this->getRequestMethod($action), $uri, $body ?? []);
             // handle response
             $response = $this->responseHandler->handle($request);
         } catch (GuzzleException $exception) {
@@ -159,7 +153,7 @@ final class RequestHandler implements RequestHandlerInterface
      * Execute request and respond.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     * @param string $method Request method
+     * @param string $action Request action
      * @param string|null $apikey Api key
      *
      * @return mixed
@@ -167,7 +161,7 @@ final class RequestHandler implements RequestHandlerInterface
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    private function executeAndRespond(EntityInterface $entity, string $method, ?string $apikey = null)
+    private function executeAndRespond(EntityInterface $entity, string $action, ?string $apikey = null)
     {
         $options = [];
 
@@ -178,16 +172,15 @@ final class RequestHandler implements RequestHandlerInterface
         }
 
         // get endpoint uri based on request method
-        // @todo: urn factory needs to reviewed and improvised
-        $urn = $this->urnFactory->create($entity->uris()[$method] ?? '');
+        $urn = $this->urnFactory->create($entity->uris()[$action] ?? '');
 
-        $response = $this->execute($method, $urn, $this->getBody($entity, $method, $options));
+        $response = $this->execute($action, $urn, $this->getBody($entity, $action, $options));
 
-        if (\mb_strtolower($method) === self::DELETE) {
+        if (\mb_strtolower($action) === self::DELETE) {
             return null;
         }
 
-        $type = \mb_strtolower($method) === self::LIST ?
+        $type = \mb_strtolower($action) === self::LIST ?
             \sprintf('%s[]', \get_class($entity)) : \get_class($entity);
 
         return $this->serializer->deserialize($response->getContent(), $type, 'json');
@@ -231,5 +224,26 @@ final class RequestHandler implements RequestHandlerInterface
         }, $data);
 
         return $original === $data ? $data : $this->getFilterOptions($data);
+    }
+
+    /**
+     * Get request method.
+     *
+     * @param string $action Request action
+     *
+     * @return string
+     */
+    private function getRequestMethod(string $action): string
+    {
+        switch (true) {
+            case \mb_strtolower($action) === 'create':
+                return 'POST';
+            case \mb_strtolower($action) === 'delete':
+                return 'DELETE';
+            case \mb_strtolower($action) === 'update':
+                return 'PUT';
+            default:
+                return 'GET';
+        }
     }
 }

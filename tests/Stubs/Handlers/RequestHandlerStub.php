@@ -30,6 +30,14 @@ class RequestHandlerStub implements RequestHandlerInterface
     /**
      * @inheritdoc
      */
+    public function create(EntityInterface $entity, ?string $apikey = null): EntityInterface
+    {
+        return $entity;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function delete(EntityInterface $entity, ?string $apikey = null): bool
     {
         return true;
@@ -54,15 +62,7 @@ class RequestHandlerStub implements RequestHandlerInterface
     /**
      * @inheritdoc
      */
-    public function post(EntityInterface $entity, ?string $apikey = null): EntityInterface
-    {
-        return $entity;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function put(EntityInterface $entity, ?string $apikey = null): EntityInterface
+    public function update(EntityInterface $entity, ?string $apikey = null): EntityInterface
     {
         return $entity;
     }

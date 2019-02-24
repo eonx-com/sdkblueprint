@@ -35,7 +35,7 @@ final class ApiManager implements ApiManagerInterface
      */
     public function create(string $apikey, EntityInterface $entity): EntityInterface
     {
-        return $this->requestHandler->post($entity, $apikey);
+        return $this->requestHandler->create($entity, $apikey);
     }
 
     /**
@@ -109,6 +109,6 @@ final class ApiManager implements ApiManagerInterface
      */
     public function update(string $apikey, EntityInterface $entity): EntityInterface
     {
-        return $this->requestHandler->put($entity, $apikey);
+        return $this->requestHandler->update($entity, $apikey);
     }
 }
