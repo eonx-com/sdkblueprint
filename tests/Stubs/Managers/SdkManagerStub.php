@@ -1,13 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Repositories;
+namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Managers;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RepositoryInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestAwareInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\SdkManagerInterface;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\EntityStub;
 
-class RepositoryStub implements RepositoryInterface
+/**
+ * @coversNothing
+ */
+class SdkManagerStub implements SdkManagerInterface
 {
     /**
      * Entity.
@@ -17,7 +21,7 @@ class RepositoryStub implements RepositoryInterface
     private $entity;
 
     /**
-     * Construct repository stub.
+     * Construct api manager stub.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface|null $entity
      */
@@ -29,16 +33,12 @@ class RepositoryStub implements RepositoryInterface
     /**
      * @inheritdoc
      */
-    public function findAll(string $apikey): array
+    public function execute(EntityInterface $entity, string $action, ?string $apikey = null)
     {
-        return [$this->entity];
-    }
+        if (\mb_strtolower($action) === RequestAwareInterface::LIST) {
+            return [$this->entity];
+        }
 
-    /**
-     * @inheritdoc
-     */
-    public function findById(string $entityId, string $apikey): EntityInterface
-    {
         return $this->entity;
     }
 }

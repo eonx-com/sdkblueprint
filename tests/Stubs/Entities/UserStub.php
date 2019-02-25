@@ -3,13 +3,10 @@ declare(strict_types=1);
 
 namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities;
 
-use LoyaltyCorp\SdkBlueprint\Sdk\Annotations\Repository;
 use LoyaltyCorp\SdkBlueprint\Sdk\Entity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @Repository(repositoryClass="Tests\LoyaltyCorp\SdkBlueprint\Stubs\Repositories\UserRepositoryStub")
- *
  * @method mixed[]|null getApikeys()
  * @method string|null getEmail()
  * @method string|null getType()

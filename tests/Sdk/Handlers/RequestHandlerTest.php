@@ -14,6 +14,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Factories\UrnFactory;
 use LoyaltyCorp\SdkBlueprint\Sdk\Handlers\RequestHandler;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestAwareInterface;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\EntityStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\UserStub;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Handlers\ResponseHandlerStub;
@@ -39,7 +40,7 @@ class RequestHandlerTest extends TestCase
 
         $response = $this->getHandler([
             new Response(201, [], \json_encode($data) ?: '')
-        ])->create(new EntityStub($data), 'api-key');
+        ])->executeAndRespond(new EntityStub($data), RequestAwareInterface::CREATE, 'api-key');
 
         self::assertInstanceOf(EntityStub::class, $response);
         self::assertSame(
@@ -49,7 +50,7 @@ class RequestHandlerTest extends TestCase
     }
 
     /**
-     * Test that delete an entity will return true.
+     * Test that delete an entity will return null.
      *
      * @return void
      */
@@ -57,9 +58,9 @@ class RequestHandlerTest extends TestCase
     {
         $response = $this->getHandler([
             new Response(204, [], null)
-        ])->delete(new EntityStub(['entityId' => 'entity-id']), 'api-key');
+        ])->executeAndRespond(new EntityStub(['entityId' => 'entity-id']), RequestAwareInterface::DELETE, 'api-key');
 
-        self::assertTrue($response);
+        self::assertNull($response);
     }
 
     /**
@@ -81,7 +82,7 @@ class RequestHandlerTest extends TestCase
 
         $entity = $this->getHandler([
             new Response(200, [], \json_encode($data) ?: '')
-        ])->get(new UserStub(['userId' => 'user-id']), 'api-key');
+        ])->executeAndRespond(new UserStub(['userId' => 'user-id']), RequestAwareInterface::GET, 'api-key');
 
         $this->performAssertion($data, $entity);
     }
@@ -101,7 +102,7 @@ class RequestHandlerTest extends TestCase
 
         $entities = $this->getHandler([
             new Response(200, [], \json_encode($data) ?: '')
-        ])->list(new UserStub(['userId' => 'user-id']), 'api-key');
+        ])->executeAndRespond(new UserStub(['userId' => 'user-id']), RequestAwareInterface::LIST, 'api-key');
 
         self::assertCount(1, $entities);
         $this->performAssertion($data[0], $entities[0]);
@@ -118,7 +119,7 @@ class RequestHandlerTest extends TestCase
 
         $this->getHandler([
             new ClientException('Internal server error', new Request('GET', 'test'))
-        ])->get(new UserStub(['userId' => 'user-id']), 'api-key');
+        ])->executeAndRespond(new UserStub(['userId' => 'user-id']), RequestAwareInterface::LIST, 'api-key');
     }
 
     /**
@@ -136,9 +137,9 @@ class RequestHandlerTest extends TestCase
 
         $entity = $this->getHandler([
             new Response(200, [], \json_encode($data) ?: '')
-        ])->update(new UserStub(\array_merge($data, [
+        ])->executeAndRespond(new UserStub(\array_merge($data, [
             'email' => 'customer@email.test'
-        ])), 'api-key');
+        ])), RequestAwareInterface::UPDATE, 'api-key');
 
         $this->performAssertion($data, $entity);
     }

@@ -5,6 +5,7 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Stubs\Handlers;
 
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\RequestAwareInterface;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\EntityStub;
 
 /**
@@ -30,40 +31,12 @@ class RequestHandlerStub implements RequestHandlerInterface
     /**
      * @inheritdoc
      */
-    public function create(EntityInterface $entity, ?string $apikey = null): EntityInterface
+    public function executeAndRespond(EntityInterface $entity, string $action, ?string $apikey = null)
     {
-        return $entity;
-    }
+        if (\mb_strtolower($action) === RequestAwareInterface::LIST) {
+            return [$this->entity];
+        }
 
-    /**
-     * @inheritdoc
-     */
-    public function delete(EntityInterface $entity, ?string $apikey = null): bool
-    {
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function get(EntityInterface $entity, ?string $apikey = null): EntityInterface
-    {
         return $this->entity;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function list(EntityInterface $entity, ?string $apikey = null): array
-    {
-        return [$this->entity];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function update(EntityInterface $entity, ?string $apikey = null): EntityInterface
-    {
-        return $entity;
     }
 }

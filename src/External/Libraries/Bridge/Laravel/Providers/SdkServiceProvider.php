@@ -9,9 +9,9 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Factories\SerializerFactory;
 use LoyaltyCorp\SdkBlueprint\Sdk\Factories\UrnFactory;
 use LoyaltyCorp\SdkBlueprint\Sdk\Handlers\RequestHandler;
 use LoyaltyCorp\SdkBlueprint\Sdk\Handlers\ResponseHandler;
-use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ApiManagerInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface;
-use LoyaltyCorp\SdkBlueprint\Sdk\Managers\ApiManager;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\SdkManagerInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Managers\SdkManager;
 
 class SdkServiceProvider extends ServiceProvider
 {
@@ -33,6 +33,6 @@ class SdkServiceProvider extends ServiceProvider
         });
 
         // bind manager
-        $this->app->singleton(ApiManagerInterface::class, ApiManager::class);
+        $this->app->singleton(SdkManagerInterface::class, SdkManager::class);
     }
 }

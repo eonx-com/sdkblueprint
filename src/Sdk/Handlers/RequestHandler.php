@@ -12,6 +12,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\UrnFactoryInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\ResponseHandlerInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
+use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\SerializationGroupAwareInterface;
 
 final class RequestHandler implements RequestHandlerInterface
 {
@@ -69,55 +70,32 @@ final class RequestHandler implements RequestHandlerInterface
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function create(EntityInterface $entity, ?string $apikey = null): EntityInterface
-    {
-        return $this->executeAndRespond($entity, self::CREATE, $apikey);
-    }
+    public function executeAndRespond(
+        EntityInterface $entity,
+        string $action,
+        ?string $apikey = null
+    ) {
+        $options = [];
 
-    /**
-     * @inheritdoc
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    public function delete(EntityInterface $entity, ?string $apikey = null): bool
-    {
-        $this->executeAndRespond($entity, self::DELETE, $apikey);
+        if ($apikey !== null) {
+            $options = \array_merge($options, [
+                'auth' => [$apikey, null]
+            ]);
+        }
 
-        return true;
-    }
+        // get endpoint uri based on request method
+        $urn = $this->urnFactory->create($entity->uris()[$action] ?? '');
 
-    /**
-     * @inheritdoc
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    public function get(EntityInterface $entity, ?string $apikey = null): EntityInterface
-    {
-        return $this->executeAndRespond($entity, self::GET, $apikey);
-    }
+        $response = $this->execute($action, $urn, $this->getBody($entity, $action, $options));
 
-    /**
-     * @inheritdoc
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    public function list(EntityInterface $entity, ?string $apikey = null): array
-    {
-        return $this->executeAndRespond($entity, self::LIST, $apikey);
-    }
+        if (\mb_strtolower($action) === self::DELETE) {
+            return null;
+        }
 
-    /**
-     * @inheritdoc
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    public function update(EntityInterface $entity, ?string $apikey = null): EntityInterface
-    {
-        return $this->executeAndRespond($entity, self::UPDATE, $apikey);
+        $type = \mb_strtolower($action) === self::LIST ?
+            \sprintf('%s[]', \get_class($entity)) : \get_class($entity);
+
+        return $this->serializer->deserialize($response->getContent(), $type, 'json');
     }
 
     /**
@@ -150,56 +128,21 @@ final class RequestHandler implements RequestHandlerInterface
     }
 
     /**
-     * Execute request and respond.
-     *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     * @param string $action Request action
-     * @param string|null $apikey Api key
-     *
-     * @return mixed
-     *
-     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    private function executeAndRespond(EntityInterface $entity, string $action, ?string $apikey = null)
-    {
-        $options = [];
-
-        if ($apikey !== null) {
-            $options = \array_merge($options, [
-                'auth' => [$apikey, null]
-            ]);
-        }
-
-        // get endpoint uri based on request method
-        $urn = $this->urnFactory->create($entity->uris()[$action] ?? '');
-
-        $response = $this->execute($action, $urn, $this->getBody($entity, $action, $options));
-
-        if (\mb_strtolower($action) === self::DELETE) {
-            return null;
-        }
-
-        $type = \mb_strtolower($action) === self::LIST ?
-            \sprintf('%s[]', \get_class($entity)) : \get_class($entity);
-
-        return $this->serializer->deserialize($response->getContent(), $type, 'json');
-    }
-
-    /**
      * Generate the http body.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     * @param string $group
+     * @param string $action
      * @param mixed[]|null $options
      *
      * @return mixed[]
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    private function getBody(EntityInterface $entity, string $group, ?array $options = null): array
+    private function getBody(EntityInterface $entity, string $action, ?array $options = null): array
     {
-        $normalize = $this->serializer->normalize($entity, null, ['groups' => [$group]]);
+        $normalize = $this->serializer->normalize($entity, null, [
+            'groups' => $this->getSerializationGroups($entity, $action)
+        ]);
 
         return \array_merge([
             'json' => \is_array($normalize) === true ? $this->getFilterOptions($normalize) : [$normalize]
@@ -236,14 +179,42 @@ final class RequestHandler implements RequestHandlerInterface
     private function getRequestMethod(string $action): string
     {
         switch (true) {
-            case \mb_strtolower($action) === 'create':
+            case \mb_strtolower($action) === self::CREATE:
                 return 'POST';
-            case \mb_strtolower($action) === 'delete':
+            case \mb_strtolower($action) === self::DELETE:
                 return 'DELETE';
-            case \mb_strtolower($action) === 'update':
+            case \mb_strtolower($action) === self::UPDATE:
                 return 'PUT';
             default:
                 return 'GET';
         }
+    }
+
+    /**
+     * Get serialization group.
+     *
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
+     * @param string $action
+     *
+     * @return string[]
+     */
+    private function getSerializationGroups(EntityInterface $entity, string $action): array
+    {
+        if (($entity instanceof SerializationGroupAwareInterface) === false) {
+            return [$action];
+        }
+
+        /**
+         * @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\SerializationGroupAwareInterface $entity
+         *
+         * @see https://youtrack.jetbrains.com/issue/WI-37859 - typehint required until PhpStorm recognises === check
+         */
+        $groups = $entity->serializationGroups();
+
+        if (isset($groups[$action]) === false) {
+            return [$action];
+        }
+
+        return $groups[$action];
     }
 }
