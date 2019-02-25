@@ -101,6 +101,10 @@ final class ApiManager implements ApiManagerInterface
             }
         }
 
+        if ($reflectionClass->getParentClass() !== false) {
+            return $this->getRepository(\get_class($reflectionClass->getParentClass()));
+        }
+
         return new Repository($this, $entityClass);
     }
 
