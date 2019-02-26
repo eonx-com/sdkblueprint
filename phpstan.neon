@@ -1,3 +1,5 @@
 parameters:
     ignoreErrors:
-        - '#Call to an undefined method Tests\\LoyaltyCorp\\SdkBlueprint\\Stubs\\Requests\\User::unknownMethod\(\).#'
+        -
+            message: '#Call to an undefined method Tests\\LoyaltyCorp\\SdkBlueprint\\Stubs\\Entities\\EntityStub::[a-zA-Z]+\(\).#'
+            path: tests/Sdk

@@ -6,31 +6,21 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk\Exceptions;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidMethodCallException;
 use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 
+/**
+ * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidMethodCallException
+ */
 class InvalidMethodCallExceptionTest extends TestCase
 {
     /**
-     * Test get error code.
+     * Test that exception has expected code.
      *
      * @return void
      */
-    public function testGetErrorCode(): void
+    public function testExceptionCodes(): void
     {
-        self::assertSame(
-            InvalidMethodCallException::DEFAULT_ERROR_CODE_RUNTIME,
-            (new InvalidMethodCallException())->getErrorCode()
-        );
-    }
+        $exception = new InvalidMethodCallException();
 
-    /**
-     * Test get error sub code.
-     *
-     * @return void
-     */
-    public function testGetErrorSubCode(): void
-    {
-        self::assertSame(
-            InvalidMethodCallException::DEFAULT_ERROR_SUB_CODE,
-            (new InvalidMethodCallException())->getErrorSubCode()
-        );
+        self::assertSame(1100, $exception->getErrorCode());
+        self::assertSame(2, $exception->getErrorSubCode());
     }
 }
