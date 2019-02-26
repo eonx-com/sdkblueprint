@@ -10,7 +10,6 @@
   "type": "package",
   "require": {
     "php": ">=7.1",
-    "eoneopay/externals": "dev-master",
     "eoneopay/utils": "dev-master",
     "ext-dom": "*",
     "ext-json": "*",
@@ -29,7 +28,6 @@
   "require-dev": {
     "indigophp/doctrine-annotation-autoload": "^0.1.0",
     "eoneopay/standards": "dev-master",
-    "laravel/lumen-framework": "^5.5",
     "php-http/guzzle6-adapter": "^1.1",
     "phpmd/phpmd": "^2.6",
     "phpstan/phpstan": "^0.11",
@@ -41,8 +39,6 @@
   },
   "suggest": {
     "indigophp/doctrine-annotation-autoload": "Recommended to autoload custom doctrine annotations",
-    "laravel/framework": "^5.5",
-    "laravel/lumen-framework": "^5.5",
     "phpmd/phpmd": "Check coding best practices",
     "phpstan/phpstan": "Static analysis of code to detect potential errors",
     "phpunit/phpunit": "Run unit tests",
