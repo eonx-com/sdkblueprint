@@ -82,6 +82,10 @@ abstract class Entity implements EntityInterface
     {
         $resolved = $this->resolveProperty($property);
 
+        if ($resolved === null) {
+            return null;
+        }
+
         return $this->{$resolved};
     }
 
