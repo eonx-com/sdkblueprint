@@ -22,7 +22,7 @@ class InvalidApiResponseException extends RuntimeException
      */
     public function __construct(ResponseInterface $response, ?Throwable $previous = null)
     {
-        parent::__construct('', 0, $previous);
+        parent::__construct('', null, 0, $previous);
 
         $this->response = $response;
     }

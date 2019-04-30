@@ -10,7 +10,7 @@
   "type": "package",
   "require": {
     "php": ">=7.1",
-    "eoneopay/utils": "dev-master",
+    "eoneopay/utils": "^0.2",
     "ext-dom": "*",
     "ext-json": "*",
     "ext-libxml": "*",
