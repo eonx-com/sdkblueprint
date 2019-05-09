@@ -88,7 +88,7 @@ final class RequestHandler implements RequestHandlerInterface
 
         $response = $this->execute($action, $urn, $this->getBody($entity, $action, $options));
 
-        if (\mb_strtolower($action) === self::DELETE) {
+        if ($response->getStatusCode() === 204) {
             return null;
         }
 
