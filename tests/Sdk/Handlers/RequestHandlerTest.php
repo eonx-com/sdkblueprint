@@ -103,7 +103,6 @@ class RequestHandlerTest extends TestCase
 
         $entityClass = new class extends Entity
         {
-
             /**
              * {@inheritdoc}
              */
