@@ -8,7 +8,9 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use LoyaltyCorp\SdkBlueprint\Sdk\Entity;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidUriActionException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Factories\SerializerFactory;
 use LoyaltyCorp\SdkBlueprint\Sdk\Factories\UrnFactory;
 use LoyaltyCorp\SdkBlueprint\Sdk\Handlers\RequestHandler;
@@ -88,17 +90,48 @@ class RequestHandlerTest extends TestCase
     }
 
     /**
+     * Tests that the request handler throws an exception when the request URI action is invalid.
+     *
+     * @return void
+     */
+    public function testInvalidActionThrowsException(): void
+    {
+        $this->expectException(InvalidUriActionException::class);
+        $this->expectExceptionMessage(
+            'The URI action (update) is invalid, or not supported for the specified resource.'
+        );
+
+        $entityClass = new class extends Entity
+        {
+            /**
+             * {@inheritdoc}
+             */
+            public function uris(): array
+            {
+                return [
+                    self::CREATE => '/create'
+                ];
+            }
+        };
+
+        $handler = $this->getHandler();
+        $handler->executeAndRespond($entityClass, RequestAwareInterface::UPDATE, 'api-key');
+    }
+
+    /**
      * Test that list method of request handler will list exepected number of entities.
      *
      * @return void
      */
     public function testList(): void
     {
-        $data = [[
-            'userId' => 'user-id',
-            'type' => 'customer',
-            'email' => 'customer@email.test'
-        ]];
+        $data = [
+            [
+                'userId' => 'user-id',
+                'type' => 'customer',
+                'email' => 'customer@email.test'
+            ]
+        ];
 
         $entities = $this->getHandler([
             new Response(200, [], \json_encode($data) ?: '')

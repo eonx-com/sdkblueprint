@@ -6,6 +6,7 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk\Handlers;
 use GuzzleHttp\ClientInterface as GuzzleClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidUriActionException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\SerializerFactoryInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\UrnFactoryInterface;
@@ -68,6 +69,7 @@ final class RequestHandler implements RequestHandlerInterface
      * @inheritdoc
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidUriActionException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function executeAndRespond(
@@ -83,8 +85,16 @@ final class RequestHandler implements RequestHandlerInterface
             ]);
         }
 
+        // ensure that the requested action exists
+        $entityUris = $entity->uris();
+        if (\array_key_exists($action, $entityUris) === false) {
+            throw new InvalidUriActionException(
+                \sprintf('The URI action (%s) is invalid, or not supported for the specified resource.', $action)
+            );
+        }
+
         // get endpoint uri based on request method
-        $urn = $this->urnFactory->create($entity->uris()[$action] ?? '');
+        $urn = $this->urnFactory->create($entityUris[$action]);
 
         $response = $this->execute($action, $urn, $this->getBody($entity, $action, $options));
 
