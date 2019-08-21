@@ -17,6 +17,7 @@ use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @SuppressWarnings("PMD.StaticAccess") static access is required for annotation loader.
@@ -31,7 +32,7 @@ final class SerializerFactory implements SerializerFactoryInterface
      * @noinspection PhpDocMissingThrowsInspection
      * We don't add throw Annotation Exception in order to not catch it everywhere
      */
-    public function create(): Serializer
+    public function create(): SerializerInterface
     {
         /** @noinspection PhpDeprecationInspection currently this is the best way to register annotation loader */
         AnnotationRegistry::registerUniqueLoader('class_exists');
