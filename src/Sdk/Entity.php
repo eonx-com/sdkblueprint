@@ -82,11 +82,7 @@ abstract class Entity implements EntityInterface
     {
         $resolved = $this->resolveProperty($property);
 
-        if ($resolved === null) {
-            return null;
-        }
-
-        return $this->{$resolved};
+        return $resolved !== null ? $this->{$resolved} : null;
     }
 
     /**
@@ -115,7 +111,9 @@ abstract class Entity implements EntityInterface
     {
         $resolved = $this->resolveProperty($property);
 
-        $this->{$resolved} = $value;
+        if ($resolved !== null) {
+            $this->{$resolved} = $value;
+        }
 
         return $this;
     }
