@@ -66,7 +66,7 @@ final class RequestHandler implements RequestHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidUriActionException
@@ -138,6 +138,40 @@ final class RequestHandler implements RequestHandlerInterface
     }
 
     /**
+     * Get request method.
+     *
+     * @param string $action Request action
+     *
+     * @return string
+     */
+    private function getRequestMethod(string $action): string
+    {
+        switch (true) {
+            case \mb_strtolower($action) === self::CREATE:
+                $method = 'POST';
+
+                break;
+
+            case \mb_strtolower($action) === self::DELETE:
+                $method = 'DELETE';
+
+                break;
+
+            case \mb_strtolower($action) === self::UPDATE:
+                $method = 'PUT';
+
+                break;
+
+            default:
+                $method = 'GET';
+
+                break;
+        }
+
+        return $method;
+    }
+
+    /**
      * Generate the http body.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
@@ -157,47 +191,6 @@ final class RequestHandler implements RequestHandlerInterface
         return \array_merge([
             'json' => \is_array($normalize) === true ? $this->getFilterOptions($normalize) : [$normalize],
         ], $options ?? []);
-    }
-
-    /**
-     * Recursively filter options array, remove key value pairs when value is null.
-     *
-     * @param mixed[] $options
-     *
-     * @return mixed[]
-     */
-    private function getFilterOptions(array $options): array
-    {
-        $original = $options;
-
-        $data = \array_filter($options);
-
-        $data = \array_map(function ($element) {
-            return \is_array($element) ? $this->getFilterOptions($element) : $element;
-        }, $data);
-
-        return $original === $data ? $data : $this->getFilterOptions($data);
-    }
-
-    /**
-     * Get request method.
-     *
-     * @param string $action Request action
-     *
-     * @return string
-     */
-    private function getRequestMethod(string $action): string
-    {
-        switch (true) {
-            case \mb_strtolower($action) === self::CREATE:
-                return 'POST';
-            case \mb_strtolower($action) === self::DELETE:
-                return 'DELETE';
-            case \mb_strtolower($action) === self::UPDATE:
-                return 'PUT';
-            default:
-                return 'GET';
-        }
     }
 
     /**
@@ -226,5 +219,25 @@ final class RequestHandler implements RequestHandlerInterface
         }
 
         return $groups[$action];
+    }
+
+    /**
+     * Recursively filter options array, remove key value pairs when value is null.
+     *
+     * @param mixed[] $options
+     *
+     * @return mixed[]
+     */
+    private function getFilterOptions(array $options): array
+    {
+        $original = $options;
+
+        $data = \array_filter($options);
+
+        $data = \array_map(function ($element) {
+            return \is_array($element) ? $this->getFilterOptions($element) : $element;
+        }, $data);
+
+        return $original === $data ? $data : $this->getFilterOptions($data);
     }
 }

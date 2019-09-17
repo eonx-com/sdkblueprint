@@ -30,6 +30,18 @@ final class SdkManagerTest extends TestCase
     }
 
     /**
+     * Get api manage instance.
+     *
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface|null $entity
+     *
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\SdkManagerInterface
+     */
+    private function getManager(?EntityInterface $entity = null): SdkManagerInterface
+    {
+        return new SdkManager(new RequestHandlerStub($entity));
+    }
+
+    /**
      * Test that sdk manager will create an entity successfully.
      *
      * @return void
@@ -41,21 +53,6 @@ final class SdkManagerTest extends TestCase
         $created = $this->getManager($entity)->execute($entity, RequestAwareInterface::CREATE, 'api-key');
 
         self::assertInstanceOf(EntityStub::class, $created);
-        self::assertSame(
-            $entity->getEntityId(),
-            ($created instanceof EntityStub) === true ? $created->getEntityId() : null
-        );
-    }
-
-    /**
-     * Get api manage instance.
-     *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface|null $entity
-     *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\SdkManagerInterface
-     */
-    private function getManager(?EntityInterface $entity = null): SdkManagerInterface
-    {
-        return new SdkManager(new RequestHandlerStub($entity));
+        self::assertSame($entity->getEntityId(), $created->getEntityId());
     }
 }

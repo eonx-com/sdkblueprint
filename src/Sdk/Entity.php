@@ -20,6 +20,21 @@ abstract class Entity implements EntityInterface
     }
 
     /**
+     * Populate the object from an array of data.
+     *
+     * @param mixed[] $data The data to fill the entity with
+     *
+     * @return void
+     */
+    public function fill(array $data): void
+    {
+        // Loop through data and set values, set will automatically skip invalid or non-fillable properties
+        foreach ($data as $property => $value) {
+            $this->__set($property, $value);
+        }
+    }
+
+    /**
      * Allow getX() and setX($value) to get and set column values.
      *
      * This method searches case insensitive
@@ -52,98 +67,31 @@ abstract class Entity implements EntityInterface
 
         // Perform action
         switch ($type) {
-            case 'get': //@codeCoverageIgnore
-                return $this->__get($property);
+            case 'get':
+                $result = $this->__get($property);
 
-            case 'has': //@codeCoverageIgnore
-                return $this->has($property);
+                break;
 
-            case 'is': //@codeCoverageIgnore
+            case 'has':
+                $result = $this->has($property);
+
+                break;
+
+            case 'is':
                 // Always return a boolean
-                return (bool)$this->__get($property);
+                $result = (bool)$this->__get($property);
 
-            case 'set': //@codeCoverageIgnore
+                break;
+
+            case 'set':
                 // Return original instance for fluency
                 $this->__set($property, \reset($parameters));
+                $result = $this;
 
                 break;
         }
 
-        return $this;
-    }
-
-    /**
-     * Magic getter for serializer to access protected attribute.
-     *
-     * @param string $property
-     *
-     * @return mixed
-     */
-    public function __get(string $property)
-    {
-        $resolved = $this->resolveProperty($property);
-
-        return $resolved !== null ? $this->{$resolved} : null;
-    }
-
-    /**
-     * Determine if a property exists and isn't null.
-     *
-     * @param string $property
-     *
-     * @return bool
-     */
-    public function __isset(string $property): bool
-    {
-        $resolved = $this->resolveProperty($property);
-
-        return $resolved !== null && $this->{$resolved} !== null;
-    }
-
-    /**
-     * Magic getter for serializer to set value for protected attribute.
-     *
-     * @param string $property
-     * @param mixed $value
-     *
-     * @return static
-     */
-    public function __set(string $property, $value)
-    {
-        $resolved = $this->resolveProperty($property);
-
-        if ($resolved !== null) {
-            $this->{$resolved} = $value;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Populate the object from an array of data.
-     *
-     * @param mixed[] $data The data to fill the entity with
-     *
-     * @return void
-     */
-    public function fill(array $data): void
-    {
-        // Loop through data and set values, set will automatically skip invalid or non-fillable properties
-        foreach ($data as $property => $value) {
-            $this->__set($property, $value);
-        }
-    }
-
-    /**
-     * Determine if a property exists.
-     *
-     * @param string $property
-     *
-     * @return bool
-     */
-    private function has(string $property): bool
-    {
-        return $this->resolveProperty($property) !== null;
+        return $result ?? $this;
     }
 
     /**
@@ -156,7 +104,71 @@ abstract class Entity implements EntityInterface
      */
     private function resolveProperty(string $property): ?string
     {
+        $arr = new Arr();
+        $properties = \array_keys(\get_object_vars($this));
+
         // Attempt to find property using 'fuzzy' search
-        return (new Arr())->search(\array_keys(\get_object_vars($this)), $property);
+        return $arr->search($properties, $property);
+    }
+
+    /**
+     * Magic getter for serializer to access protected attribute.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function __get(string $property)
+    {
+        $resolved = (string)$this->resolveProperty($property);
+
+        return \property_exists($this, $resolved) === true ? $this->{$resolved} : null;
+    }
+
+    /**
+     * Magic getter for serializer to set value for protected attribute.
+     *
+     * @param string $property
+     * @param mixed $value
+     *
+     * @return static
+     */
+    public function __set(string $property, $value)
+    {
+        $resolved = (string)$this->resolveProperty($property);
+
+        if (\property_exists($this, $resolved) === true) {
+            $this->{$resolved} = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Determine if a property exists.
+     *
+     * @param string $property
+     *
+     * @return bool
+     */
+    private function has(string $property): bool
+    {
+        $resolved = (string)$this->resolveProperty($property);
+
+        return \property_exists($this, $resolved) === true;
+    }
+
+    /**
+     * Determine if a property exists and isn't null.
+     *
+     * @param string $property
+     *
+     * @return bool
+     */
+    public function __isset(string $property): bool
+    {
+        $resolved = (string)$this->resolveProperty($property);
+
+        return \property_exists($this, $resolved) === true && $this->{$resolved} !== null;
     }
 }

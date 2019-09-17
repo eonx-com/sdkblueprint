@@ -45,9 +45,23 @@ final class RequestHandlerTest extends TestCase
         ])->executeAndRespond(new EntityStub($data), RequestAwareInterface::CREATE, 'api-key');
 
         self::assertInstanceOf(EntityStub::class, $response);
-        self::assertSame(
-            $data['entityId'],
-            ($response instanceof EntityStub) === true ? $response->getEntityId() : null
+        self::assertSame($data['entityId'], $response->getEntityId());
+    }
+
+    /**
+     * Get request handler.
+     *
+     * @param mixed[]|null $responses PSR-7 http responses
+     *
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface
+     */
+    private function getHandler(?array $responses = null): RequestHandlerInterface
+    {
+        return new RequestHandler(
+            new GuzzleClient(['handler' => new MockHandler($responses)]),
+            new ResponseHandlerStub(),
+            new SerializerFactory(),
+            new UrnFactory()
         );
     }
 
@@ -87,6 +101,24 @@ final class RequestHandlerTest extends TestCase
         ])->executeAndRespond(new UserStub(['userId' => 'user-id']), RequestAwareInterface::GET, 'api-key');
 
         $this->performAssertion($data, $entity);
+    }
+
+    /**
+     * Perform assertion.
+     *
+     * @param mixed[] $expected Expected data
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
+     *
+     * @return void
+     */
+    private function performAssertion(array $expected, EntityInterface $entity): void
+    {
+        self::assertInstanceOf(UserStub::class, $entity);
+
+        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\UserStub $entity */
+        self::assertSame($expected['userId'], $entity->getUserId());
+        self::assertSame($expected['type'], $entity->getType());
+        self::assertSame($expected['email'], $entity->getEmail());
     }
 
     /**
@@ -170,51 +202,9 @@ final class RequestHandlerTest extends TestCase
         $entity = $this->getHandler([
             new Response(200, [], \json_encode($data) ?: ''),
         ])->executeAndRespond(new UserStub(\array_merge($data, [
-            'email' => 'customer@email.test',
+            'email' => 'customer@email.tesjust flot',
         ])), RequestAwareInterface::UPDATE, 'api-key');
 
         $this->performAssertion($data, $entity);
-    }
-
-    /**
-     * Get request handler.
-     *
-     * @param mixed[]|null $responses PSR-7 http responses
-     *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface
-     */
-    private function getHandler(?array $responses = null): RequestHandlerInterface
-    {
-        return new RequestHandler(
-            new GuzzleClient(['handler' => new MockHandler($responses)]),
-            new ResponseHandlerStub(),
-            new SerializerFactory(),
-            new UrnFactory()
-        );
-    }
-
-    /**
-     * Perform assertion.
-     *
-     * @param mixed[] $expected Expected data
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     *
-     * @return void
-     */
-    private function performAssertion(array $expected, EntityInterface $entity): void
-    {
-        self::assertInstanceOf(UserStub::class, $entity);
-        self::assertSame(
-            $expected['userId'],
-            ($entity instanceof UserStub) === true ? $entity->getUserId() : null
-        );
-        self::assertSame(
-            $expected['type'],
-            ($entity instanceof UserStub) === true ? $entity->getType() : null
-        );
-        self::assertSame(
-            $expected['email'],
-            ($entity instanceof UserStub) === true ? $entity->getEmail() : null
-        );
     }
 }

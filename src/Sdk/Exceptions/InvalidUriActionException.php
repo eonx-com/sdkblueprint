@@ -11,7 +11,7 @@ use EoneoPay\Utils\Exceptions\ValidationException;
 final class InvalidUriActionException extends ValidationException
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorCode(): int
     {
@@ -19,7 +19,7 @@ final class InvalidUriActionException extends ValidationException
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorSubCode(): int
     {

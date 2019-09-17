@@ -21,7 +21,7 @@ final class EntityStub extends Entity implements SerializationGroupAwareInterfac
     protected $entityId;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function serializationGroups(): array
     {
@@ -31,7 +31,7 @@ final class EntityStub extends Entity implements SerializationGroupAwareInterfac
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function uris(): array
     {

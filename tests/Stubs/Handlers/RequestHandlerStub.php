@@ -29,7 +29,7 @@ final class RequestHandlerStub implements RequestHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function executeAndRespond(EntityInterface $entity, string $action, ?string $apikey = null)
     {

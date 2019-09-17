@@ -1,5 +1,11 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
 parameters:
     ignoreErrors:
         -
             message: '#Call to an undefined method Tests\\LoyaltyCorp\\SdkBlueprint\\Stubs\\Entities\\EntityStub::[a-zA-Z]+\(\).#'
             path: tests/Sdk
+        -
+            message: '#Variable property access on \$this\(LoyaltyCorp\\SdkBlueprint\\Sdk\\Entity\).#'
+            path: src/Sdk/Entity.php

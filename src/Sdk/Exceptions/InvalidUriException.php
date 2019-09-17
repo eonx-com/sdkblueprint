@@ -8,7 +8,7 @@ use EoneoPay\Utils\Exceptions\ValidationException;
 final class InvalidUriException extends ValidationException
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorCode(): int
     {
@@ -16,7 +16,7 @@ final class InvalidUriException extends ValidationException
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorSubCode(): int
     {

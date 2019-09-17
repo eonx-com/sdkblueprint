@@ -27,7 +27,7 @@ final class SdkManager implements SdkManagerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function execute(EntityInterface $entity, string $action, ?string $apikey = null)
     {

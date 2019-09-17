@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 final class ResponseHandlerStub implements ResponseHandlerInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handle(PsrResponseInterface $psrResponse): ResponseInterface
     {
@@ -27,7 +27,7 @@ final class ResponseHandlerStub implements ResponseHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handleException(GuzzleException $exception): ResponseInterface
     {
