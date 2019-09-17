@@ -26,10 +26,9 @@ use Symfony\Component\Serializer\Serializer;
 final class SerializerFactory implements SerializerFactoryInterface
 {
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection We don't add throw annotation exception to prevent cascading
      *
-     * @noinspection PhpDocMissingThrowsInspection
-     * We don't add throw Annotation Exception in order to not catch it everywhere
+     * {@inheritdoc}
      */
     public function create(): Serializer
     {
@@ -44,7 +43,7 @@ final class SerializerFactory implements SerializerFactoryInterface
         $refectionExtractor = new ReflectionExtractor();
         $phpDocExtractor = new PhpDocExtractor();
 
-        $propertyInfoExtractor = new PropertyInfoExtractor(
+        $propertyExtractor = new PropertyInfoExtractor(
             [$refectionExtractor],
             [$refectionExtractor, $phpDocExtractor]
         );
@@ -53,7 +52,7 @@ final class SerializerFactory implements SerializerFactoryInterface
             $classMetadataFactory,
             new CamelCaseToSnakeCaseNameConverter(),
             null,
-            $propertyInfoExtractor,
+            $propertyExtractor,
             $discriminator
         );
 

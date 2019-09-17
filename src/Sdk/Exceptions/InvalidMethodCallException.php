@@ -5,7 +5,7 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk\Exceptions;
 
 use EoneoPay\Utils\Exceptions\RuntimeException;
 
-class InvalidMethodCallException extends RuntimeException
+final class InvalidMethodCallException extends RuntimeException
 {
     /**
      * Get Error code.

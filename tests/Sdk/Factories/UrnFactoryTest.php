@@ -10,7 +10,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Factories\UrnFactory
  */
-class UrnFactoryTest extends TestCase
+final class UrnFactoryTest extends TestCase
 {
     /**
      * Test that URN factory will return path from a valid URI.

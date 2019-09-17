@@ -9,7 +9,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Response
  */
-class ResponseTest extends TestCase
+final class ResponseTest extends TestCase
 {
     /**
      * Test response object successfully.

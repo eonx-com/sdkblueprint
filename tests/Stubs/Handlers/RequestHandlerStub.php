@@ -11,7 +11,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\EntityStub;
 /**
  * @coversNothing
  */
-class RequestHandlerStub implements RequestHandlerInterface
+final class RequestHandlerStub implements RequestHandlerInterface
 {
     /**
      * @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface
@@ -29,7 +29,7 @@ class RequestHandlerStub implements RequestHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function executeAndRespond(EntityInterface $entity, string $action, ?string $apikey = null)
     {

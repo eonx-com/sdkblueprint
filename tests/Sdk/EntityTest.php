@@ -11,7 +11,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Entity
  */
-class EntityTest extends TestCase
+final class EntityTest extends TestCase
 {
     /**
      * Test the __call method.
@@ -31,13 +31,13 @@ class EntityTest extends TestCase
 
         self::assertSame('updated-id', $entity->getEntityId());
 
-        /** @noinspection PhpUndefinedMethodInspection method call handled by magic call*/
+        /** @noinspection PhpUndefinedMethodInspection method call handled by magic call */
         self::assertTrue($entity->hasEntityId('EntityId'));
 
-        /** @noinspection PhpUndefinedMethodInspection method call handled by magic call*/
+        /** @noinspection PhpUndefinedMethodInspection method call handled by magic call */
         self::assertTrue($entity->isEntityId('EntityId'));
 
-        /** @noinspection PhpUndefinedMethodInspection test itself is for undefined method*/
+        /** @noinspection PhpUndefinedMethodInspection test itself is for undefined method */
         $entity->unknownMethod();
     }
 
@@ -50,7 +50,7 @@ class EntityTest extends TestCase
     {
         $entity = new EntityStub();
 
-        /** @noinspection PhpUndefinedFieldInspection test itself is for undefined field*/
+        /** @noinspection PhpUndefinedFieldInspection test itself is for undefined field */
         self::assertFalse(isset($entity->unknownProperty));
     }
 

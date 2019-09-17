@@ -5,7 +5,10 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk\Exceptions;
 
 use EoneoPay\Utils\Exceptions\ValidationException;
 
-final class InvalidUriException extends ValidationException
+/**
+ * An exception that is thrown when the request action does not exist under an entities supported URIs.
+ */
+final class InvalidUriActionException extends ValidationException
 {
     /**
      * {@inheritdoc}
@@ -20,6 +23,6 @@ final class InvalidUriException extends ValidationException
      */
     public function getErrorSubCode(): int
     {
-        return self::DEFAULT_ERROR_SUB_CODE;
+        return self::DEFAULT_ERROR_SUB_CODE + 1;
     }
 }

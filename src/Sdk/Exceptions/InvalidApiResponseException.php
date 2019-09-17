@@ -7,7 +7,7 @@ use EoneoPay\Utils\Exceptions\RuntimeException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
 use Throwable;
 
-class InvalidApiResponseException extends RuntimeException
+final class InvalidApiResponseException extends RuntimeException
 {
     /**
      * @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface

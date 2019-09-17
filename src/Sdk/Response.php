@@ -7,7 +7,7 @@ use EoneoPay\Utils\Arr;
 use EoneoPay\Utils\Collection;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
 
-class Response extends Collection implements ResponseInterface
+final class Response extends Collection implements ResponseInterface
 {
     /**
      * @var string
@@ -46,7 +46,7 @@ class Response extends Collection implements ResponseInterface
     }
 
     /**
-     * Get response content
+     * Get response content.
      *
      * @return string
      */
@@ -60,7 +60,7 @@ class Response extends Collection implements ResponseInterface
      *
      * @param string $key
      *
-     * @return null|string
+     * @return string|null
      */
     public function getHeader(string $key): ?string
     {
@@ -68,7 +68,7 @@ class Response extends Collection implements ResponseInterface
     }
 
     /**
-     * Get response headers
+     * Get response headers.
      *
      * @return string[]
      */
@@ -78,7 +78,7 @@ class Response extends Collection implements ResponseInterface
     }
 
     /**
-     * Get response status code
+     * Get response status code.
      *
      * @return int
      */
@@ -88,7 +88,7 @@ class Response extends Collection implements ResponseInterface
     }
 
     /**
-     * Determine if the response is successful or not
+     * Determine if the response is successful or not.
      *
      * @return bool
      */

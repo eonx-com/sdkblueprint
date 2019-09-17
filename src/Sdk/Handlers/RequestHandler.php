@@ -6,6 +6,7 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk\Handlers;
 use GuzzleHttp\ClientInterface as GuzzleClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException;
+use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidUriActionException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\SerializerFactoryInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\UrnFactoryInterface;
@@ -65,9 +66,10 @@ final class RequestHandler implements RequestHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidUriActionException
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function executeAndRespond(
@@ -79,12 +81,20 @@ final class RequestHandler implements RequestHandlerInterface
 
         if ($apikey !== null) {
             $options = \array_merge($options, [
-                'auth' => [$apikey, null]
+                'auth' => [$apikey, null],
             ]);
         }
 
+        // ensure that the requested action exists
+        $entityUris = $entity->uris();
+        if (\array_key_exists($action, $entityUris) === false) {
+            throw new InvalidUriActionException(
+                \sprintf('The URI action (%s) is invalid, or not supported for the specified resource.', $action)
+            );
+        }
+
         // get endpoint uri based on request method
-        $urn = $this->urnFactory->create($entity->uris()[$action] ?? '');
+        $urn = $this->urnFactory->create($entityUris[$action]);
 
         $response = $this->execute($action, $urn, $this->getBody($entity, $action, $options));
 
@@ -128,6 +138,40 @@ final class RequestHandler implements RequestHandlerInterface
     }
 
     /**
+     * Get request method.
+     *
+     * @param string $action Request action
+     *
+     * @return string
+     */
+    private function getRequestMethod(string $action): string
+    {
+        switch (true) {
+            case \mb_strtolower($action) === self::CREATE:
+                $method = 'POST';
+
+                break;
+
+            case \mb_strtolower($action) === self::DELETE:
+                $method = 'DELETE';
+
+                break;
+
+            case \mb_strtolower($action) === self::UPDATE:
+                $method = 'PUT';
+
+                break;
+
+            default:
+                $method = 'GET';
+
+                break;
+        }
+
+        return $method;
+    }
+
+    /**
      * Generate the http body.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
@@ -141,53 +185,12 @@ final class RequestHandler implements RequestHandlerInterface
     private function getBody(EntityInterface $entity, string $action, ?array $options = null): array
     {
         $normalize = $this->serializer->normalize($entity, null, [
-            'groups' => $this->getSerializationGroups($entity, $action)
+            'groups' => $this->getSerializationGroups($entity, $action),
         ]);
 
         return \array_merge([
-            'json' => \is_array($normalize) === true ? $this->getFilterOptions($normalize) : [$normalize]
+            'json' => \is_array($normalize) === true ? $this->getFilterOptions($normalize) : [$normalize],
         ], $options ?? []);
-    }
-
-    /**
-     * Recursively filter options array, remove key value pairs when value is null.
-     *
-     * @param mixed[] $options
-     *
-     * @return mixed[]
-     */
-    private function getFilterOptions(array $options): array
-    {
-        $original = $options;
-
-        $data = \array_filter($options);
-
-        $data = \array_map(function ($element) {
-            return \is_array($element) ? $this->getFilterOptions($element) : $element;
-        }, $data);
-
-        return $original === $data ? $data : $this->getFilterOptions($data);
-    }
-
-    /**
-     * Get request method.
-     *
-     * @param string $action Request action
-     *
-     * @return string
-     */
-    private function getRequestMethod(string $action): string
-    {
-        switch (true) {
-            case \mb_strtolower($action) === self::CREATE:
-                return 'POST';
-            case \mb_strtolower($action) === self::DELETE:
-                return 'DELETE';
-            case \mb_strtolower($action) === self::UPDATE:
-                return 'PUT';
-            default:
-                return 'GET';
-        }
     }
 
     /**
@@ -216,5 +219,25 @@ final class RequestHandler implements RequestHandlerInterface
         }
 
         return $groups[$action];
+    }
+
+    /**
+     * Recursively filter options array, remove key value pairs when value is null.
+     *
+     * @param mixed[] $options
+     *
+     * @return mixed[]
+     */
+    private function getFilterOptions(array $options): array
+    {
+        $original = $options;
+
+        $data = \array_filter($options);
+
+        $data = \array_map(function ($element) {
+            return \is_array($element) ? $this->getFilterOptions($element) : $element;
+        }, $data);
+
+        return $original === $data ? $data : $this->getFilterOptions($data);
     }
 }

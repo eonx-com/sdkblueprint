@@ -8,7 +8,7 @@ use EoneoPay\Utils\Interfaces\CollectionInterface;
 interface ResponseInterface extends CollectionInterface
 {
     /**
-     * Get response content
+     * Get response content.
      *
      * @return string
      */
@@ -19,26 +19,26 @@ interface ResponseInterface extends CollectionInterface
      *
      * @param string $key
      *
-     * @return null|string
+     * @return string|null
      */
     public function getHeader(string $key): ?string;
 
     /**
-     * Get response headers
+     * Get response headers.
      *
      * @return mixed[]
      */
     public function getHeaders(): array;
 
     /**
-     * Get response status code
+     * Get response status code.
      *
      * @return int
      */
     public function getStatusCode(): int;
 
     /**
-     * Determine if the response is successful or not
+     * Determine if the response is successful or not.
      *
      * @return bool
      */

@@ -9,10 +9,10 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface;
 use LoyaltyCorp\SdkBlueprint\Sdk\Response;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 
-class ResponseHandlerStub implements ResponseHandlerInterface
+final class ResponseHandlerStub implements ResponseHandlerInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handle(PsrResponseInterface $psrResponse): ResponseInterface
     {
@@ -27,7 +27,7 @@ class ResponseHandlerStub implements ResponseHandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handleException(GuzzleException $exception): ResponseInterface
     {

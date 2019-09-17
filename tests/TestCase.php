@@ -7,7 +7,10 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 use ReflectionClass;
 use ReflectionMethod;
 
-class TestCase extends BaseTestCase
+/**
+ * @coversNothing
+ */
+abstract class TestCase extends BaseTestCase
 {
     /**
      * Convert protected/private method to public.

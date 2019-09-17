@@ -10,7 +10,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
  */
-class InvalidApiResponseExceptionTest extends TestCase
+final class InvalidApiResponseExceptionTest extends TestCase
 {
     /**
      * Test that exception has expected code.

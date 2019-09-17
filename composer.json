@@ -28,9 +28,12 @@
   "require-dev": {
     "indigophp/doctrine-annotation-autoload": "^0.1.0",
     "eoneopay/standards": "dev-master",
+    "friendsofphp/php-cs-fixer": "^2.9",
     "php-http/guzzle6-adapter": "^1.1",
     "phpmd/phpmd": "^2.6",
     "phpstan/phpstan": "^0.11",
+    "phpstan/phpstan-phpunit": "^0.11",
+    "phpstan/phpstan-strict-rules": "^0.11",
     "phpunit/phpunit": "^7.0",
     "roave/security-advisories": "dev-master",
     "sebastian/phpcpd": "^4.0",
@@ -38,13 +41,7 @@
     "woohoolabs/yang": "^1.2"
   },
   "suggest": {
-    "indigophp/doctrine-annotation-autoload": "Recommended to autoload custom doctrine annotations",
-    "phpmd/phpmd": "Check coding best practices",
-    "phpstan/phpstan": "Static analysis of code to detect potential errors",
-    "phpunit/phpunit": "Run unit tests",
-    "sebastian/phpcpd": "Detect code duplication",
-    "sensiolabs/security-checker": "Check project's dependencies for known vulnerabilities",
-    "squizlabs/php_codesniffer": "Check code style"
+    "sensiolabs/security-checker": "Check project's dependencies for known vulnerabilities"
   },
   "autoload": {
     "psr-4": {

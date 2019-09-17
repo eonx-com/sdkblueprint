@@ -9,7 +9,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Factories\UrnFactoryInterface;
 final class UrnFactory implements UrnFactoryInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidUriException
      */
