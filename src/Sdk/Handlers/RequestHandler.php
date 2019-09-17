@@ -81,7 +81,7 @@ final class RequestHandler implements RequestHandlerInterface
 
         if ($apikey !== null) {
             $options = \array_merge($options, [
-                'auth' => [$apikey, null]
+                'auth' => [$apikey, null],
             ]);
         }
 
@@ -151,11 +151,11 @@ final class RequestHandler implements RequestHandlerInterface
     private function getBody(EntityInterface $entity, string $action, ?array $options = null): array
     {
         $normalize = $this->serializer->normalize($entity, null, [
-            'groups' => $this->getSerializationGroups($entity, $action)
+            'groups' => $this->getSerializationGroups($entity, $action),
         ]);
 
         return \array_merge([
-            'json' => \is_array($normalize) === true ? $this->getFilterOptions($normalize) : [$normalize]
+            'json' => \is_array($normalize) === true ? $this->getFilterOptions($normalize) : [$normalize],
         ], $options ?? []);
     }
 

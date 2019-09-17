@@ -14,7 +14,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Managers\SdkManager
  */
-class SdkManagerTest extends TestCase
+final class SdkManagerTest extends TestCase
 {
     /**
      * Test that sdk manager finds and returns array of entities with excepted number of items in it.

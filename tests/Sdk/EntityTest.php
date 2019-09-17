@@ -11,7 +11,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Entity
  */
-class EntityTest extends TestCase
+final class EntityTest extends TestCase
 {
     /**
      * Test the __call method.

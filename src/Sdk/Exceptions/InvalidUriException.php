@@ -5,7 +5,7 @@ namespace LoyaltyCorp\SdkBlueprint\Sdk\Exceptions;
 
 use EoneoPay\Utils\Exceptions\ValidationException;
 
-class InvalidUriException extends ValidationException
+final class InvalidUriException extends ValidationException
 {
     /**
      * @inheritdoc

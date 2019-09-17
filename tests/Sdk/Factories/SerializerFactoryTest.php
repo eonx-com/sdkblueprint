@@ -10,7 +10,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Factories\SerializerFactory
  */
-class SerializerFactoryTest extends TestCase
+final class SerializerFactoryTest extends TestCase
 {
     /**
      * Test create serializer instance via factory successfully.

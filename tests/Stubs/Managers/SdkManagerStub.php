@@ -11,7 +11,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\EntityStub;
 /**
  * @coversNothing
  */
-class SdkManagerStub implements SdkManagerInterface
+final class SdkManagerStub implements SdkManagerInterface
 {
     /**
      * Entity.

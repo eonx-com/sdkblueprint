@@ -12,7 +12,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Handlers\ResponseHandler
  */
-class ResponseHandlerTest extends TestCase
+final class ResponseHandlerTest extends TestCase
 {
     /**
      * Test handle returns expected response.

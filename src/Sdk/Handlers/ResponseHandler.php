@@ -99,7 +99,7 @@ final class ResponseHandler implements ResponseHandlerInterface
     }
 
     /**
-     * Determine if a string is json
+     * Determine if a string is json.
      *
      * @param string $string The string to check
      *
@@ -113,7 +113,7 @@ final class ResponseHandler implements ResponseHandlerInterface
     }
 
     /**
-     * Determine if a string is xml
+     * Determine if a string is xml.
      *
      * @param string $string The string to check
      *

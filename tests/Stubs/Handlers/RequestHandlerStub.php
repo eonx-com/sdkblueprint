@@ -11,7 +11,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\EntityStub;
 /**
  * @coversNothing
  */
-class RequestHandlerStub implements RequestHandlerInterface
+final class RequestHandlerStub implements RequestHandlerInterface
 {
     /**
      * @var \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface

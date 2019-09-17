@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @method string|null getEntityId()
  * @method self setEntityId(string $entityId)
  */
-class EntityStub extends Entity implements SerializationGroupAwareInterface
+final class EntityStub extends Entity implements SerializationGroupAwareInterface
 {
     /**
      * @Groups({"create", "custom-group", "delete", "get", "list", "update"})
@@ -26,7 +26,7 @@ class EntityStub extends Entity implements SerializationGroupAwareInterface
     public function serializationGroups(): array
     {
         return [
-            self::CREATE => ['custom-group']
+            self::CREATE => ['custom-group'],
         ];
     }
 
@@ -40,7 +40,7 @@ class EntityStub extends Entity implements SerializationGroupAwareInterface
             self::DELETE => '/test',
             self::GET => '/test',
             self::LIST => '/test',
-            self::UPDATE => '/test'
+            self::UPDATE => '/test',
         ];
     }
 }

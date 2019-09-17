@@ -9,7 +9,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidMethodCallException
  */
-class InvalidMethodCallExceptionTest extends TestCase
+final class InvalidMethodCallExceptionTest extends TestCase
 {
     /**
      * Test that exception has expected code.

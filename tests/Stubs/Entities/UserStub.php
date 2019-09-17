@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @method self setType(string $type)
  * @method self setUserId(string $userId)
  */
-class UserStub extends Entity
+final class UserStub extends Entity
 {
     /**
      * @Groups({"create", "delete", "get", "list", "update"})
@@ -55,7 +55,7 @@ class UserStub extends Entity
             self::DELETE => '/users',
             self::GET => '/users',
             self::LIST => '/users',
-            self::UPDATE => '/users'
+            self::UPDATE => '/users',
         ];
     }
 }

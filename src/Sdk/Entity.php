@@ -10,7 +10,7 @@ use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 abstract class Entity implements EntityInterface
 {
     /**
-     * Create a new object
+     * Create a new object.
      *
      * @param mixed[]|null $data The data to populate the object with
      */
@@ -20,7 +20,7 @@ abstract class Entity implements EntityInterface
     }
 
     /**
-     * Allow getX() and setX($value) to get and set column values
+     * Allow getX() and setX($value) to get and set column values.
      *
      * This method searches case insensitive
      *
@@ -65,6 +65,7 @@ abstract class Entity implements EntityInterface
             case 'set': //@codeCoverageIgnore
                 // Return original instance for fluency
                 $this->__set($property, \reset($parameters));
+
                 break;
         }
 
@@ -86,7 +87,7 @@ abstract class Entity implements EntityInterface
     }
 
     /**
-     * Determine if a property exists and isn't null
+     * Determine if a property exists and isn't null.
      *
      * @param string $property
      *
@@ -119,7 +120,7 @@ abstract class Entity implements EntityInterface
     }
 
     /**
-     * Populate the object from an array of data
+     * Populate the object from an array of data.
      *
      * @param mixed[] $data The data to fill the entity with
      *
@@ -134,7 +135,7 @@ abstract class Entity implements EntityInterface
     }
 
     /**
-     * Determine if a property exists
+     * Determine if a property exists.
      *
      * @param string $property
      *
@@ -147,7 +148,7 @@ abstract class Entity implements EntityInterface
 
     /**
      * Resolve property without case sensitivity or special characters, resolves property such as
-     * addressStreet to addressstreet, address_street or ADDRESSSTREET
+     * addressStreet to addressstreet, address_street or ADDRESSSTREET.
      *
      * @param string $property The property to resolve
      *

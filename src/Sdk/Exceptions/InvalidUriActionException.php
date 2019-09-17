@@ -8,7 +8,7 @@ use EoneoPay\Utils\Exceptions\ValidationException;
 /**
  * An exception that is thrown when the request action does not exist under an entities supported URIs.
  */
-class InvalidUriActionException extends ValidationException
+final class InvalidUriActionException extends ValidationException
 {
     /**
      * @inheritdoc

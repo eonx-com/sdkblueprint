@@ -10,7 +10,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 /**
  * @covers \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidUriException
  */
-class InvalidUriExceptionTest extends TestCase
+final class InvalidUriExceptionTest extends TestCase
 {
     /**
      * Test that exception has expected code.

@@ -17,7 +17,7 @@ final class SdkManager implements SdkManagerInterface
     private $requestHandler;
 
     /**
-     * Construct sdk api manager
+     * Construct sdk api manager.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface $requestHandler
      */
