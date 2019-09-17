@@ -91,7 +91,7 @@ abstract class Entity implements EntityInterface
                 break;
         }
 
-        return $result ?? $this;
+        return $result ?? null;
     }
 
     /**
