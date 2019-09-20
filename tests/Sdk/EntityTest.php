@@ -6,6 +6,7 @@ namespace Tests\LoyaltyCorp\SdkBlueprint\Sdk;
 use LoyaltyCorp\SdkBlueprint\Sdk\Entity;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidMethodCallException;
 use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\EntityStub;
+use Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\UserStub;
 use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 
 /**
@@ -13,6 +14,48 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
  */
 final class EntityTest extends TestCase
 {
+    /**
+     * Test the serialise method
+     *
+     * @return void
+     */
+    public function testJsonSerialize(): void
+    {
+        // Build a stub that requires recursive serialisation
+        $entity = new UserStub([
+            'apikeys' => [
+                new UserStub(['type' => 'child', 'userId' => '2']),
+                new UserStub(['type' => 'child', 'userId' => '3']),
+            ],
+            'email' => 'test@test.com',
+            'type' => 'parent',
+            'userId' => '1'
+        ]);
+
+        // We expect an array as a result
+        $expected = [
+            'apikeys' => [
+                [
+                    'apikeys' => null,
+                    'email' => null,
+                    'type' => 'child',
+                    'userId' => '2'
+                ],
+                [
+                    'apikeys' => null,
+                    'email' => null,
+                    'type' => 'child',
+                    'userId' => '3'
+                ]
+            ],
+            'email' => 'test@test.com',
+            'type' => 'parent',
+            'userId' => '1'
+        ];
+
+        self::assertSame($expected, $entity->jsonSerialize());
+    }
+
     /**
      * Test the __call method.
      *

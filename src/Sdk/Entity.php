@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace LoyaltyCorp\SdkBlueprint\Sdk;
 
 use EoneoPay\Utils\Arr;
+use JsonSerializable;
 use LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidMethodCallException;
 use LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface;
 
-abstract class Entity implements EntityInterface
+abstract class Entity implements EntityInterface, JsonSerializable
 {
     /**
      * Create a new object.
@@ -32,6 +33,76 @@ abstract class Entity implements EntityInterface
         foreach ($data as $property => $value) {
             $this->__set($property, $value);
         }
+    }
+
+    /**
+     * Determine if a property exists and isn't null.
+     *
+     * @param string $property
+     *
+     * @return bool
+     */
+    public function __isset(string $property): bool
+    {
+        $resolved = (string)$this->resolveProperty($property);
+
+        return \property_exists($this, $resolved) === true && $this->{$resolved} !== null;
+    }
+
+    /**
+     * Resolve property without case sensitivity or special characters, resolves property such as
+     * addressStreet to addressstreet, address_street or ADDRESSSTREET.
+     *
+     * @param string $property The property to resolve
+     *
+     * @return string|null
+     */
+    private function resolveProperty(string $property): ?string
+    {
+        $arr = new Arr();
+        $properties = \array_keys(\get_object_vars($this));
+
+        // Attempt to find property using 'fuzzy' search
+        return $arr->search($properties, $property);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        // Get all properties and their values
+        $properties = \get_object_vars($this);
+        \ksort($properties);
+
+        return $this->serializeArray($properties);
+    }
+
+    /**
+     * Recursively serialise an array.
+     *
+     * @param mixed[] $array
+     *
+     * @return mixed[]
+     */
+    private function serializeArray(array $array): array
+    {
+        foreach ($array as $property => $value) {
+            // Recurse if this is an array
+            if (\is_array($value) === true) {
+                $array[$property] = $this->serializeArray($value);
+
+                // Don't go any further
+                continue;
+            }
+
+            // Serialise value if it's supports serialisation
+            if (($value instanceof JsonSerializable) === true) {
+                $array[$property] = $value->jsonSerialize();
+            }
+        }
+
+        return $array;
     }
 
     /**
@@ -95,23 +166,6 @@ abstract class Entity implements EntityInterface
     }
 
     /**
-     * Resolve property without case sensitivity or special characters, resolves property such as
-     * addressStreet to addressstreet, address_street or ADDRESSSTREET.
-     *
-     * @param string $property The property to resolve
-     *
-     * @return string|null
-     */
-    private function resolveProperty(string $property): ?string
-    {
-        $arr = new Arr();
-        $properties = \array_keys(\get_object_vars($this));
-
-        // Attempt to find property using 'fuzzy' search
-        return $arr->search($properties, $property);
-    }
-
-    /**
      * Magic getter for serializer to access protected attribute.
      *
      * @param string $property
@@ -156,19 +210,5 @@ abstract class Entity implements EntityInterface
         $resolved = (string)$this->resolveProperty($property);
 
         return \property_exists($this, $resolved) === true;
-    }
-
-    /**
-     * Determine if a property exists and isn't null.
-     *
-     * @param string $property
-     *
-     * @return bool
-     */
-    public function __isset(string $property): bool
-    {
-        $resolved = (string)$this->resolveProperty($property);
-
-        return \property_exists($this, $resolved) === true && $this->{$resolved} !== null;
     }
 }
