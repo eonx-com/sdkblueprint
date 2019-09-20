@@ -15,7 +15,7 @@ use Tests\LoyaltyCorp\SdkBlueprint\TestCase;
 final class EntityTest extends TestCase
 {
     /**
-     * Test the serialise method
+     * Test the serialise method.
      *
      * @return void
      */
@@ -29,7 +29,7 @@ final class EntityTest extends TestCase
             ],
             'email' => 'test@test.com',
             'type' => 'parent',
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
         // We expect an array as a result
@@ -39,18 +39,18 @@ final class EntityTest extends TestCase
                     'apikeys' => null,
                     'email' => null,
                     'type' => 'child',
-                    'userId' => '2'
+                    'userId' => '2',
                 ],
                 [
                     'apikeys' => null,
                     'email' => null,
                     'type' => 'child',
-                    'userId' => '3'
-                ]
+                    'userId' => '3',
+                ],
             ],
             'email' => 'test@test.com',
             'type' => 'parent',
-            'userId' => '1'
+            'userId' => '1',
         ];
 
         self::assertSame($expected, $entity->jsonSerialize());

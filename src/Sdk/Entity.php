@@ -69,7 +69,7 @@ abstract class Entity implements EntityInterface, JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         // Get all properties and their values
         $properties = \get_object_vars($this);
