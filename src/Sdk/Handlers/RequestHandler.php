@@ -77,7 +77,7 @@ final class RequestHandler implements RequestHandlerInterface
         string $action,
         ?string $apikey = null
     ) {
-        $options = [];
+        $options = $this->httpClient->getConfig();
 
         if ($apikey !== null) {
             $options = \array_merge($options, [
