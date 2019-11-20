@@ -27,12 +27,8 @@
   },
   "require-dev": {
     "indigophp/doctrine-annotation-autoload": "^0.1.0",
-<<<<<<< HEAD
-    "eoneopay/standards": "dev-master",
-    "friendsofphp/php-cs-fixer": "^2.9",
-=======
     "eonx-com/standards": "^0.2",
->>>>>>> abc47ff... Rename package
+    "friendsofphp/php-cs-fixer": "^2.9",
     "php-http/guzzle6-adapter": "^1.1",
     "phpmd/phpmd": "^2.6",
     "phpstan/phpstan": "^0.11",
