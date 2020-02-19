@@ -102,10 +102,17 @@ final class RequestHandler implements RequestHandlerInterface
             return null;
         }
 
-        $type = \mb_strtolower($action) === self::LIST ?
-            \sprintf('%s[]', \get_class($entity)) : \get_class($entity);
+        // If the response content is blank, return an empty array
+        $content = $response->getContent();
+        if (\trim($content) === '') {
+            return [];
+        }
 
-        return $this->serializer->deserialize($response->getContent(), $type, 'json');
+        $type = (\mb_strtolower($action) === self::LIST)
+            ? \sprintf('%s[]', \get_class($entity))
+            : \get_class($entity);
+
+        return $this->serializer->deserialize($content, $type, 'json');
     }
 
     /**
@@ -135,6 +142,48 @@ final class RequestHandler implements RequestHandlerInterface
         }
 
         return $response;
+    }
+
+    /**
+     * Generate the http body.
+     *
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
+     * @param string $action
+     * @param mixed[]|null $options
+     *
+     * @return mixed[]
+     *
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    private function getBody(EntityInterface $entity, string $action, ?array $options = null): array
+    {
+        $normalize = $this->serializer->normalize($entity, null, [
+            'groups' => $this->getSerializationGroups($entity, $action),
+        ]);
+
+        return \array_merge([
+            'json' => \is_array($normalize) === true ? $this->getFilterOptions($normalize) : [$normalize],
+        ], $options ?? []);
+    }
+
+    /**
+     * Recursively filter options array, remove key value pairs when value is null.
+     *
+     * @param mixed[] $options
+     *
+     * @return mixed[]
+     */
+    private function getFilterOptions(array $options): array
+    {
+        $original = $options;
+
+        $data = \array_filter($options);
+
+        $data = \array_map(function ($element) {
+            return \is_array($element) ? $this->getFilterOptions($element) : $element;
+        }, $data);
+
+        return $original === $data ? $data : $this->getFilterOptions($data);
     }
 
     /**
@@ -172,28 +221,6 @@ final class RequestHandler implements RequestHandlerInterface
     }
 
     /**
-     * Generate the http body.
-     *
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
-     * @param string $action
-     * @param mixed[]|null $options
-     *
-     * @return mixed[]
-     *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    private function getBody(EntityInterface $entity, string $action, ?array $options = null): array
-    {
-        $normalize = $this->serializer->normalize($entity, null, [
-            'groups' => $this->getSerializationGroups($entity, $action),
-        ]);
-
-        return \array_merge([
-            'json' => \is_array($normalize) === true ? $this->getFilterOptions($normalize) : [$normalize],
-        ], $options ?? []);
-    }
-
-    /**
      * Get serialization group.
      *
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
@@ -219,25 +246,5 @@ final class RequestHandler implements RequestHandlerInterface
         }
 
         return $groups[$action];
-    }
-
-    /**
-     * Recursively filter options array, remove key value pairs when value is null.
-     *
-     * @param mixed[] $options
-     *
-     * @return mixed[]
-     */
-    private function getFilterOptions(array $options): array
-    {
-        $original = $options;
-
-        $data = \array_filter($options);
-
-        $data = \array_map(function ($element) {
-            return \is_array($element) ? $this->getFilterOptions($element) : $element;
-        }, $data);
-
-        return $original === $data ? $data : $this->getFilterOptions($data);
     }
 }
