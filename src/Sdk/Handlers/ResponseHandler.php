@@ -33,6 +33,28 @@ final class ResponseHandler implements ResponseHandlerInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
+     */
+    public function handleException(GuzzleException $exception): ResponseInterface
+    {
+        if (($exception instanceof RequestException) === true) {
+            /**
+             * @var \GuzzleHttp\Exception\RequestException $exception
+             *
+             * @see https://youtrack.jetbrains.com/issue/WI-37859 typehint required until PhpStorm recognises === check
+             */
+            return $this->handleRequestException($exception);
+        }
+
+        // Covers any other guzzle exception, only here for safety so intentionally ignored
+
+        /** @noinspection BadExceptionsProcessingInspection */
+        return new Response(null, 500); // @codeCoverageIgnore
+    }
+
+    /**
      * Get response body contents.
      *
      * @param \Psr\Http\Message\StreamInterface $body
@@ -51,28 +73,30 @@ final class ResponseHandler implements ResponseHandlerInterface
     }
 
     /**
-     * Process response body into an array.
+     * Handle request exception.
      *
-     * @param string $content
+     * @param \GuzzleHttp\Exception\RequestException $exception
      *
-     * @return mixed[]|null
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
      */
-    private function processResponseContent(string $content): ?array
+    private function handleRequestException(RequestException $exception): ResponseInterface
     {
-        // If contents is json, decode it
-        if ($this->isJson($content) === true) {
-            return \json_decode($content, true);
+        if ($exception->hasResponse() && $exception->getResponse() !== null) {
+            $content = $this->getBodyContents($exception->getResponse()->getBody());
+
+            return new Response(
+                $this->processResponseContent($content),
+                $exception->getResponse()->getStatusCode(),
+                $exception->getResponse()->getHeaders(),
+                $content
+            );
         }
 
-        // If content is xml, decode it
-        if ($this->isXml($content) === true) {
-            return (new XmlConverter())->xmlToArray($content);
-        }
+        $content = \json_encode(['exception' => $exception->getMessage()]) ?: '';
 
-        // Return result as array
-        return ['content' => $content];
+        return new Response($this->processResponseContent($content), 400, null, $content);
     }
 
     /**
@@ -104,50 +128,29 @@ final class ResponseHandler implements ResponseHandlerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Process response body into an array.
+     *
+     * @param string $content
+     *
+     * @return mixed[]|null
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
+     *
+     * @todo See PYMT-1599 to adjust isJson and isXml checks.
      */
-    public function handleException(GuzzleException $exception): ResponseInterface
+    private function processResponseContent(string $content): ?array
     {
-        if (($exception instanceof RequestException) === true) {
-            /**
-             * @var \GuzzleHttp\Exception\RequestException $exception
-             *
-             * @see https://youtrack.jetbrains.com/issue/WI-37859 typehint required until PhpStorm recognises === check
-             */
-            return $this->handleRequestException($exception);
+        // If contents is json, decode it
+        if ($this->isJson($content) === true) {
+            return \json_decode($content, true);
         }
 
-        // Covers any other guzzle exception, only here for safety so intentionally ignored
-        /** @noinspection BadExceptionsProcessingInspection */
-        return new Response(null, 500); // @codeCoverageIgnore
-    }
-
-    /**
-     * Handle request exception.
-     *
-     * @param \GuzzleHttp\Exception\RequestException $exception
-     *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\ResponseInterface
-     *
-     * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
-     */
-    private function handleRequestException(RequestException $exception): ResponseInterface
-    {
-        if ($exception->hasResponse() && $exception->getResponse() !== null) {
-            $content = $this->getBodyContents($exception->getResponse()->getBody());
-
-            return new Response(
-                $this->processResponseContent($content),
-                $exception->getResponse()->getStatusCode(),
-                $exception->getResponse()->getHeaders(),
-                $content
-            );
+        // If content is xml, decode it
+        if ($this->isXml($content) === true) {
+            return (new XmlConverter())->xmlToArray($content);
         }
 
-        $content = \json_encode(['exception' => $exception->getMessage()]) ?: '';
-
-        return new Response($this->processResponseContent($content), 400, null, $content);
+        // Return result as array
+        return ['content' => $content];
     }
 }
