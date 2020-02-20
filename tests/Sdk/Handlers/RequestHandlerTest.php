@@ -49,23 +49,6 @@ final class RequestHandlerTest extends TestCase
     }
 
     /**
-     * Get request handler.
-     *
-     * @param mixed[]|null $responses PSR-7 http responses
-     *
-     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface
-     */
-    private function getHandler(?array $responses = null): RequestHandlerInterface
-    {
-        return new RequestHandler(
-            new GuzzleClient(['handler' => new MockHandler($responses)]),
-            new ResponseHandlerStub(),
-            new SerializerFactory(),
-            new UrnFactory()
-        );
-    }
-
-    /**
      * Test that delete an entity will return null.
      *
      * @return void
@@ -104,21 +87,18 @@ final class RequestHandlerTest extends TestCase
     }
 
     /**
-     * Perform assertion.
-     *
-     * @param mixed[] $expected Expected data
-     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
+     * Tests that the request handler gracefully handles empty response bodies.
      *
      * @return void
      */
-    private function performAssertion(array $expected, EntityInterface $entity): void
+    public function testHandlesEmptyResponse(): void
     {
-        self::assertInstanceOf(UserStub::class, $entity);
+        $handler = $this->getHandler([
+            new Response(200, [], '')
+        ]);
+        $entity = $handler->executeAndRespond(new UserStub([]), RequestAwareInterface::GET, 'api-key');
 
-        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\UserStub $entity */
-        self::assertSame($expected['userId'], $entity->getUserId());
-        self::assertSame($expected['type'], $entity->getType());
-        self::assertSame($expected['email'], $entity->getEmail());
+        self::assertInstanceOf(UserStub::class, $entity);
     }
 
     /**
@@ -206,5 +186,40 @@ final class RequestHandlerTest extends TestCase
         ])), RequestAwareInterface::UPDATE, 'api-key');
 
         $this->performAssertion($data, $entity);
+    }
+
+    /**
+     * Get request handler.
+     *
+     * @param mixed[]|null $responses PSR-7 http responses
+     *
+     * @return \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\Handlers\RequestHandlerInterface
+     */
+    private function getHandler(?array $responses = null): RequestHandlerInterface
+    {
+        return new RequestHandler(
+            new GuzzleClient(['handler' => new MockHandler($responses)]),
+            new ResponseHandlerStub(),
+            new SerializerFactory(),
+            new UrnFactory()
+        );
+    }
+
+    /**
+     * Perform assertion.
+     *
+     * @param mixed[] $expected Expected data
+     * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
+     *
+     * @return void
+     */
+    private function performAssertion(array $expected, EntityInterface $entity): void
+    {
+        self::assertInstanceOf(UserStub::class, $entity);
+
+        /** @var \Tests\LoyaltyCorp\SdkBlueprint\Stubs\Entities\UserStub $entity */
+        self::assertSame($expected['userId'], $entity->getUserId());
+        self::assertSame($expected['type'], $entity->getType());
+        self::assertSame($expected['email'], $entity->getEmail());
     }
 }
