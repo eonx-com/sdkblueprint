@@ -105,7 +105,7 @@ final class RequestHandler implements RequestHandlerInterface
         // If the response content is blank, return an empty array
         $content = $response->getContent();
         if (\trim($content) === '') {
-            return [];
+            $content = '[]';
         }
 
         $type = (\mb_strtolower($action) === self::LIST)

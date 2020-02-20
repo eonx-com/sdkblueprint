@@ -93,14 +93,12 @@ final class RequestHandlerTest extends TestCase
      */
     public function testHandlesEmptyResponse(): void
     {
-        $data = [];
-
         $handler = $this->getHandler([
             new Response(200, [], '')
         ]);
-        $entity = $handler->executeAndRespond(new EntityStub([]), RequestAwareInterface::GET, 'api-key');
+        $entity = $handler->executeAndRespond(new UserStub([]), RequestAwareInterface::GET, 'api-key');
 
-        self::assertSame($data, $entity);
+        self::assertInstanceOf(UserStub::class, $entity);
     }
 
     /**
