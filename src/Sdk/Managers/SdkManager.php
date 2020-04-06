@@ -29,8 +29,8 @@ final class SdkManager implements SdkManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function execute(EntityInterface $entity, string $action, ?string $apikey = null)
+    public function execute(EntityInterface $entity, string $action, ?string $apikey = null, ?array $headers = null)
     {
-        return $this->requestHandler->executeAndRespond($entity, $action, $apikey);
+        return $this->requestHandler->executeAndRespond($entity, $action, $apikey, $headers);
     }
 }

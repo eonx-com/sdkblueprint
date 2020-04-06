@@ -75,7 +75,8 @@ final class RequestHandler implements RequestHandlerInterface
     public function executeAndRespond(
         EntityInterface $entity,
         string $action,
-        ?string $apikey = null
+        ?string $apikey = null,
+        ?array $headers = null
     ) {
         $options = $this->httpClient->getConfig();
 
@@ -83,6 +84,10 @@ final class RequestHandler implements RequestHandlerInterface
             $options = \array_merge($options, [
                 'auth' => [$apikey, null],
             ]);
+        }
+
+        if (\is_array($headers) === true) {
+            $options['headers'] = \array_merge($options['headers'] ?? [], $headers);
         }
 
         // ensure that the requested action exists
