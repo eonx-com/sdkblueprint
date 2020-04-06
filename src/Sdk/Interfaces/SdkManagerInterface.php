@@ -11,7 +11,7 @@ interface SdkManagerInterface
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
      * @param string $action Request action i.e. RequestAwareInterface::CREATE, RequestAwareInterface::GET etc.
      * @param string|null $apikey Api key
-     * @param array|null $headers Extra headers.
+     * @param mixed[]|null $headers Extra headers.
      *
      * @return mixed
      */
