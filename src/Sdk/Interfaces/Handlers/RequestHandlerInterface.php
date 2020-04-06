@@ -14,8 +14,14 @@ interface RequestHandlerInterface extends RequestAwareInterface
      * @param \LoyaltyCorp\SdkBlueprint\Sdk\Interfaces\EntityInterface $entity
      * @param string $action Request action
      * @param string|null $apikey Api key
+     * @param mixed[]|null $headers Extra headers.
      *
      * @return mixed
      */
-    public function executeAndRespond(EntityInterface $entity, string $action, ?string $apikey = null);
+    public function executeAndRespond(
+        EntityInterface $entity,
+        string $action,
+        ?string $apikey = null,
+        ?array $headers = null
+    );
 }

@@ -167,6 +167,40 @@ final class RequestHandlerTest extends TestCase
     }
 
     /**
+     * Tests that headers can be added to request.
+     *
+     * @return void
+     *
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidApiResponseException
+     * @throws \LoyaltyCorp\SdkBlueprint\Sdk\Exceptions\InvalidUriActionException
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function testAddingHeadersToRequest():void
+    {
+        $handler = new MockHandler([new Response(200, [], '')]);
+        $client = new GuzzleClient(
+            ['handler' => $handler, 'headers' => ['random' => 'header']]
+        );
+        $requestHandler = new RequestHandler(
+            $client,
+            new ResponseHandlerStub(),
+            new SerializerFactory(),
+            new UrnFactory()
+        );
+
+        $requestHandler->executeAndRespond(
+            new UserStub([]),
+            RequestAwareInterface::GET,
+            'api-key',
+            ['Accept' => 'application/vnd.eoneopay.v2+json', 'random' => 'overridden']
+        );
+
+        $request = $handler->getLastRequest();
+        self::assertSame(['overridden'], $request->getHeader('random'));
+        self::assertSame(['application/vnd.eoneopay.v2+json'], $request->getHeader('Accept'));
+    }
+
+    /**
      * Test that put method of request handler will update an entity.
      *
      * @return void

@@ -31,8 +31,12 @@ final class RequestHandlerStub implements RequestHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function executeAndRespond(EntityInterface $entity, string $action, ?string $apikey = null)
-    {
+    public function executeAndRespond(
+        EntityInterface $entity,
+        string $action,
+        ?string $apikey = null,
+        ?array $headers = null
+    ) {
         if (\mb_strtolower($action) === RequestAwareInterface::LIST) {
             return [$this->entity];
         }
